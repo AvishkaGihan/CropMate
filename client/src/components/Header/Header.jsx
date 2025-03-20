@@ -9,7 +9,7 @@ const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
-        <header className="fixed top-0 w-full z-50 bg-transparent backdrop-blur-sm bg-cambridge-blue-900/10">
+        <header className="fixed top-0 w-full z-50 bg-transparent backdrop-blur-sm">
             {/* Navigation Section */}
             <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
                 {/* Logo */}
