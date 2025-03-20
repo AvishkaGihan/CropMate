@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import SectionWrapper from '../SectionWrapper';
+import SectionWrapper from './SectionWrapper';
 import ServiceCard from './ServiceCard';
 
 const featuredCrops = [

@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router';
-import Layout from './pages/Layout';
-import HomePage from './pages/Homepage';
+import HomePage from './pages/Home/HomePage';
+import DefaultLayout from './layouts/Layout';
 
 const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<DefaultLayout />}>
           <Route index element={<HomePage />} />
           {/* Add other routes as needed */}
         </Route>

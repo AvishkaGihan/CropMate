@@ -1,19 +1,16 @@
-// src/pages/Layout.js
 import React from 'react';
 import { Outlet } from 'react-router';
-import Header from '../components/common/Header/Header';
-import Footer from '../components/common/Footer/Footer';
+import Header from '../components/Header/Header';
 
-const Layout = () => {
+const DefaultLayout = () => {
     return (
         <div className="flex flex-col min-h-screen">
-            <Header />
             <main className="flex-grow">
+                <Header />
                 <Outlet />
             </main>
-            <Footer />
         </div>
     );
 };
 
-export default Layout;
+export default DefaultLayout;
