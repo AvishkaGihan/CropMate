@@ -9,7 +9,8 @@ const HomePage = () => {
     return (
         <>
             <HeroSection />
-            {/* <WhyChooseCropMate />
+            <WhyChooseCropMate />
+            {/*
             <FeaturedCrops />
             <HowCropMateWorks />
             <CTASection /> */}

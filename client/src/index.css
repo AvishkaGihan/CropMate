@@ -61,3 +61,51 @@
   --color-cal-poly-green-800: #091109;
   --color-cal-poly-green-900: #040804;
 }
+
+:-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+html,
+body,
+div {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Enhanced smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Add class for elements that should have momentum-based scrolling */
+.smooth-scroll {
+  -webkit-overflow-scrolling: touch; /* For iOS smooth momentum scrolling */
+  overflow-y: auto;
+  overscroll-behavior-y: contain; /* Prevents scroll chaining */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Use lighter grid pattern for better performance */
+  .bg-grid-pattern {
+    background-image: linear-gradient(
+        to right,
+        rgb(115 158 130 / 3%) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgb(115 158 130 / 3%) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}
+
+/* Add this at-rule to enable optimized content rendering */
+@layer utilities {
+  .will-change-transform {
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+}
