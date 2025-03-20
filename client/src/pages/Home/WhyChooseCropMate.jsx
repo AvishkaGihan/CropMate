@@ -1,7 +1,7 @@
 import { FEATURES } from "../../constants/features"
 
 import BackgroundElements from "../../components/WhyChooseCropMate/BackgroundElements";
-import SectionHeader from "../../components/WhyChooseCropMate/SectionHeader";
+import SectionHeader from "../../components/SectionHeader";
 import FeatureCard from "../../components/WhyChooseCropMate/FeatureCard";
 import CallToAction from "../../components/WhyChooseCropMate/CallToAction";
 import SectionWrapper from "./SectionWrapper";
@@ -12,7 +12,13 @@ const WhyChooseCropMate = () => {
             <BackgroundElements />
 
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
-                <SectionHeader />
+                <SectionHeader
+                    badge=" Why Choose Us"
+                    title="The CropMate"
+                    special=" Advantage"
+                    description="Our platform offers innovative solutions designed specifically for everyone
+                in the agricultural ecosystem, from farmers to distributors."
+                />
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {FEATURES.map((feature, index) => (

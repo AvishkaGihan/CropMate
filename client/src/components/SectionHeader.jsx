@@ -1,6 +1,6 @@
-import { useElementVisibility } from "../../hooks/useElementVisibility";
+import { useElementVisibility } from "../hooks/useElementVisibility";
 
-const SectionHeader = () => {
+const SectionHeader = ({ badge, title, special, description }) => {
     const [headerRef, isHeaderVisible] = useElementVisibility({ threshold: 0.2 });
 
     return (
@@ -16,13 +16,13 @@ const SectionHeader = () => {
             {/* Section label */}
             <div className="inline-block px-3 py-1 rounded-full bg-golden-brown-400/10 mb-2">
                 <span className="text-golden-brown-500 text-sm font-medium uppercase tracking-wider">
-                    Why Choose Us
+                    {badge}
                 </span>
             </div>
 
             <h2 className="text-4xl md:text-5xl font-bold text-cambridge-blue-800 mt-3 mb-5">
-                The CropMate <span className="text-golden-brown-500 relative">
-                    Advantage
+                {title} <span className="text-golden-brown-500 relative">
+                    {special}
                 </span>
             </h2>
 
@@ -30,8 +30,7 @@ const SectionHeader = () => {
             <div className="w-24 h-1 bg-golden-brown-400/30 mx-auto my-6 rounded-full"></div>
 
             <p className="text-cambridge-blue-700/80 max-w-2xl mx-auto text-lg leading-relaxed">
-                Our platform offers innovative solutions designed specifically for everyone
-                in the agricultural ecosystem, from farmers to distributors.
+                {description}
             </p>
         </div>
     );

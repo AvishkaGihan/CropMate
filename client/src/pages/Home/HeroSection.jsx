@@ -5,7 +5,7 @@ import TextureOverlay from '../../components/Hero/TextureOverlay';
 import HeroButton from '../../components/Hero/HeroButton';
 import HeroCard from '../../components/Hero/HeroCard';
 
-import HeroImage from '../../assets/images/hero-image.jpg';
+import HeroImage from '../../assets/images/hero-image.webp';
 
 const HeroSection = () => {
     const [isLoaded, setIsLoaded] = useState(false);

@@ -10,10 +10,11 @@ const HomePage = () => {
         <>
             <HeroSection />
             <WhyChooseCropMate />
-            {/*
             <FeaturedCrops />
-            <HowCropMateWorks />
-            <CTASection /> */}
+            {/*
+                <HowCropMateWorks />
+                <CTASection /> 
+            */}
         </>
     );
 };
