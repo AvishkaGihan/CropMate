@@ -11,8 +11,8 @@ const HomePage = () => {
             <HeroSection />
             <WhyChooseCropMate />
             <FeaturedCrops />
+            <HowCropMateWorks />
             {/*
-                <HowCropMateWorks />
                 <CTASection /> 
             */}
         </>

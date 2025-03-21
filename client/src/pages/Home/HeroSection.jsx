@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 import BackgroundOrbs from '../../components/Hero/BackgroundOrbs';
 import TextureOverlay from '../../components/Hero/TextureOverlay';
@@ -7,20 +7,46 @@ import HeroCard from '../../components/Hero/HeroCard';
 
 import HeroImage from '../../assets/images/hero-image.webp';
 
+// Animation variants
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.15,
+            delayChildren: 0.1,
+            duration: 0.6,
+            ease: [0.25, 0.1, 0.25, 1.0],
+        }
+    }
+};
+
+const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.6,
+            ease: [0.25, 0.1, 0.25, 1.0],
+        }
+    }
+};
+
+const heroCardVariants = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: {
+            duration: 0.7,
+            ease: [0.25, 0.1, 0.25, 1.0],
+            delay: 0.3
+        }
+    }
+};
+
 const HeroSection = () => {
-    const [isLoaded, setIsLoaded] = useState(false);
-
-    useEffect(() => {
-        setIsLoaded(true);
-    }, []);
-
-    // Animation classes that depend on isLoaded state
-    const fadeInClasses = (delay = 0) => `
-        transition-all duration-700 ease-out
-        ${delay ? `delay-${delay}` : ''}
-        ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
-    `;
-
     return (
         <section className="relative min-h-screen flex items-center overflow-hidden 
             bg-gradient-to-br from-cambridge-blue-900 via-cambridge-blue-800 
@@ -34,52 +60,75 @@ const HeroSection = () => {
                 <div className="flex flex-col lg:flex-row items-center gap-16">
 
                     {/* Content Column - Order last on mobile, first on desktop */}
-                    <div className="flex-1 order-last lg:order-first">
+                    <motion.div
+                        className="flex-1 order-last lg:order-first"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                    >
                         {/* Subtitle */}
-                        <div className={`hidden md:flex items-center space-x-3 mb-6 ${fadeInClasses()}`}>
+                        <motion.div
+                            className="hidden md:flex items-center space-x-3 mb-6"
+                            variants={itemVariants}
+                        >
                             <div className="w-10 h-[2px] bg-mindaro-400"></div>
                             <span className="text-sm font-medium text-mindaro-300 uppercase tracking-wider">
                                 Agricultural Innovation
                             </span>
-                        </div>
+                        </motion.div>
 
                         {/* Main Heading */}
-                        <h1 className={`text-5xl md:text-6xl font-bold mb-8 text-white 
-                            leading-tight ${fadeInClasses(100)}`}>
+                        <motion.h1
+                            className="text-5xl md:text-6xl font-bold mb-8 text-white leading-tight"
+                            variants={itemVariants}
+                        >
                             Cultivating <span className="text-mindaro-400 relative group">
                                 Connections
-                                <span className="absolute bottom-1 left-0 w-full h-1 
-                                    bg-mindaro-400/30 group-hover:bg-mindaro-400/50 
-                                    transition-colors duration-300"></span>
+                                <motion.span
+                                    className="absolute bottom-1 left-0 w-full h-1 bg-mindaro-400/30"
+                                    whileHover={{ backgroundColor: 'rgba(243, 255, 182, 0.5)' }}
+                                    transition={{ duration: 0.3 }}
+                                ></motion.span>
                             </span> in Agriculture
-                        </h1>
+                        </motion.h1>
 
                         {/* Description */}
-                        <p className={`text-xl mb-12 text-gray-100/90 leading-relaxed 
-                            max-w-xl ${fadeInClasses(200)}`}>
+                        <motion.p
+                            className="text-xl mb-12 text-gray-100/90 leading-relaxed max-w-xl"
+                            variants={itemVariants}
+                        >
                             CropMate bridges the gap between farmers, vendors, and transporters with
                             real-time market insights and seamless connections.
-                        </p>
+                        </motion.p>
 
                         {/* Call to Action Buttons */}
-                        <div className={`flex flex-wrap gap-5 ${fadeInClasses(300)}`}>
+                        <motion.div
+                            className="flex flex-wrap gap-5"
+                            variants={itemVariants}
+                        >
                             <HeroButton to="/signup" primary>
                                 Get Started
                             </HeroButton>
                             <HeroButton to="/about">
                                 Learn More
                             </HeroButton>
-                        </div>
-                    </div>
+                        </motion.div>
+                    </motion.div>
 
                     {/* Hero Card Component */}
-                    <HeroCard
-                        image={HeroImage}
-                        tag="Featured"
-                        title="Sustainable Farming Practices"
-                        description="Discover how modern techniques are transforming agriculture"
-                        isLoaded={isLoaded}
-                    />
+                    <motion.div
+                        variants={heroCardVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="w-full lg:flex-1 lg:max-w-2xl relative order-first lg:order-last mx-auto lg:mx-0 mt-16 lg:mt-0"
+                    >
+                        <HeroCard
+                            image={HeroImage}
+                            tag="Featured"
+                            title="Sustainable Farming Practices"
+                            description="Discover how modern techniques are transforming agriculture"
+                        />
+                    </motion.div>
                 </div>
             </div>
         </section>
