@@ -1,4 +1,4 @@
-import React from 'react';
+import { memo } from 'react';
 
 const SectionWrapper = ({
     children,
@@ -10,19 +10,6 @@ const SectionWrapper = ({
 }) => {
     return (
         <section className={`${spacing} ${bgColor} ${className} relative overflow-hidden`}>
-            {/* Optional decorative background pattern */}
-            {withPattern && (
-                <div className="absolute inset-0 opacity-5">
-                    <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cambridge-blue-400/50 to-transparent"></div>
-                    <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cambridge-blue-400/50 to-transparent"></div>
-                    <div className="grid grid-cols-12 h-full max-w-screen-xl mx-auto">
-                        {[...Array(12)].map((_, i) => (
-                            <div key={i} className="border-l border-cambridge-blue-400/10 h-full"></div>
-                        ))}
-                    </div>
-                </div>
-            )}
-
             {/* Optional decorative glow elements */}
             {withGlow && (
                 <>
@@ -38,4 +25,4 @@ const SectionWrapper = ({
     );
 };
 
-export default SectionWrapper;
+export default memo(SectionWrapper);

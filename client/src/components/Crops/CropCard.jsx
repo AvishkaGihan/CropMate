@@ -25,7 +25,13 @@ const CropCard = ({ crop }) => {
                 <img
                     src={crop.image}
                     alt={crop.title}
-                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500 ease-out transform-gpu"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-out transform-gpu"
+                    loading="lazy"
+                    decoding="async"
+                    fetchpriority="low"
+                    onLoad={(e) => {
+                        e.currentTarget.classList.add('loaded');
+                    }}
                 />
 
                 {/* Overlay */}

@@ -1,3 +1,4 @@
+import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
 
 import { FEATURED_CROPS } from '../../constants/featuredProducts';
@@ -45,6 +46,14 @@ const ctaVariants = {
 };
 
 const FeaturedCrops = () => {
+    const cropCards = useMemo(() =>
+        FEATURED_CROPS.slice(0, 3).map((crop, index) => (
+            <div key={crop.id} className="will-change-transform">
+                <CropCard crop={crop} />
+            </div>
+        )),
+        []);
+
     return (
         <SectionWrapper className="bg-gradient-to-b from-cambridge-blue-200/40 via-mindaro-100/40 to-golden-brown-100/30 
         py-24 relative overflow-hidden">
@@ -74,16 +83,7 @@ const FeaturedCrops = () => {
                     style={{ perspective: '1000px' }}
                     variants={containerVariants}
                 >
-                    {FEATURED_CROPS.slice(0, 3).map((crop, index) => (
-                        <motion.div
-                            key={crop.id}
-                            custom={index}
-                            variants={cardVariants}
-                            className="will-change-transform"
-                        >
-                            <CropCard crop={crop} />
-                        </motion.div>
-                    ))}
+                    {cropCards}
                 </motion.div>
 
                 {/* CTA */}
@@ -113,4 +113,4 @@ const FeaturedCrops = () => {
     );
 };
 
-export default FeaturedCrops;
+export default memo(FeaturedCrops);

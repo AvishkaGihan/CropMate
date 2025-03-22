@@ -24,8 +24,8 @@ const NavLinks = ({ isMobile = false }) => {
             <Link to="/" className={linkClass("/")}>
                 Home
             </Link>
-            <Link to="/services" className={linkClass("/services")}>
-                Services
+            <Link to="/marketplace" className={linkClass("/marketplace")}>
+                Marketplace
             </Link>
             <Link to="/about" className={linkClass("/about")}>
                 About

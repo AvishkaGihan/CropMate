@@ -64,7 +64,7 @@ const getCardVariants = (index) => ({
 
 const WhyChooseCropMate = () => {
     return (
-        <SectionWrapper className="bg-gradient-to-b from-cambridge-blue-50 to-cambridge-blue-100/30 py-24 relative overflow-hidden">
+        <SectionWrapper className="py-24 relative overflow-hidden">
             {/* Background elements */}
             <BackgroundElements />
 

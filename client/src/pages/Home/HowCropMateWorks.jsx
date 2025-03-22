@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 
 import { steps } from '../../constants/steps';
@@ -12,43 +12,49 @@ import CTA from '../../components/CTA'
 
 // Animation variants
 const sectionVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0 },
     visible: {
         opacity: 1,
-        y: 0,
         transition: {
-            duration: 0.4,
+            duration: 0.3,
             ease: "easeOut"
         }
     }
 };
 
+// Simplified container variants with reduced staggering
 const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
         transition: {
-            staggerChildren: 0.12,
-            delayChildren: 0.1
+            staggerChildren: 0.15, // Increased time between items
+            delayChildren: 0.05
         }
     }
 };
 
-
 const ctaVariants = {
-    hidden: { opacity: 0, y: 15 },
+    hidden: { opacity: 0 },
     visible: {
         opacity: 1,
-        y: 0,
         transition: {
-            duration: 0.4,
+            duration: 0.3,
             ease: "easeOut",
-            delay: 0.3
+            delay: 0.2
         }
     }
 };
 
 const HowCropMateWorks = () => {
+
+    // Memoize step cards to prevent unnecessary re-renders
+    const stepCards = useMemo(() => (
+        steps.map((step, index) => (
+            <StepCard step={step} key={index} />
+        ))
+    ))
+
     return (
         <SectionWrapper
             className="py-24 relative overflow-hidden bg-cambridge-blue-50/70"
@@ -73,14 +79,12 @@ const HowCropMateWorks = () => {
                 </motion.div>
 
                 {/* Steps Grid */}
-                <motion.div
+                <div
                     className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10 mt-16 will-change-transform relative"
                     variants={containerVariants}
                 >
-                    {steps.map((step, index) => (
-                        <StepCard step={step} index={index} />
-                    ))}
-                </motion.div>
+                    {stepCards}
+                </div>
 
                 {/* Call to action */}
                 <motion.div
@@ -100,9 +104,9 @@ const HowCropMateWorks = () => {
 
                         {/* Enhanced explanation with branded badge */}
                         <div className="mt-8">
-                            <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-cambridge-blue-100/50 backdrop-blur-sm mb-3 border border-cambridge-blue-200/30">
+                            <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-cambridge-blue-100/30 border border-cambridge-blue-200/20">
                                 <span className="text-xs font-semibold text-cambridge-blue-700">
-                                    Trusted by 5,000+ Agricultural Professionals in Sri Lanka
+                                    Trusted by 5,000+ Agricultural Professionals
                                 </span>
                             </div>
                         </div>

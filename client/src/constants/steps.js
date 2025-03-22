@@ -1,6 +1,6 @@
 export const steps = [
   {
-    id: 1,
+    id: 0,
     number: "01",
     title: "Create Your Profile",
     description:
@@ -15,12 +15,12 @@ export const steps = [
     color: "cambridge-blue",
     iconBg: "bg-cambridge-blue-500",
     decorColor:
-      "bg-gradient-to-r from-cambridge-blue-400 to-cambridge-blue-500",
+      "bg-gradient-to-r from-cambridge-blue-400/10 to-cambridge-blue-500/5",
     buttonText: "Sign Up",
     buttonLink: "/signup",
   },
   {
-    id: 2,
+    id: 1,
     number: "02",
     title: "Connect & Trade",
     description: "Connect with partners across the agricultural ecosystem:",
@@ -33,12 +33,13 @@ export const steps = [
     image: "/src/assets/images/connect-trade.jpg",
     color: "golden-brown",
     iconBg: "bg-golden-brown-500",
-    decorColor: "bg-gradient-to-r from-golden-brown-400 to-golden-brown-500",
+    decorColor:
+      "bg-gradient-to-r from-golden-brown-400/10 to-golden-brown-500/5",
     buttonText: "Browse Crops",
     buttonLink: "/crops",
   },
   {
-    id: 3,
+    id: 2,
     number: "03",
     title: "Grow Together",
     description: "Build sustainable partnerships that grow your business:",
@@ -49,9 +50,10 @@ export const steps = [
       "Participate in the CropMate community",
     ],
     image: "/src/assets/images/grow-together.jpg",
-    color: "mindaro",
-    iconBg: "bg-mindaro-700",
-    decorColor: "bg-gradient-to-r from-mindaro-400 to-mindaro-500",
+    color: "cal-poly-green",
+    iconBg: "bg-cal-poly-green-300",
+    decorColor:
+      "bg-gradient-to-r from-cal-poly-green-400/10 to-cal-poly-green-500/5",
     buttonText: "Learn More",
     buttonLink: "/about",
   },

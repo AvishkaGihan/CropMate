@@ -1,10 +1,7 @@
+import { memo } from 'react'
+
 const BackgroundDecoration = () => (
     <>
-        {/* Background shapes */}
-        <div className="absolute top-20 -right-10 w-80 h-80 bg-golden-brown-400/10 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-20 w-96 h-96 bg-mindaro-500/10 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/3 left-1/4 w-64 h-64 bg-persian-orange-400/5 rounded-full blur-3xl"></div>
-
         {/* Leaf decorations */}
         <div className="absolute top-40 left-10 w-16 h-16 text-cambridge-blue-500/10 transform rotate-45">
             <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
@@ -17,10 +14,7 @@ const BackgroundDecoration = () => (
                 <path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 2,11.5 2,13.5C2,15.5 3.75,17.25 3.75,17.25C7,8 17,8 17,8Z" />
             </svg>
         </div>
-
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
     </>
 );
 
-export default BackgroundDecoration;
+export default memo(BackgroundDecoration);
