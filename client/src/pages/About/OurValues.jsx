@@ -1,9 +1,9 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import SectionWrapper from '../Home/SectionWrapper'
+import SectionWrapper from '../../components/Shared/SectionWrapper'
 import SectionHeader from '../../components/Shared/SectionHeader'
 import { values } from '../../data/aboutUs/aboutUsCoreValues'
-import { containerVariants, itemVariants } from './animationVariants'
+import { containerVariants, itemVariants } from '../animationVariants'
 
 const OurValues = () => {
     return (

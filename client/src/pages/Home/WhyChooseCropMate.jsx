@@ -6,7 +6,7 @@ import BackgroundElements from "../../components/Shared/BackgroundElements";
 import SectionHeader from "../../components/Shared/SectionHeader";
 import FeatureCard from "../../components/WhyChooseCropMate/FeatureCard";
 import CTA from "../../components/Shared/CTA";
-import SectionWrapper from "./SectionWrapper";
+import SectionWrapper from "../../components/Shared/SectionWrapper";
 
 
 // Performance-optimized animations

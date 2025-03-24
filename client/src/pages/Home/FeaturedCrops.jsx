@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { FEATURED_CROPS } from '../../constants/featuredProducts';
 import SectionHeader from '../../components/Shared/SectionHeader';
 import CropCard from '../../components/Crops/CropCard';
-import SectionWrapper from './SectionWrapper';
+import SectionWrapper from '../../components/Shared/SectionWrapper';
 import BackgroundDecorations from '../../components/FeaturedCrops/BackgroundDecoration';
 import CTA from '../../components/Shared/CTA';
 

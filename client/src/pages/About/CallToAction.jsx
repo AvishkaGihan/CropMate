@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import SectionWrapper from '../Home/SectionWrapper'
+import SectionWrapper from '../../components/Shared/SectionWrapper'
 import CTA from '../../components/Shared/CTA'
 
 const CallToAction = () => {

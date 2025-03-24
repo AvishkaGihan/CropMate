@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 
 import { steps } from '../../constants/steps';
-import SectionWrapper from './SectionWrapper';
+import SectionWrapper from '../../components/Shared/SectionWrapper';
 import SectionHeader from '../../components/Shared/SectionHeader';
 import BackgroundElements from '../../components/Shared/BackgroundElements';
 import StepCard from '../../components/HowCropMateWorks/StepCard';
