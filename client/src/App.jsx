@@ -4,6 +4,7 @@ import HomePage from './pages/Home/HomePage';
 import DefaultLayout from './layouts/Layout';
 import AboutUs from './pages/About/AboutUs';
 import ContactUs from './pages/Contact/ContactUs';
+import Marketplace from './pages/Marketplace/Marketplace';
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<DefaultLayout />}>
           <Route index element={<HomePage />} />
+          <Route path="/marketplace" element={<Marketplace />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact-us" element={<ContactUs />} />
           {/* Add other routes as needed */}
