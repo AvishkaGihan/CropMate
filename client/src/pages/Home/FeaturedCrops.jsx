@@ -2,11 +2,11 @@ import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
 
 import { FEATURED_CROPS } from '../../constants/featuredProducts';
-import SectionHeader from '../../components/SectionHeader';
+import SectionHeader from '../../components/Shared/SectionHeader';
 import CropCard from '../../components/Crops/CropCard';
 import SectionWrapper from './SectionWrapper';
 import BackgroundDecorations from '../../components/FeaturedCrops/BackgroundDecoration';
-import CTA from '../../components/CTA';
+import CTA from '../../components/Shared/CTA';
 
 const containerVariants = {
     hidden: { opacity: 0 },

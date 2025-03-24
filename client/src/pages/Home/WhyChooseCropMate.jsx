@@ -2,10 +2,10 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FEATURES } from "../../constants/features"
 
-import BackgroundElements from "../../components/BackgroundElements";
-import SectionHeader from "../../components/SectionHeader";
+import BackgroundElements from "../../components/Shared/BackgroundElements";
+import SectionHeader from "../../components/Shared/SectionHeader";
 import FeatureCard from "../../components/WhyChooseCropMate/FeatureCard";
-import CTA from "../../components/CTA";
+import CTA from "../../components/Shared/CTA";
 import SectionWrapper from "./SectionWrapper";
 
 

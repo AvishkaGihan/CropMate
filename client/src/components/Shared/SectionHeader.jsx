@@ -1,4 +1,4 @@
-import { useElementVisibility } from "../hooks/useElementVisibility";
+import { useElementVisibility } from "../../hooks/useElementVisibility";
 
 const SectionHeader = ({ badge, title, special, description }) => {
     const [headerRef, isHeaderVisible] = useElementVisibility({ threshold: 0.2 });

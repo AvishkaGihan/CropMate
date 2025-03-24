@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import SectionWrapper from '../Home/SectionWrapper';
-import SectionHeader from '../../components/SectionHeader';
-import CTA from '../../components/CTA';
+import SectionHeader from '../../components/Shared/SectionHeader';
+import CTA from '../../components/Shared/CTA';
 
 // Animation variants optimized for performance
 const containerVariants = {

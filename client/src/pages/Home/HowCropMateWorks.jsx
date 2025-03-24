@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 
 import { steps } from '../../constants/steps';
 import SectionWrapper from './SectionWrapper';
-import SectionHeader from '../../components/SectionHeader';
-import BackgroundElements from '../../components/BackgroundElements';
+import SectionHeader from '../../components/Shared/SectionHeader';
+import BackgroundElements from '../../components/Shared/BackgroundElements';
 import StepCard from '../../components/HowCropMateWorks/StepCard';
-import CTA from '../../components/CTA'
+import CTA from '../../components/Shared/CTA'
 
 
 
@@ -101,15 +101,6 @@ const HowCropMateWorks = () => {
                             variant="primary"
                             size="md"
                         />
-
-                        {/* Enhanced explanation with branded badge */}
-                        <div className="mt-8">
-                            <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-cambridge-blue-100/30 border border-cambridge-blue-200/20">
-                                <span className="text-xs font-semibold text-cambridge-blue-700">
-                                    Trusted by 5,000+ Agricultural Professionals
-                                </span>
-                            </div>
-                        </div>
                     </div>
                 </motion.div>
             </motion.div>

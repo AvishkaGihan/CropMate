@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import Badge from "../Badge";
+import Badge from "../Shared/Badge";
 import CropCardButton from "./CropCardButton";
 
 const CropCard = ({ crop }) => {
@@ -28,7 +28,7 @@ const CropCard = ({ crop }) => {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-out transform-gpu"
                     loading="lazy"
                     decoding="async"
-                    fetchpriority="low"
+                    fetchPriority="low"
                     onLoad={(e) => {
                         e.currentTarget.classList.add('loaded');
                     }}
