@@ -5,6 +5,7 @@ import DefaultLayout from './layouts/Layout';
 import AboutUs from './pages/About/AboutUs';
 import ContactUs from './pages/Contact/ContactUs';
 import Marketplace from './pages/Marketplace/Marketplace';
+import ProductDetails from './pages/ProductDetail/ProductDetails';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
           <Route path="/marketplace" element={<Marketplace />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
           {/* Add other routes as needed */}
         </Route>
       </Routes>

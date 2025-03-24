@@ -1,15 +1,14 @@
 import { motion } from 'framer-motion';
 
-const CropCardButton = ({ text, onClick }) => {
+const CropCardButton = ({ text, cropId }) => {
     return (
         <motion.button
             className="w-full py-3 rounded-xl border border-cambridge-blue-400 text-cambridge-blue-700
-                font-medium flex items-center justify-center relative overflow-hidden
-                hover:bg-cambridge-blue-600 hover:text-white hover:border-cambridge-blue-600
-                transition-all duration-300"
+                    font-medium flex items-center justify-center relative overflow-hidden
+                    hover:bg-cambridge-blue-600 hover:text-white hover:border-cambridge-blue-600
+                    transition-all duration-300"
             whileHover={{ y: -2 }}
             whileTap={{ y: 0 }}
-            onClick={onClick}
         >
             <span className="relative z-10">{text}</span>
             <motion.svg
