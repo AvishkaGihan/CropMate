@@ -4,3 +4,7 @@ export { default as RoleSelector } from "./RoleSelector";
 export { default as SuccessMessage } from "./SuccessMessage";
 export { default as ErrorMessage } from "./ErrorMessage";
 export { default as AuthFooter } from "./AuthFooter";
+export { default as StepIndicator } from "./StepIndicator";
+export { default as AccountInformationStep } from "./AccountInformationStep";
+export { default as RoleSpecificForms } from "./RoleSpecificForms";
+export { default as ReviewStep } from "./ReviewStep";

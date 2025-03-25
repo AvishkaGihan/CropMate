@@ -15,6 +15,7 @@ import {
 } from '../../components/Auth';
 import { getButtonClasses } from '../../util/Auth/getButtonClasses';
 import { itemVariants } from '../../util/Auth/animations';
+import { validateSigninForm } from '../../util/Auth/FormValidation';
 
 const SignIn = () => {
     const navigate = useNavigate();
@@ -92,7 +93,10 @@ const SignIn = () => {
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
 
-        if (!validateForm()) {
+        const newErrors = validateSigninForm(formData);
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length > 0) {
             return;
         }
 
@@ -173,6 +177,7 @@ const SignIn = () => {
                             value={formData.password}
                             onChange={handleChange}
                             placeholder="Enter your password"
+                            required
                             iconRight={showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                             iconRightClassName='text-cambridge-blue-500 cursor-pointer'
                             onIconRightClick={toggleShowPassword}
