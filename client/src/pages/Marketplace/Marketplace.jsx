@@ -13,6 +13,7 @@ import EmptyState from '../../components/Marketplace/EmptyState';
 import MarketplaceHero from './MarketplaceHero';
 
 import { categories, locations, sortOptions, certifications } from '../../constants/Marketplace/MarketplaceConstants';
+import LeafDecorations from '../../components/Shared/LeafDecorations';
 
 
 // Create lookup maps for faster access
