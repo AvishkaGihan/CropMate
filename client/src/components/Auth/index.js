@@ -1,0 +1,6 @@
+export { default as BenefitsSection } from "./Benefits";
+export { default as LogoSection } from "./LogoSection";
+export { default as RoleSelector } from "./RoleSelector";
+export { default as SuccessMessage } from "./SuccessMessage";
+export { default as ErrorMessage } from "./ErrorMessage";
+export { default as AuthFooter } from "./AuthFooter";

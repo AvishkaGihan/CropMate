@@ -6,11 +6,15 @@ import AboutUs from './pages/About/AboutUs';
 import ContactUs from './pages/Contact/ContactUs';
 import Marketplace from './pages/Marketplace/Marketplace';
 import ProductDetails from './pages/ProductDetail/ProductDetails';
+import SignIn from './pages/SignIn/SignIn';
+import SignUp from './pages/SignUp/SignUp';
 
 const App = () => {
   return (
     <Router>
       <Routes>
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/" element={<DefaultLayout />}>
           <Route index element={<HomePage />} />
           <Route path="/marketplace" element={<Marketplace />} />
