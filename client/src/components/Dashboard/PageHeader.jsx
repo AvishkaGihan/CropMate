@@ -67,19 +67,6 @@ const PageHeader = ({
 
     return (
         <>
-            {/* Mobile Menu Button - Only visible on mobile */}
-            <div className="lg:hidden border-b border-gray-200 bg-white px-4 py-2">
-                <button
-                    type="button"
-                    className={`inline-flex items-center p-2 rounded-md text-gray-600 ${menuButtonHover} focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-300`}
-                    onClick={onToggleMobileMenu}
-                    aria-label="Open menu"
-                >
-                    <Menu className="h-6 w-6" aria-hidden="true" />
-                    <span className="ml-2 text-sm font-medium">Menu</span>
-                </button>
-            </div>
-
             <div className="border-b border-gray-200 bg-white px-4 py-4 sm:px-6 lg:px-8 mb-4">
                 <div className="flex flex-wrap items-center justify-between">
                     <div className="min-w-0 flex-1">

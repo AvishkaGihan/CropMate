@@ -5,6 +5,7 @@ import FormTextarea from "./FormTextarea";
 import FormButton from "./FormButton";
 import FormCheckbox from "./FormCheckBox";
 import FormGroup from "./FormGroup";
+import FormImageUpload from "./FormImageUpload";
 
 export {
   Form,
@@ -14,4 +15,5 @@ export {
   FormButton,
   FormCheckbox,
   FormGroup,
+  FormImageUpload,
 };

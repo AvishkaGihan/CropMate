@@ -9,7 +9,8 @@ import ProductDetails from './pages/ProductDetail/ProductDetails';
 import SignIn from './pages/SignIn/SignIn';
 import SignUp from './pages/SignUp/SignUp';
 import DashboardLayout from './layouts/DashboardLayout';
-import FarmerDashboard from './pages/Dashboard/FarmerDashboard';
+import FarmerDashboard from './pages/Dashboard/Farmer/FarmerDashboard';
+import CropManagement from './pages/Dashboard/Farmer/CropManagement';
 
 // Temporary placeholder components for dashboard pages
 const DriverDashboard = () => <div className="p-4">Driver Dashboard Content</div>;
@@ -51,6 +52,7 @@ const App = () => {
         {/* Dashboard routes */}
         <Route path="/dashboard/farmer/*" element={<DashboardLayout role="farmer" />}>
           <Route index element={<FarmerDashboard />} />
+          <Route path="crops" element={<CropManagement />} />
           {/* Add more farmer routes as needed */}
         </Route>
 

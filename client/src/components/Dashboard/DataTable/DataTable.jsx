@@ -1,6 +1,132 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { ChevronDown, ChevronUp, MoreHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
 
+// Row Actions Menu Component - Fixed to ensure actions work correctly
+const RowActionsMenu = ({ actions, row }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
+    const buttonRef = useRef(null);
+    const dropdownRef = useRef(null);
+
+    // Handle toggle dropdown
+    const toggleDropdown = (e) => {
+        e.stopPropagation();
+        if (!isOpen) {
+            // When opening, calculate position
+            const rect = buttonRef.current.getBoundingClientRect();
+            const scrollY = window.scrollY || window.pageYOffset;
+            const scrollX = window.scrollX || window.pageXOffset;
+
+            // Default position is below and to the right
+            let top = rect.bottom + scrollY;
+            let left = rect.left + scrollX;
+
+            // Check if dropdown would go off screen to the right
+            const dropdownWidth = 170; // Approximate width of dropdown
+            if (rect.left + dropdownWidth > window.innerWidth) {
+                // Position to the left instead
+                left = rect.right + scrollX - dropdownWidth;
+            }
+
+            setMenuPosition({ top, left });
+        }
+        setIsOpen(!isOpen);
+    };
+
+    // Handle action click with proper event handling
+    const handleActionClick = (e, action) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        // Close the dropdown first
+        setIsOpen(false);
+
+        // Small delay to ensure dropdown is closed before action executes
+        setTimeout(() => {
+            if (typeof action.onClick === 'function') {
+                action.onClick(row);
+            }
+        }, 10);
+    };
+
+    // Close menu when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            // Only close if clicking outside both the button and dropdown
+            if (
+                isOpen &&
+                buttonRef.current &&
+                !buttonRef.current.contains(event.target) &&
+                dropdownRef.current &&
+                !dropdownRef.current.contains(event.target)
+            ) {
+                setIsOpen(false);
+            }
+        };
+
+        const handleScroll = () => {
+            setIsOpen(false);
+        };
+
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+            document.addEventListener('scroll', handleScroll, true);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('scroll', handleScroll, true);
+        };
+    }, [isOpen]);
+
+    return (
+        <>
+            <button
+                ref={buttonRef}
+                onClick={toggleDropdown}
+                className="p-1.5 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100"
+                aria-label="Row actions"
+                aria-expanded={isOpen}
+                type="button"
+            >
+                <MoreHorizontal size={16} />
+            </button>
+
+            {isOpen && createPortal(
+                <div
+                    ref={dropdownRef}
+                    className="fixed rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-[9999] overflow-hidden"
+                    style={{
+                        top: `${menuPosition.top}px`,
+                        left: `${menuPosition.left}px`,
+                        width: '170px'
+                    }}
+                    onClick={e => e.stopPropagation()}
+                >
+                    <div className="py-1">
+                        {actions.map((action, index) => (
+                            <button
+                                key={index}
+                                type="button"
+                                onClick={(e) => handleActionClick(e, action)}
+                                className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${action.className || 'text-gray-700'}`}
+                            >
+                                <div className="flex items-center">
+                                    {action.icon && <span className="mr-2">{action.icon}</span>}
+                                    <span>{action.label}</span>
+                                </div>
+                            </button>
+                        ))}
+                    </div>
+                </div>,
+                document.body
+            )}
+        </>
+    );
+};
+
+// Main DataTable component 
 const DataTable = ({
     data = [],
     columns = [],
@@ -52,7 +178,7 @@ const DataTable = ({
             setSelectedRows([]);
             if (onRowSelectionChange) onRowSelectionChange([]);
         } else {
-            const allIds = sortedAndPagedData.map(row => row.id);
+            const allIds = sortedAndPagedData.map(row => row.id || row._id || `row-${sortedAndPagedData.indexOf(row)}`);
             setSelectedRows(allIds);
             if (onRowSelectionChange) onRowSelectionChange(allIds);
         }
@@ -150,18 +276,19 @@ const DataTable = ({
                                 </th>
                             ))}
                             {rowActions.length > 0 && (
-                                <th scope="col" className="relative w-14 px-4 py-3.5">
+                                <th scope="col" className="relative w-16 px-4 py-3.5">
                                     <span className="sr-only">Actions</span>
                                 </th>
                             )}
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200">
-                        {sortedAndPagedData.map((row) => {
-                            const isSelected = selectedRows.includes(row.id);
+                        {sortedAndPagedData.map((row, index) => {
+                            const rowId = row.id || row._id || `row-${index}`;
+                            const isSelected = selectedRows.includes(rowId);
                             return (
                                 <tr
-                                    key={row.id}
+                                    key={rowId}
                                     className={`${isSelected ? 'bg-primary-50' : ''} hover:bg-gray-50 transition-colors`}
                                     onClick={() => onRowClick && onRowClick(row)}
                                 >
@@ -171,21 +298,22 @@ const DataTable = ({
                                                 type="checkbox"
                                                 className="h-4 w-4 rounded border-gray-300"
                                                 checked={isSelected}
-                                                onChange={() => handleRowSelect(row.id)}
+                                                onChange={() => handleRowSelect(rowId)}
                                             />
                                         </td>
                                     )}
                                     {columns.map((column) => (
-                                        <td key={`${row.id}-${column.field}`} className="whitespace-nowrap px-4 py-4 text-sm text-gray-800">
-                                            {column.render ? column.render(row) : row[column.field]}
+                                        <td
+                                            key={`${rowId}-${column.field || column.accessor || index}`}
+                                            className="whitespace-nowrap px-4 py-4 text-sm text-gray-800"
+                                        >
+                                            {column.render ? column.render(row) : row[column.field || column.accessor]}
                                         </td>
                                     ))}
                                     {rowActions.length > 0 && (
                                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium">
                                             <div className="flex justify-end">
-                                                <div className="relative">
-                                                    <RowActionsMenu actions={rowActions} row={row} />
-                                                </div>
+                                                <RowActionsMenu actions={rowActions} row={row} />
                                             </div>
                                         </td>
                                     )}
@@ -239,8 +367,8 @@ const DataTable = ({
                                         key={i}
                                         onClick={() => setCurrentPage(i + 1)}
                                         className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${currentPage === i + 1
-                                                ? 'bg-primary-600 text-white'
-                                                : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
+                                            ? 'bg-primary-600 text-white'
+                                            : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
                                             }`}
                                     >
                                         {i + 1}
@@ -261,55 +389,6 @@ const DataTable = ({
                 </div>
             )}
         </div>
-    );
-};
-
-// Row Actions Menu Component
-const RowActionsMenu = ({ actions, row }) => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    return (
-        <>
-            <button
-                onClick={(e) => {
-                    e.stopPropagation();
-                    setIsOpen(!isOpen);
-                }}
-                className="p-1 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100"
-            >
-                <MoreHorizontal size={16} />
-            </button>
-
-            {isOpen && (
-                <>
-                    <div
-                        className="fixed inset-0 z-10"
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setIsOpen(false);
-                        }}
-                    />
-                    <div className="absolute right-0 z-20 mt-1 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        {actions.map((action, index) => (
-                            <button
-                                key={index}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    action.onClick(row);
-                                    setIsOpen(false);
-                                }}
-                                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                            >
-                                <div className="flex items-center">
-                                    {action.icon && <span className="mr-2">{action.icon}</span>}
-                                    {action.label}
-                                </div>
-                            </button>
-                        ))}
-                    </div>
-                </>
-            )}
-        </>
     );
 };
 
