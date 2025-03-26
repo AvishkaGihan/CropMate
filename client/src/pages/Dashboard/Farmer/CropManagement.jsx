@@ -489,22 +489,6 @@ const CropManagement = () => {
         }
     ];
 
-    // Calculate average rating stars
-    const renderRatingStars = (rating) => {
-        const fullStars = Math.floor(rating);
-        const hasHalfStar = rating % 1 >= 0.5;
-
-        return (
-            <div className="flex items-center">
-                {[...Array(5)].map((_, i) => (
-                    <span key={i} className={i < fullStars ? "text-amber-400" : (i === fullStars && hasHalfStar) ? "text-amber-400" : "text-gray-300"}>
-                        ★
-                    </span>
-                ))}
-            </div>
-        );
-    };
-
     return (
         <div className="min-h-screen space-y-6">
             {/* Page header */}

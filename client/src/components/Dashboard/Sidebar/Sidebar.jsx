@@ -83,16 +83,12 @@ const usePages = (role) => {
         { path: `/dashboard/${role}/orders`, title: 'Orders', icon: <Package size={20} /> },
       ],
       driver: [
-        { path: `/dashboard/${role}/jobs`, title: 'Available Jobs', icon: <Truck size={20} /> },
+        { path: `/dashboard/${role}/availiable-orders`, title: 'Available Orders', icon: <Truck size={20} /> },
         { path: `/dashboard/${role}/active`, title: 'Active Deliveries', icon: <MapPin size={20} /> },
-        { path: `/dashboard/${role}/performance`, title: 'Performance', icon: <BarChart2 size={20} /> },
-        { path: `/dashboard/${role}/earnings`, title: 'Earnings', icon: <DollarSign size={20} /> },
       ],
       vendor: [
-        { path: `/dashboard/${role}/search`, title: 'Find Crops', icon: <Search size={20} /> },
         { path: `/dashboard/${role}/orders`, title: 'My Orders', icon: <ShoppingCart size={20} /> },
         { path: `/dashboard/${role}/delivery`, title: 'Deliveries', icon: <Truck size={20} /> },
-        { path: `/dashboard/${role}/reports`, title: 'Reports', icon: <Clipboard size={20} /> },
       ]
     };
 

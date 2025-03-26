@@ -8,6 +8,7 @@ const RowActionsMenu = ({ actions, row }) => {
     const [menuPosition, setMenuPosition] = useState({ top: 0, left: 0 });
     const buttonRef = useRef(null);
     const dropdownRef = useRef(null);
+    console.log(actions);
 
     // Handle toggle dropdown
     const toggleDropdown = (e) => {
