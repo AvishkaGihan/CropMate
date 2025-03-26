@@ -377,7 +377,7 @@ const CropManagement = () => {
 
     // Format price helper function
     const formatPrice = (price) => {
-        return `₹${price}`;
+        return `LKR ${price}`;
     };
 
     const getStatusLabel = (quantity) => {

@@ -58,6 +58,15 @@ const Overview = () => {
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    // Helper function to format currency
+    const formatCurrency = (value) => {
+        // Replace ₹ with LKR if it exists in the string
+        if (typeof value === 'string' && value.includes('₹')) {
+            return value.replace('₹', 'LKR ');
+        }
+        return `LKR ${value}`;
+    };
+
     // Sample data - to be replaced with actual API calls
     const metrics = [
         {
@@ -78,7 +87,7 @@ const Overview = () => {
         },
         {
             title: 'Revenue This Month',
-            value: '₹42,500',
+            value: 'LKR 42,500',  // Updated from ₹ to LKR
             change: '+18% vs last month',
             trend: 'up',
             icon: <TrendingUp size={20} />,
@@ -101,7 +110,7 @@ const Overview = () => {
             items: [{ name: 'Rice', quantity: '300kg' }],
             status: 'processing',
             paymentStatus: 'verified',
-            totalPrice: '₹15,000',
+            totalPrice: 'LKR 15,000',  // Updated from ₹ to LKR
             createdAt: '2023-03-20'
         },
         {
@@ -110,7 +119,7 @@ const Overview = () => {
             items: [{ name: 'Wheat', quantity: '500kg' }],
             status: 'pending',
             paymentStatus: 'pending',
-            totalPrice: '₹22,500',
+            totalPrice: 'LKR 22,500',  // Updated from ₹ to LKR
             createdAt: '2023-03-19'
         },
         {
@@ -119,7 +128,7 @@ const Overview = () => {
             items: [{ name: 'Corn', quantity: '200kg' }],
             status: 'success',
             paymentStatus: 'verified',
-            totalPrice: '₹8,000',
+            totalPrice: 'LKR 8,000',  // Updated from ₹ to LKR
             createdAt: '2023-03-17'
         }
     ];
@@ -148,7 +157,13 @@ const Overview = () => {
                 />
             )
         },
-        { field: 'totalPrice', header: 'Total' },
+        {
+            field: 'totalPrice',
+            header: 'Total',
+            render: row => (
+                <div className="font-medium">{row.totalPrice}</div>
+            )
+        },
         {
             field: 'createdAt',
             header: 'Order Date',
@@ -330,8 +345,8 @@ const Overview = () => {
                                 <div>
                                     <p className="text-gray-800">Delivery Address</p>
                                     <p className="text-gray-500 text-sm">
-                                        {/* Would come from the actual order data */}
-                                        123 Market Street, Punjab, India, 143001
+                                        {/* Updated to reflect Sri Lankan location */}
+                                        123 Market Street, Colombo, Sri Lanka, 10100
                                     </p>
                                 </div>
                             </div>
