@@ -10,12 +10,11 @@ import SignIn from './pages/SignIn/SignIn';
 import SignUp from './pages/SignUp/SignUp';
 import DashboardLayout from './layouts/DashboardLayout';
 import CropManagement from './pages/Dashboard/Farmer/CropManagement';
-import Overview from './pages/Dashboard/Farmer/Overview';
 import MarketAnalysis from './pages/Dashboard/Farmer/MarketAnalysis';
 import Orders from './pages/Dashboard/Farmer/Orders';
+import FarmerOverview from './pages/Dashboard/Farmer/FarmerOverview';
+import DriverOverview from './pages/Dashboard/Driver/DriverOverview';
 
-// Temporary placeholder components for dashboard pages
-const DriverDashboard = () => <div className="p-4">Driver Dashboard Content</div>;
 const VendorDashboard = () => <div className="p-4">Vendor Dashboard Content</div>;
 
 const SelectDashboard = () => (
@@ -53,7 +52,7 @@ const App = () => {
 
         {/* Dashboard routes */}
         <Route path="/dashboard/farmer/*" element={<DashboardLayout role="farmer" />}>
-          <Route index element={<Overview />} />
+          <Route index element={<FarmerOverview />} />
           <Route path="crops" element={<CropManagement />} />
           <Route path="market" element={<MarketAnalysis />} />
           <Route path="orders" element={<Orders />} />
@@ -61,7 +60,7 @@ const App = () => {
         </Route>
 
         <Route path="/dashboard/driver/*" element={<DashboardLayout role="driver" />}>
-          <Route index element={<DriverDashboard />} />
+          <Route index element={<DriverOverview />} />
           {/* Add more driver routes as needed */}
         </Route>
 

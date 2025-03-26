@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     Package,
     ShoppingCart,
@@ -10,11 +10,6 @@ import {
     Tag,
     MapPin,
     CreditCard,
-    Sun,
-    Moon,
-    Sunrise,
-    Sunset,
-    Coffee
 } from 'lucide-react';
 import { DataTable, StatusBadge } from '../../../components/Dashboard/DataTable';
 import DetailModal from '../../../components/Shared/DetailModal';
@@ -59,7 +54,7 @@ const MetricCard = ({ title, value, icon, trend, change, color = 'blue' }) => {
     );
 };
 
-const Overview = () => {
+const FarmerOverview = () => {
     // Added state for modal control
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -223,7 +218,7 @@ const Overview = () => {
             {/* Welcome Header */}
             <WelcomeHeader userName={userName} userRole='farmer' />
 
-            {/* Metrics Overview */}
+            {/* Metrics FarmerOverview */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {metrics.map((metric, idx) => (
                     <MetricCard
@@ -370,4 +365,4 @@ const Overview = () => {
     );
 };
 
-export default Overview;
+export default FarmerOverview;
