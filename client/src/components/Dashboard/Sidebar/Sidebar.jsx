@@ -88,7 +88,6 @@ const usePages = (role) => {
       ],
       vendor: [
         { path: `/dashboard/${role}/orders`, title: 'My Orders', icon: <ShoppingCart size={20} /> },
-        { path: `/dashboard/${role}/delivery`, title: 'Deliveries', icon: <Truck size={20} /> },
       ]
     };
 

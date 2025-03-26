@@ -17,6 +17,7 @@ import DriverOverview from './pages/Dashboard/Driver/DriverOverview';
 import AvailiableOrders from './pages/Dashboard/Driver/AvailiableOrders';
 import ActiveDeliveries from './pages/Dashboard/Driver/ActiveDeliveries';
 import VendorOverview from './pages/Dashboard/Vendor/VendorOverview';
+import MyOrders from './pages/Dashboard/Vendor/MyOrders';
 
 const VendorDashboard = () => <div className="p-4">Vendor Dashboard Content</div>;
 
@@ -71,6 +72,7 @@ const App = () => {
 
         <Route path="/dashboard/vendor/*" element={<DashboardLayout role="vendor" />}>
           <Route index element={<VendorOverview />} />
+          <Route path="orders" element={<MyOrders />} />
           {/* Add more vendor routes as needed */}
         </Route>
 
