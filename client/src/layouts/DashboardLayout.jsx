@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Outlet, useOutletContext } from 'react-router';
+import { Outlet } from 'react-router';
 import { motion } from 'framer-motion';
 import Sidebar from '../components/Dashboard/Sidebar/Sidebar';
-import Topbar from '../components/Dashboard/layout/Topbar';
-import PageHeader from '../components/Dashboard/layout/PageHeader';
-import Footer from '../components/Dashboard/layout/Footer';
+import PageHeader from '../components/Dashboard/PageHeader';
+import Footer from '../components/Dashboard/Footer';
 
 const DashboardLayout = ({ role = 'farmer' }) => {
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -46,7 +45,7 @@ const DashboardLayout = ({ role = 'farmer' }) => {
     return (
         <div className="flex h-screen overflow-hidden bg-gray-50">
             {/* Enhanced Sidebar with mobile support */}
-            <Sidebar 
+            <Sidebar
                 isOpen={!sidebarCollapsed}
                 toggleSidebar={toggleSidebar}
                 role={role}
@@ -56,20 +55,13 @@ const DashboardLayout = ({ role = 'farmer' }) => {
 
             {/* Main Content */}
             <div className="flex flex-col flex-1 w-0 overflow-hidden">
-                <Topbar
-                    role={role}
-                    userName="John Doe" // Replace with actual user data
-                    userAvatar="" // Replace with actual avatar URL
-                    onToggleMobileMenu={() => toggleMobileSidebar()}
-                    onToggleSidebar={toggleSidebar}
-                />
-
                 <main className={`relative flex-1 overflow-y-auto focus:outline-none ${currentColors.primary}`}>
                     {/* Page Header with title and actions */}
                     <PageHeader
                         title={pageTitle}
                         breadcrumbs={breadcrumbs}
                         role={role}
+                        onToggleMobileMenu={toggleMobileSidebar}
                     />
 
                     {/* Page Content */}
