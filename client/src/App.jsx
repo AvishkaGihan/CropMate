@@ -12,6 +12,7 @@ import DashboardLayout from './layouts/DashboardLayout';
 import CropManagement from './pages/Dashboard/Farmer/CropManagement';
 import Overview from './pages/Dashboard/Farmer/Overview';
 import MarketAnalysis from './pages/Dashboard/Farmer/MarketAnalysis';
+import Orders from './pages/Dashboard/Farmer/Orders';
 
 // Temporary placeholder components for dashboard pages
 const DriverDashboard = () => <div className="p-4">Driver Dashboard Content</div>;
@@ -55,6 +56,7 @@ const App = () => {
           <Route index element={<Overview />} />
           <Route path="crops" element={<CropManagement />} />
           <Route path="market" element={<MarketAnalysis />} />
+          <Route path="orders" element={<Orders />} />
           {/* Add more farmer routes as needed */}
         </Route>
 

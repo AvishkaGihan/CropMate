@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Package,
     ShoppingCart,
@@ -9,7 +9,12 @@ import {
     User,
     Tag,
     MapPin,
-    CreditCard
+    CreditCard,
+    Sun,
+    Moon,
+    Sunrise,
+    Sunset,
+    Coffee
 } from 'lucide-react';
 import { DataTable, StatusBadge } from '../../../components/Dashboard/DataTable';
 import DetailModal from '../../../components/Shared/DetailModal';
@@ -57,6 +62,39 @@ const Overview = () => {
     // Added state for modal control
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [greeting, setGreeting] = useState('');
+    const [currentTime, setCurrentTime] = useState(new Date());
+    const [userName, setUserName] = useState('Farmer');
+    const [timeIcon, setTimeIcon] = useState(<Sun size={24} className="text-amber-500" />);
+
+    // Set greeting based on time of day
+    useEffect(() => {
+        const hour = currentTime.getHours();
+
+        // Set greeting text based on time
+        if (hour < 6) {
+            setGreeting('Good Morning');
+            setTimeIcon(<Moon size={24} className="text-indigo-500" />);
+        } else if (hour < 12) {
+            setGreeting('Good Morning');
+            setTimeIcon(<Sunrise size={24} className="text-amber-500" />);
+        } else if (hour < 17) {
+            setGreeting('Good Afternoon');
+            setTimeIcon(<Sun size={24} className="text-amber-500" />);
+        } else if (hour < 20) {
+            setGreeting('Good Evening');
+            setTimeIcon(<Sunset size={24} className="text-orange-500" />);
+        } else {
+            setGreeting('Good Evening');
+            setTimeIcon(<Moon size={24} className="text-indigo-500" />);
+        }
+
+        // Mock API call to get user details
+        // In a real app, this would fetch from your authentication service
+        setTimeout(() => {
+            setUserName('Kasun Perera'); // Replace with actual user name from API
+        }, 500);
+    }, [currentTime]);
 
     // Helper function to format currency
     const formatCurrency = (value) => {
@@ -211,8 +249,34 @@ const Overview = () => {
         }
     };
 
+    // Get date display for the welcome header
+    const getTodayDate = () => {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date().toLocaleDateString('en-US', options);
+    };
+
     return (
         <div className="min-h-screen space-y-6">
+            {/* Welcome Header */}
+            <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-lg p-6 border border-green-200 shadow-sm">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+                    <div className="space-y-2">
+                        <div className="flex items-center">
+                            {timeIcon}
+                            <h1 className="text-2xl font-bold text-gray-800 ml-2">{greeting}, {userName}!</h1>
+                        </div>
+                        <p className="text-gray-600">Welcome to your CropMate dashboard. Here's what's happening today.</p>
+                        <p className="text-sm text-gray-500">{getTodayDate()}</p>
+                    </div>
+                    <div className="mt-4 md:mt-0">
+                        <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-200 text-green-800">
+                            <span className="w-2 h-2 rounded-full bg-green-500 mr-2"></span>
+                            Your farm is showing healthy activity
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {/* Metrics Overview */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {metrics.map((metric, idx) => (
