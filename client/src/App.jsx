@@ -9,9 +9,9 @@ import ProductDetails from './pages/ProductDetail/ProductDetails';
 import SignIn from './pages/SignIn/SignIn';
 import SignUp from './pages/SignUp/SignUp';
 import DashboardLayout from './layouts/DashboardLayout';
+import FarmerDashboard from './pages/Dashboard/FarmerDashboard';
 
 // Temporary placeholder components for dashboard pages
-const FarmerDashboard = () => <div className="p-4">Farmer Dashboard Content</div>;
 const DriverDashboard = () => <div className="p-4">Driver Dashboard Content</div>;
 const VendorDashboard = () => <div className="p-4">Vendor Dashboard Content</div>;
 
