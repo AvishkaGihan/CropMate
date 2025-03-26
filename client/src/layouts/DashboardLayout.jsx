@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router';
 import { motion } from 'framer-motion';
-import Sidebar from '../components/Dashboard/layout/Sidebar';
+import Sidebar from '../components/Dashboard/Sidebar/Sidebar';
 import Topbar from '../components/Dashboard/layout/Topbar';
 import PageHeader from '../components/Dashboard/layout/PageHeader';
 import Footer from '../components/Dashboard/layout/Footer';
@@ -18,8 +18,8 @@ const DashboardLayout = ({ role = 'farmer' }) => {
         setSidebarCollapsed(!sidebarCollapsed);
     };
 
-    const toggleMobileMenu = () => {
-        setMobileMenuOpen(!mobileMenuOpen);
+    const toggleMobileSidebar = (state) => {
+        setMobileMenuOpen(typeof state === 'boolean' ? state : !mobileMenuOpen);
     };
 
     // Role-specific colors
@@ -45,8 +45,14 @@ const DashboardLayout = ({ role = 'farmer' }) => {
 
     return (
         <div className="flex h-screen overflow-hidden bg-gray-50">
-            {/* Sidebar with toggle functionality moved inside */}
-            <Sidebar isOpen={sidebarCollapsed} toggleSidebar={toggleSidebar} />
+            {/* Enhanced Sidebar with mobile support */}
+            <Sidebar 
+                isOpen={!sidebarCollapsed}
+                toggleSidebar={toggleSidebar}
+                role={role}
+                mobileOpen={mobileMenuOpen}
+                toggleMobileSidebar={toggleMobileSidebar}
+            />
 
             {/* Main Content */}
             <div className="flex flex-col flex-1 w-0 overflow-hidden">
@@ -54,7 +60,7 @@ const DashboardLayout = ({ role = 'farmer' }) => {
                     role={role}
                     userName="John Doe" // Replace with actual user data
                     userAvatar="" // Replace with actual avatar URL
-                    onToggleMobileMenu={toggleMobileMenu}
+                    onToggleMobileMenu={() => toggleMobileSidebar()}
                     onToggleSidebar={toggleSidebar}
                 />
 

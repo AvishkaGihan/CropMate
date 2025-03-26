@@ -79,18 +79,10 @@ const Topbar = ({
                 <div className="flex items-center">
                     <button
                         onClick={onToggleMobileMenu}
-                        className="lg:hidden mr-4 p-2 rounded-lg hover:bg-gray-100 focus:outline-none"
+                        className="block lg:hidden mr-4 p-2 rounded-lg hover:bg-gray-100 focus:outline-none"
                     >
                         <Menu size={22} />
                     </button>
-
-                    <button
-                        onClick={onToggleSidebar}
-                        className="hidden lg:block mr-4 p-2 rounded-lg hover:bg-gray-100 focus:outline-none"
-                    >
-                        <Menu size={22} />
-                    </button>
-
                     <div className={`
             hidden md:flex items-center px-3 py-2 rounded-lg transition-all
             ${searchFocused ? 'bg-gray-200 ring-2 ring-gray-300' : 'bg-gray-100'}
