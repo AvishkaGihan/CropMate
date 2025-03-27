@@ -18,6 +18,7 @@ import AvailiableOrders from './pages/Dashboard/Driver/AvailiableOrders';
 import ActiveDeliveries from './pages/Dashboard/Driver/ActiveDeliveries';
 import VendorOverview from './pages/Dashboard/Vendor/VendorOverview';
 import MyOrders from './pages/Dashboard/Vendor/MyOrders';
+import OrderNow from './pages/OrderNow/OrderNow';
 
 const VendorDashboard = () => <div className="p-4">Vendor Dashboard Content</div>;
 
@@ -52,6 +53,7 @@ const App = () => {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact-us" element={<ContactUs />} />
           <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/order-now" element={<OrderNow />} />
         </Route>
 
         {/* Dashboard routes */}

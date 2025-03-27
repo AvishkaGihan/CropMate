@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Star, Leaf, LeafyGreen, ShieldCheck, Plus, Minus, Heart, Share2, ArrowRight, ShoppingCart } from 'lucide-react';
+import { Star, Leaf, LeafyGreen, ShieldCheck, Plus, Minus, Heart, Share2, ArrowRight, ShoppingCart, Loader } from 'lucide-react';
 import Badge from '../../components/Shared/Badge';
 
 const ProductInfoSection = ({
@@ -12,7 +12,8 @@ const ProductInfoSection = ({
     handleAddToCart,
     toggleFavorite,
     handleShare,
-    changeTab
+    changeTab,
+    isAddingToCart
 }) => {
     return (
         <div className="space-y-6">
@@ -51,6 +52,7 @@ const ProductInfoSection = ({
                     handleAddToCart={handleAddToCart}
                     toggleFavorite={toggleFavorite}
                     handleShare={handleShare}
+                    isAddingToCart={isAddingToCart}
                 />
             </div>
         </div>
@@ -205,37 +207,24 @@ const TotalPrice = memo(({ totalPrice }) => {
 });
 
 // Action Buttons Component
-const ActionButtons = memo(({ isFavorite, handleAddToCart, toggleFavorite, handleShare }) => {
+const ActionButtons = memo(({ handleAddToCart, isAddingToCart }) => {
     return (
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="w-full flex flex-col items-center justify-end sm:flex-row gap-3">
             <button
                 onClick={handleAddToCart}
-                className="flex-1 bg-golden-brown-500 hover:bg-golden-brown-600 text-white py-3 px-4 rounded-xl
-                    flex items-center justify-center font-medium transition-all duration-200 hover:shadow-md group"
+                disabled={isAddingToCart}
+                className={`w-1/2 py-3 px-4 bg-golden-brown-600 text-white rounded-lg font-medium hover:bg-golden-brown-700 transition-all duration-300 ${isAddingToCart ? 'opacity-80 cursor-not-allowed' : ''
+                    } flex items-center justify-center`}
             >
-                <ShoppingCart size={18} className="mr-2 transition-transform group-hover:scale-110" />
-                Add to Cart
+                {isAddingToCart ? (
+                    <>
+                        <Loader size={18} className="animate-spin mr-2" />
+                        Processing...
+                    </>
+                ) : (
+                    'Buy Now'
+                )}
             </button>
-
-            <div className="flex gap-3">
-                <button
-                    onClick={toggleFavorite}
-                    className={`bg-white hover:bg-cambridge-blue-50 border ${isFavorite ? 'border-golden-brown-400 text-golden-brown-500' : 'border-cambridge-blue-200 text-cambridge-blue-700'} 
-                        p-3 rounded-xl flex items-center justify-center transition-colors`}
-                    aria-label={isFavorite ? "Remove from wishlist" : "Add to wishlist"}
-                >
-                    <Heart size={20} fill={isFavorite ? "currentColor" : "none"} />
-                </button>
-
-                <button
-                    onClick={handleShare}
-                    className="bg-white hover:bg-cambridge-blue-50 border border-cambridge-blue-200 p-3 rounded-xl text-cambridge-blue-700
-                        flex items-center justify-center transition-colors"
-                    aria-label="Share product"
-                >
-                    <Share2 size={20} />
-                </button>
-            </div>
         </div>
     );
 });

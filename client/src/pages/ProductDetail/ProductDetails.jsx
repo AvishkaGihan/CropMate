@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Link, useParams } from 'react-router';
+import { Link, useParams, useNavigate } from 'react-router';
 import { getAllProducts } from '../../util/Crops/generateMoreProducts';
+import { Leaf, LeafyGreen, ArrowRight, Loader } from 'lucide-react'; // Add Loader icon
 
 import SectionWrapper from '../../components/Shared/SectionWrapper';
 import Loading from '../../components/ProductDetails/Loading';
@@ -12,11 +13,9 @@ import ProductInfoSection from './ProductInfo';
 import ProductTabsSection from './ProductTabs';
 import RelatedProducts from './RelatedProducts';
 
-import { Leaf, LeafyGreen, ArrowRight } from 'lucide-react';
-
-
 const ProductDetailPage = () => {
     const { id } = useParams();
+    const navigate = useNavigate(); // Add this to use navigation
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
@@ -25,6 +24,7 @@ const ProductDetailPage = () => {
     const [notification, setNotification] = useState(null);
     const [isFavorite, setIsFavorite] = useState(false);
     const productRef = useRef(null);
+    const [isAddingToCart, setIsAddingToCart] = useState(false); // Add loading state
 
     // Fetch product by ID
     useEffect(() => {
@@ -80,10 +80,28 @@ const ProductDetailPage = () => {
         setTimeout(() => setNotification(null), 3000);
     }, []);
 
-    // Add to cart
+    // Add to cart and navigate to order page with loading state
     const handleAddToCart = useCallback(() => {
+        // Set loading state to true
+        setIsAddingToCart(true);
+
+        // Show notification
         showNotification(`Added ${quantity}kg of ${product?.title} to cart!`);
-    }, [product, quantity]);
+
+        // Then navigate to order page after a short delay
+        setTimeout(() => {
+            navigate('/order-now', {
+                state: {
+                    product: product,
+                    quantity: quantity,
+                    totalPrice: product.numericPrice * quantity
+                }
+            });
+            // If navigation fails for some reason, reset loading state
+            // This is a safeguard but typically won't be needed as navigation will unmount this component
+            setIsAddingToCart(false);
+        }, 1000);
+    }, [product, quantity, navigate]);
 
     // Toggle favorite
     const toggleFavorite = useCallback(() => {
@@ -159,6 +177,7 @@ const ProductDetailPage = () => {
                                     toggleFavorite={toggleFavorite}
                                     handleShare={handleShare}
                                     changeTab={changeTab}
+                                    isAddingToCart={isAddingToCart} // Pass new loading state
                                 />
                             </div>
 
