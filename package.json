@@ -1,0 +1,39 @@
+{
+  "name": "cropmate",
+  "version": "1.0.0",
+  "description": "A full-stack MERN application enabling farmers to list crops for sale, buyers to purchase crops, and drivers to manage deliveries. Features include role-based authentication, order tracking, and a responsive UI. Built with MongoDB, Express.js, React.js, and Node.js, this platform streamlines the agricultural supply chain by connecting farmers, buyers, and delivery drivers.",
+  "main": "server/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server/server.js",
+    "client": "cd client && npm run dev",
+    "seed": "node server/seeds/seed.js",
+    "seed:destroy": "node server/seeds/seed.js -d"
+  },
+  "keywords": [
+    "mern",
+    "crop-delivery",
+    "farmer",
+    "buyer",
+    "driver"
+  ],
+  "author": "Avishka Gihan",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.9"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "colors": "^1.4.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.13.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.2"
+  }
+}
