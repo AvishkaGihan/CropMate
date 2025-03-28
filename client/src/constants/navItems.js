@@ -11,16 +11,6 @@ export const navItems = [
   },
   {
     id: 3,
-    label: "Farmers",
-    path: "/farmers",
-  },
-  {
-    id: 4,
-    label: "Transporters",
-    path: "/transporters",
-  },
-  {
-    id: 5,
     label: "About",
     path: "/about",
   },

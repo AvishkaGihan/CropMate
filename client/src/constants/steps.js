@@ -36,7 +36,7 @@ export const steps = [
     decorColor:
       "bg-gradient-to-r from-golden-brown-400/10 to-golden-brown-500/5",
     buttonText: "Browse Crops",
-    buttonLink: "/crops",
+    buttonLink: "/marketplace",
   },
   {
     id: 2,

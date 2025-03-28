@@ -28,7 +28,7 @@ const FooterLinks = () => {
 
                 {/* Add auth links that might not be in the navItems */}
                 <li>
-                    <Link to="/login" className="text-cambridge-blue-300 hover:text-mindaro-400 flex items-center group">
+                    <Link to="/sign-in" className="text-cambridge-blue-300 hover:text-mindaro-400 flex items-center group">
                         <ChevronRight size={14} className="mr-2 text-cambridge-blue-500 group-hover:text-mindaro-400 transition-colors" />
                         <span>Login</span>
                     </Link>

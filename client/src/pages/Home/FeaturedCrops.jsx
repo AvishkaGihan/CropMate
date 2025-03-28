@@ -101,7 +101,7 @@ const FeaturedCrops = () => {
                 transform rotate-45 hidden md:block"></div>
 
                         <CTA
-                            href="/crops"
+                            href="/marketplace"
                             text="Browse All Crops"
                             variant="secondary"
                             withShine={true}
