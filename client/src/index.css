@@ -1,1 +1,161 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary-50: #f0f9ff;
+  --color-primary-100: #e0f2fe;
+  --color-primary-200: #bae6fd;
+  --color-primary-300: #7dd3fc;
+  --color-primary-400: #38bdf8;
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --color-primary-700: #0369a1;
+  --color-primary-800: #075985;
+  --color-primary-900: #0c4a6e;
+  --color-primary-950: #082f49;
+
+  /* Golden Brown Shades */
+  --color-golden-brown-50: #f8fafc;
+  --color-golden-brown-100: #f4e1c8;
+  --color-golden-brown-200: #e9c292;
+  --color-golden-brown-300: #dfa45b;
+  --color-golden-brown-400: #d08529;
+  --color-golden-brown-500: #99621e; /* DEFAULT */
+  --color-golden-brown-600: #7b4e18;
+  --color-golden-brown-700: #5c3b12;
+  --color-golden-brown-800: #3d270c;
+  --color-golden-brown-900: #1f1406;
+
+  /* Persian Orange Shades */
+  --color-persian-orange-50: #f6e8df;
+  --color-persian-orange-100: #edd1bf;
+  --color-persian-orange-200: #e5ba9f;
+  --color-persian-orange-300: #dca37f;
+  --color-persian-orange-400: #d38b5d; /* DEFAULT */
+  --color-persian-orange-500: #c06a35;
+  --color-persian-orange-600: #905027;
+  --color-persian-orange-700: #60351a;
+  --color-persian-orange-800: #301b0d;
+  --color-persian-orange-900: #150d06;
+
+  /* Mindaro Shades */
+  --color-mindaro-50: #fdfff1;
+  --color-mindaro-100: #faffe2;
+  --color-mindaro-200: #f8ffd4;
+  --color-mindaro-300: #f5ffc6;
+  --color-mindaro-400: #f3ffb6; /* DEFAULT */
+  --color-mindaro-500: #e4ff60;
+  --color-mindaro-600: #d6ff08;
+  --color-mindaro-700: #92af00;
+  --color-mindaro-800: #495800;
+  --color-mindaro-900: #242c00;
+
+  /* Cambridge Blue Shades */
+  --color-cambridge-blue-50: #e3ece6;
+  --color-cambridge-blue-100: #c8d9ce;
+  --color-cambridge-blue-200: #acc5b5;
+  --color-cambridge-blue-300: #90b29c;
+  --color-cambridge-blue-400: #739e82; /* DEFAULT */
+  --color-cambridge-blue-500: #5a8268;
+  --color-cambridge-blue-600: #44614e;
+  --color-cambridge-blue-700: #2d4134;
+  --color-cambridge-blue-800: #17201a;
+  --color-cambridge-blue-900: #0b100d;
+
+  /* Cal Poly Green Shades */
+  --color-cal-poly-green-50: #cde5cf;
+  --color-cal-poly-green-100: #9acb9f;
+  --color-cal-poly-green-200: #68b16f;
+  --color-cal-poly-green-300: #45874c;
+  --color-cal-poly-green-400: #2c5530; /* DEFAULT */
+  --color-cal-poly-green-500: #234326;
+  --color-cal-poly-green-600: #1a321c;
+  --color-cal-poly-green-700: #112213;
+  --color-cal-poly-green-800: #091109;
+  --color-cal-poly-green-900: #040804;
+}
+
+:-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+html,
+body,
+div {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+/* Enhanced smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Add class for elements that should have momentum-based scrolling */
+.smooth-scroll {
+  -webkit-overflow-scrolling: touch; /* For iOS smooth momentum scrolling */
+  overflow-y: auto;
+  overscroll-behavior-y: contain; /* Prevents scroll chaining */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Use lighter grid pattern for better performance */
+  .bg-grid-pattern {
+    background-image: linear-gradient(
+        to right,
+        rgb(115 158 130 / 3%) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgb(115 158 130 / 3%) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+}
+
+/* Add grain texture pattern for organic feel */
+.bg-grain-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Add this at-rule to enable optimized content rendering */
+@layer utilities {
+  .will-change-transform {
+    will-change: transform;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+}
+
+@keyframes float-slow {
+  0% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-10px) rotate(5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 8s ease-in-out infinite;
+}
+
+.bg-pattern-light {
+  background-color: #f8faf8;
+  background-image: radial-gradient(#e2e8e2 0.5px, transparent 0.5px),
+    radial-gradient(#e2e8e2 0.5px, #f8faf8 0.5px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
