@@ -24,7 +24,6 @@
     "nodemon": "^3.1.9"
   },
   "dependencies": {
-    "cropmate": "file:",
     "framer-motion": "^12.5.0",
     "lucide-react": "^0.483.0"
   }
