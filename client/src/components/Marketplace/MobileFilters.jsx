@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { SlidersHorizontal, ChevronDown } from 'lucide-react';
-import { FormButton } from '../Shared/Form';
+import { FormButton } from '../Shared/FormButton';
 import { FormSelect } from '../Shared/FormSelect';
 
 const MobileFilters = ({
@@ -86,33 +86,13 @@ const MobileFilters = ({
                     </div>
 
                     <div className="mt-4 flex gap-2">
-                        <button
-                            onClick={resetFilters}
-                            className="font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 
-                                                    inline-flex items-center justify-center transition-colors 
-                                                    border border-cambridge-blue-200 text-cambridge-blue-700 
-                                                    hover:bg-cambridge-blue-50 focus:ring-cambridge-blue-500
-                                                    px-3 py-1.5 text-sm cursor-pointer"
-                        >
-                            Reset
-                        </button>
-                        <button
-                            onClick={resetFilters}
-                            className="font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 
-                                                    inline-flex items-center justify-center transition-colors 
-                                                    border border-cambridge-blue-200 text-cambridge-blue-700 
-                                                    hover:bg-cambridge-blue-50 focus:ring-cambridge-blue-500
-                                                    px-3 py-1.5 text-sm cursor-pointer"
-                        >
-                            Reset
-                        </button>
                         <FormButton
-                            variant="primary"
+                            variant="outline"
                             size="sm"
-                            onClick={() => setShowMobileFilters(false)}
+                            onClick={resetFilters}
                             className="flex-1"
                         >
-                            Apply
+                            Reset
                         </FormButton>
                     </div>
                 </div>
