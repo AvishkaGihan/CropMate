@@ -109,12 +109,11 @@ const forgotPassword = asyncHandler(async (req, res) => {
   const resetToken = user.getResetPasswordToken();
   await user.save({ validateBeforeSave: false });
 
-  // Create reset URL
-  const resetUrl = `${req.protocol}://${req.get(
-    "host"
-  )}/api/auth/resetpassword/${resetToken}`;
+  // In the forgotPassword function, change the resetUrl to:
+  const resetUrl = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
 
-  const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
+  // And update the message to be more user-friendly:
+  const message = `You have requested to reset your password. Please click the following link to reset your password: \n\n ${resetUrl}\n\nThis link will expire in 10 minutes.\n\nIf you didn't request this, please ignore this email.`;
 
   try {
     // Send the reset email

@@ -20,6 +20,8 @@ import ActiveDeliveries from "./pages/Dashboard/Driver/ActiveDeliveries";
 import VendorOverview from "./pages/Dashboard/Vendor/VendorOverview";
 import MyOrders from "./pages/Dashboard/Vendor/MyOrders";
 import OrderNow from "./pages/OrderNow/OrderNow";
+import ForgotPassword from "./pages/Auth/ForgotPassword";
+import ResetPassword from "./pages/Auth/ResetPassword";
 
 const VendorDashboard = () => (
   <div className="p-4">Vendor Dashboard Content</div>
@@ -59,6 +61,8 @@ const App = () => {
       <Routes>
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/resetpassword/:resetToken" element={<ResetPassword />} />
 
         <Route path="/" element={<DefaultLayout />}>
           <Route index element={<HomePage />} />
@@ -78,7 +82,6 @@ const App = () => {
           <Route path="crops" element={<CropManagement />} />
           <Route path="market" element={<MarketAnalysis />} />
           <Route path="orders" element={<Orders />} />
-          {/* Add more farmer routes as needed */}
         </Route>
 
         <Route

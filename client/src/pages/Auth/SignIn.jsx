@@ -24,7 +24,6 @@ const SignIn = () => {
   const { email, password, rememberMe } = formData;
 
   const onChange = (e) => {
-    console.log("Input Name:", e.target.name);
     setFormData({
       ...formData,
       [e.target.name]:
@@ -33,7 +32,6 @@ const SignIn = () => {
   };
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
     try {
       const response = await login({ email, password, rememberMe }).unwrap();
       dispatch(
@@ -114,7 +112,7 @@ const SignIn = () => {
             </label>
           </div>
           <Link
-            to="/forgot-password"
+            to="/forgotpassword"
             className="text-xs text-golden-brown-600 hover:text-golden-brown-700 font-medium hover:underline"
           >
             Forgot Password?
