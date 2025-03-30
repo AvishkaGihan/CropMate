@@ -101,7 +101,6 @@ const MarketAnalysis = () => {
         return data;
     };
 
-    console.log(marketData)
     return (
         <div className="min-h-screen space-y-6">
             {/* Page header */}
