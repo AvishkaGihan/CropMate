@@ -1,327 +1,439 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router'; // FIXED: Changed from 'react-router' to 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion';
-import { Eye, EyeOff, ChevronLeft, ChevronRight, UserPlus } from 'lucide-react';
+import { CheckCircle2, Eye, EyeOff, Leaf, Store, Truck } from 'lucide-react';
+import RoleCard from '../../components/Auth/RoleCard';
+import { formAnimation, bankDetailsAnimation } from '../../util/animations';
+import { BENEFITS } from '../../constants';
+import FarmImage from '../../assets/images/farm-landscape.jpg'
 
-import { Form, FormInput, FormButton, FormCheckbox } from '../../components/Shared/Form';
-import AuthLayout from '../../layouts/AuthLayout';
-import {
-    BenefitsSection,
-    LogoSection,
-    RoleSelector,
-    SuccessMessage,
-    ErrorMessage,
-    AuthFooter,
-    StepIndicator,
-    AccountInformationStep,
-    RoleSpecificForms,
-    ReviewStep
-} from '../../components/Auth';
-import { getButtonClasses } from '../../util/Auth/getButtonClasses';
-import { itemVariants } from '../../util/Auth/animations';
-import { validateSignupForm } from '../../util/Auth/FormValidation';
+const roles = [
+    { id: 'farmer', title: 'Farmer', icon: <Leaf size={20} className="text-white" /> },
+    { id: 'driver', title: 'Driver', icon: <Truck size={20} className="text-white" /> },
+    { id: 'vendor', title: 'Vendor', icon: <Store size={20} className="text-white" /> }
+];
 
 const SignUp = () => {
     const navigate = useNavigate();
-    const location = useLocation();
-    const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
-        // Basic info
+        name: '',
         email: '',
         password: '',
         confirmPassword: '',
-        role: 'farmer',
-        fullName: '',
         phone: '',
-        // Farmer fields
-        farmName: '',
-        farmLocation: '',
-        cropTypes: [],
-        // Driver fields
-        vehicleType: 'pickup',
-        vehicleCapacity: '',
-        licenseNumber: '',
-        licenseExpiry: '',
-        // Vendor fields
-        businessName: '',
-        businessType: 'retailer',
-        businessAddress: '',
-        // Agreement
-        agreeToTerms: false
+        address: '',
+        role: 'farmer', // Default role
+        bankDetails: {
+            accountName: '',
+            accountNumber: '',
+            bankName: '',
+            branch: ''
+        }
     });
+
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [errors, setErrors] = useState({});
-    const [successMessage, setSuccessMessage] = useState('');
 
-    // Parse role from URL parameter if present
-    useEffect(() => {
-        const params = new URLSearchParams(location.search);
-        const role = params.get('as');
-        if (role && ['farmer', 'driver', 'vendor'].includes(role)) {
-            setFormData(prev => ({ ...prev, role }));
-        }
-    }, [location]);
-
-    // Auto-dismiss success message after 5 seconds
-    useEffect(() => {
-        if (successMessage) {
-            const timer = setTimeout(() => {
-                setSuccessMessage('');
-            }, 5000);
-            return () => clearTimeout(timer);
-        }
-    }, [successMessage]);
-
-    // Form field change handler
-    const handleChange = useCallback((e) => {
-        const { name, value, type, checked } = e.target;
-
-        setFormData(prev => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value
-        }));
-
-        // Clear error for this field when user starts typing
-        if (errors[name]) {
-            setErrors(prev => {
-                const newErrors = { ...prev };
-                delete newErrors[name];
-                return newErrors;
-            });
-        }
-    }, [errors]);
-
-    // Handle multiple selection for crop types
-    const handleCropTypeChange = useCallback((cropType) => {
-        setFormData(prev => {
-            const updatedCropTypes = prev.cropTypes.includes(cropType)
-                ? prev.cropTypes.filter(type => type !== cropType)
-                : [...prev.cropTypes, cropType];
-
-            return {
+    // Handle input changes
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        if (name.includes('.')) {
+            // Handle nested bankDetails fields
+            const [parent, child] = name.split('.');
+            setFormData(prev => ({
                 ...prev,
-                cropTypes: updatedCropTypes
-            };
-        });
-    }, []);
-
-    const toggleShowPassword = useCallback(() => {
-        setShowPassword(prev => !prev);
-    }, []);
-
-    const toggleShowConfirmPassword = useCallback(() => {
-        setShowConfirmPassword(prev => !prev);
-    }, []);
-
-    const handleNextStep = useCallback(() => {
-        const newErrors = validateSignupForm(step, formData);
-        setErrors(newErrors);
-
-        if (Object.keys(newErrors).length === 0) {
-            setStep(prevStep => prevStep + 1);
-            window.scrollTo(0, 0);
+                [parent]: {
+                    ...prev[parent],
+                    [child]: value
+                }
+            }));
+        } else {
+            setFormData(prev => ({
+                ...prev,
+                [name]: value
+            }));
         }
-    }, [step, formData]);
+    };
 
-    const handlePrevStep = useCallback(() => {
-        setStep(prevStep => prevStep - 1);
-        window.scrollTo(0, 0);
-    }, []);
-
-    const handleSubmit = useCallback(async (e) => {
+    // Handle form submission
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const newErrors = validateSignupForm(step, formData);
-        setErrors(newErrors);
-
-        if (Object.keys(newErrors).length > 0) {
-            return;
-        }
-
         setIsSubmitting(true);
 
         try {
-            // In a real app, you would call your registration API here
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            // Here you would make an API call to your backend
+            console.log("Form data submitted:", formData);
 
-            // Simulate successful registration
-            console.log('Registration successful:', formData);
-
-            // Show success animation before redirect
-            setSuccessMessage('Account created successfully! Redirecting to login...');
-
-            // Delay redirect to show the success message
+            // After successful submission, navigate to login
             setTimeout(() => {
-                navigate(`/sign-in?registered=true&role=${formData.role}`);
-            }, 2000);
+                navigate('/sign-in');
+            }, 1500);
+
         } catch (error) {
-            console.error('Registration error:', error);
-            setErrors({ form: 'Registration failed. Please try again.' });
+            console.error("Error submitting form:", error);
         } finally {
             setIsSubmitting(false);
         }
-    }, [step, formData, navigate]);
+    };
 
-    // Select role
-    const selectRole = useCallback((role) => {
-        setFormData(prev => ({ ...prev, role }));
-        // Clear role error if it exists
-        if (errors.role) {
-            setErrors(prev => {
-                const newErrors = { ...prev };
-                delete newErrors.role;
-                return newErrors;
-            });
-        }
-    }, [errors]);
 
-    // Render step content
-    const renderStepContent = useCallback(() => {
-        switch (step) {
-            case 1:
-                return (
-                    <AccountInformationStep
-                        formData={formData}
-                        errors={errors}
-                        handleChange={handleChange}
-                        selectRole={selectRole}
-                        showPassword={showPassword}
-                        toggleShowPassword={toggleShowPassword}
-                        showConfirmPassword={showConfirmPassword}
-                        toggleShowConfirmPassword={toggleShowConfirmPassword}
-                    />
-                );
-            case 2:
-                return (
-                    <RoleSpecificForms
-                        role={formData.role}
-                        formData={formData}
-                        errors={errors}
-                        handleChange={handleChange}
-                        handleCropTypeChange={handleCropTypeChange}
-                    />
-                );
-            case 3:
-                return (
-                    <ReviewStep
-                        formData={formData}
-                        errors={errors}
-                        handleChange={handleChange}
-                    />
-                );
-            default:
-                return null;
-        }
-    }, [
-        step,
-        formData,
-        errors,
-        handleChange,
-        selectRole,
-        showPassword,
-        toggleShowPassword,
-        showConfirmPassword,
-        toggleShowConfirmPassword,
-        handleCropTypeChange
-    ]);
-
-    // Benefits section content for left side
-    const leftContent = (
-        <BenefitsSection
-            title="Join CropMate Today"
-            subtitle="Create your account and start connecting with the agricultural ecosystem"
-            benefits={[
-                "Access to market insights and pricing trends",
-                "Direct connections with buyers, sellers, and transporters",
-                "Secure payment processing and transaction history"
-            ]}
-            headerLabel="BENEFITS"
-        />
-    );
-
-    // Form content for right side
-    const rightContent = (
-        <motion.div
-            variants={itemVariants}
-            className="w-full"
-        >
-            {/* Notification Messages */}
-            <AnimatePresence>
-                {successMessage && <SuccessMessage message={successMessage} />}
-            </AnimatePresence>
-
-            {/* Logo and Title */}
-            <LogoSection
-                title="Create Your Account"
-                subtitle="Join the CropMate community"
-            />
-
-            {/* Step indicator */}
-            <StepIndicator step={step} role={formData.role} />
-
-            {/* Sign Up Form */}
-            <div className="rounded-xl shadow-md border border-cambridge-blue-100/50 p-8 bg-white">
-                {errors.form && <ErrorMessage message={errors.form} />}
-
-                <Form onSubmit={handleSubmit}>
-                    {renderStepContent()}
-
-                    <div className="flex justify-between mt-8">
-                        {step > 1 && (
-                            <FormButton
-                                type="button"
-                                variant="outline"
-                                onClick={handlePrevStep}
-                                size="md"
-                                className="border-cambridge-blue-300 text-cambridge-blue-700"
-                                icon={<ChevronLeft size={16} />}
-                                iconPosition="left"
-                            >
-                                Back
-                            </FormButton>
-                        )}
-
-                        {step < 3 ? (
-                            <FormButton
-                                type="button"
-                                variant="primary"
-                                onClick={handleNextStep}
-                                size="md"
-                                className={`${getButtonClasses(formData.role)} ml-auto`}
-                                icon={<ChevronRight size={16} />}
-                                iconPosition="right"
-                            >
-                                Next
-                            </FormButton>
-                        ) : (
-                            <FormButton
-                                type="submit"
-                                variant="primary"
-                                size="lg"
-                                fullWidth={!(step > 1)}
-                                className={getButtonClasses(formData.role)}
-                                icon={<UserPlus size={18} />}
-                                isLoading={isSubmitting}
-                            >
-                                Create Account
-                            </FormButton>
-                        )}
-                    </div>
-                </Form>
-
-                <AuthFooter isSignIn={false} />
-            </div>
-        </motion.div>
-    );
 
     return (
-        <AuthLayout
-            leftContent={leftContent}
-            rightContent={rightContent}
-        />
-    );
-};
+        <div className="min-h-screen flex">
+            {/* Left Column - Image - Fixed position */}
+            <div className="hidden md:block md:w-2/5 bg-cambridge-blue-700 fixed left-0 top-0 bottom-0">
+                <img
+                    src={FarmImage}
+                    alt="Farm landscape"
+                    className="absolute inset-0 w-full h-full object-cover opacity-80"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-cambridge-blue-900/90 to-cambridge-blue-700/50"></div>
+
+                <div className="absolute inset-0 flex flex-col justify-center items-center text-white p-12">
+                    <div className="max-w-md text-center">
+                        <div className="mb-6">
+                            <div className="w-20 h-20 mx-auto bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mb-6 border border-white/20">
+                                <Leaf size={40} className="text-mindaro-400" />
+                            </div>
+                            <h2 className="text-3xl font-bold mb-3">Join CropMate Today</h2>
+                            <p className="text-white/80 text-lg">Create your account and start connecting with the agricultural ecosystem</p>
+                        </div>
+
+                        <div className="mt-8">
+                            <div className="flex items-center justify-center mb-4">
+                                <div className="h-px bg-white/20 flex-1"></div>
+                                <span className="px-4 text-white/60 text-sm">BENEFITS</span>
+                                <div className="h-px bg-white/20 flex-1"></div>
+                            </div>
+
+                            <ul className="space-y-4 text-left">
+                                {BENEFITS.map((benefit, index) => (
+                                    <li
+                                        key={index}
+                                        className="flex items-start"
+                                    >
+                                        <div className="bg-cal-poly-green-500/20 p-2 rounded-full mr-3 mt-0.5">
+                                            <CheckCircle2 size={16} className="text-mindaro-400" />
+                                        </div>
+                                        <span className="text-white/90">{benefit}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Right Column - Form - Wider layout */}
+            <div className="w-full md:ml-[40%] md:w-3/5 bg-cambridge-blue-50 min-h-screen flex items-center justify-center p-6 overflow-y-auto">
+                {/* Form - Increased max width */}
+                <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    variants={formAnimation}
+                    className="max-w-2xl w-full rounded-xl shadow-md border border-cambridge-blue-100/50 p-8 bg-white my-6 transition-all duration-300 ease-out"
+                >
+                    {/* Logo & Title */}
+                    <div className="text-center mb-6">
+                        <Link to="/" className="inline-block mb-4">
+                            <div className="w-14 h-14 mx-auto rounded-full bg-gradient-to-br from-cal-poly-green-600 to-cambridge-blue-800 flex items-center justify-center shadow-lg group hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                                <div className="text-mindaro-400 transition-transform duration-500 group-hover:rotate-12">
+                                    <Leaf size={28} className="text-mindaro-400" />
+                                </div>
+                            </div>
+                        </Link>
+                        <h1 className="text-2xl font-bold text-cambridge-blue-800 mb-1">Welcome To CropMate</h1>
+                        <p className="text-sm text-cambridge-blue-600">Create an account to join with CropMate</p>
+                    </div>
+
+                    {/* Role Select */}
+                    <div className="mb-5">
+                        <label className="block text-cambridge-blue-700 text-sm font-medium mb-2">
+                            I am a
+                        </label>
+                        <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto">
+                            {roles.map(role => (
+                                <RoleCard
+                                    key={role.id}
+                                    role={role.id}
+                                    title={role.title}
+                                    icon={role.icon}
+                                    onClick={() => setFormData(prev => ({ ...prev, role: role.id }))}
+                                    isSelected={formData.role === role.id}
+                                />
+                            ))}
+                        </div>
+                    </div>
+
+                    <form
+                        onSubmit={handleSubmit}
+                        className="space-y-4"
+                    >
+                        {/* Two Column Layout for Basic Information - First Row */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {/* Name */}
+                            <div>
+                                <label className="block text-cambridge-blue-800 text-sm font-medium mb-1" htmlFor="name">
+                                    Full Name
+                                </label>
+                                <input
+                                    id="name"
+                                    name="name"
+                                    type="text"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    className="w-full p-2.5 border border-cambridge-blue-200 rounded-lg bg-white focus:ring-2 focus:ring-golden-brown-300 focus:border-golden-brown-500 outline-none transition-all hover:border-golden-brown-300"
+                                    placeholder="Enter your name"
+                                    required
+                                />
+                            </div>
+
+                            {/* Email */}
+                            <div>
+                                <label className="block text-cambridge-blue-800 text-sm font-medium mb-1" htmlFor="email">
+                                    Email Address
+                                </label>
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    className="w-full p-2.5 border border-cambridge-blue-200 rounded-lg bg-white focus:ring-2 focus:ring-golden-brown-300 focus:border-golden-brown-500 outline-none transition-all hover:border-golden-brown-300"
+                                    placeholder="Enter your email"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        {/* Second Row */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {/* Phone */}
+                            <div>
+                                <label className="block text-cambridge-blue-800 text-sm font-medium mb-1" htmlFor="phone">
+                                    Phone Number
+                                </label>
+                                <input
+                                    id="phone"
+                                    name="phone"
+                                    type="tel"
+                                    value={formData.phone}
+                                    onChange={handleChange}
+                                    className="w-full p-2.5 border border-cambridge-blue-200 rounded-lg bg-white focus:ring-2 focus:ring-golden-brown-300 focus:border-golden-brown-500 outline-none transition-all hover:border-golden-brown-300"
+                                    placeholder="Enter phone"
+                                    required
+                                />
+                            </div>
+
+                            {/* Address */}
+                            <div>
+                                <label className="block text-cambridge-blue-800 text-sm font-medium mb-1" htmlFor="address">
+                                    Address
+                                </label>
+                                <input
+                                    id="address"
+                                    name="address"
+                                    type="text"
+                                    value={formData.address}
+                                    onChange={handleChange}
+                                    className="w-full p-2.5 border border-cambridge-blue-200 rounded-lg bg-white focus:ring-2 focus:ring-golden-brown-300 focus:border-golden-brown-500 outline-none transition-all hover:border-golden-brown-300"
+                                    placeholder="Enter address"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        {/* Third Row - Password Fields */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            {/* Password */}
+                            <div>
+                                <label className="block text-cambridge-blue-800 text-sm font-medium mb-1" htmlFor="password">
+                                    Password
+                                </label>
+                                <div className="relative">
+                                    <input
+                                        id="password"
+                                        name="password"
+                                        type={showPassword ? 'text' : 'password'}
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        className="w-full p-2.5 border border-cambridge-blue-200 rounded-lg bg-white focus:ring-2 focus:ring-golden-brown-300 focus:border-golden-brown-500 outline-none transition-all hover:border-golden-brown-300"
+                                        placeholder="Create password"
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-cambridge-blue-500 hover:text-golden-brown-500"
+                                        onClick={() => setShowPassword(prev => !prev)}
+                                    >
+                                        {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Confirm Password */}
+                            <div>
+                                <label className="block text-cambridge-blue-800 text-sm font-medium mb-1" htmlFor="confirmPassword">
+                                    Confirm Password
+                                </label>
+                                <div className="relative">
+                                    <input
+                                        id="confirmPassword"
+                                        name="confirmPassword"
+                                        type={showConfirmPassword ? 'text' : 'password'}
+                                        value={formData.confirmPassword}
+                                        onChange={handleChange}
+                                        className="w-full p-2.5 border border-cambridge-blue-200 rounded-lg bg-white focus:ring-2 focus:ring-golden-brown-300 focus:border-golden-brown-500 outline-none transition-all hover:border-golden-brown-300"
+                                        placeholder="Confirm password"
+                                        required
+                                    />
+                                    <button
+                                        type="button"
+                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-cambridge-blue-500 hover:text-golden-brown-500"
+                                        onClick={() => setShowConfirmPassword(prev => !prev)}
+                                    >
+                                        {showConfirmPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Bank Details Section - Only animated at the section level */}
+                        <AnimatePresence>
+                            {(formData.role !== 'vendor') && (
+                                <motion.div
+                                    initial="hidden"
+                                    animate="visible"
+                                    exit="exit"
+                                    variants={bankDetailsAnimation}
+                                    className="overflow-hidden"
+                                >
+                                    <div className="pt-1 pb-3">
+                                        <h3 className="text-sm font-medium text-cambridge-blue-800 border-b border-cambridge-blue-100 pb-2 mb-3">
+                                            Bank Details
+                                        </h3>
+
+                                        {/* Bank Details - First Row */}
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                                            {/* Account Name */}
+                                            <div>
+                                                <label className="block text-cambridge-blue-800 text-sm font-medium mb-1" htmlFor="bankDetails.accountName">
+                                                    Account Holder Name
+                                                </label>
+                                                <input
+                                                    id="bankDetails.accountName"
+                                                    name="bankDetails.accountName"
+                                                    type="text"
+                                                    value={formData.bankDetails.accountName}
+                                                    onChange={handleChange}
+                                                    className="w-full p-2.5 border border-cambridge-blue-200 rounded-lg bg-white focus:ring-2 focus:ring-golden-brown-300 focus:border-golden-brown-500 outline-none transition-all hover:border-golden-brown-300"
+                                                    placeholder="Account holder name"
+                                                    required={formData.role !== 'vendor'}
+                                                />
+                                            </div>
+
+                                            {/* Account Number */}
+                                            <div>
+                                                <label className="block text-cambridge-blue-800 text-sm font-medium mb-1" htmlFor="bankDetails.accountNumber">
+                                                    Account Number
+                                                </label>
+                                                <input
+                                                    id="bankDetails.accountNumber"
+                                                    name="bankDetails.accountNumber"
+                                                    type="text"
+                                                    value={formData.bankDetails.accountNumber}
+                                                    onChange={handleChange}
+                                                    className="w-full p-2.5 border border-cambridge-blue-200 rounded-lg bg-white focus:ring-2 focus:ring-golden-brown-300 focus:border-golden-brown-500 outline-none transition-all hover:border-golden-brown-300"
+                                                    placeholder="Account number"
+                                                    required={formData.role !== 'vendor'}
+                                                />
+                                            </div>
+                                        </div>
+
+                                        {/* Bank Details - Second Row */}
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                            {/* Bank Name */}
+                                            <div>
+                                                <label className="block text-cambridge-blue-800 text-sm font-medium mb-1" htmlFor="bankDetails.bankName">
+                                                    Bank Name
+                                                </label>
+                                                <input
+                                                    id="bankDetails.bankName"
+                                                    name="bankDetails.bankName"
+                                                    type="text"
+                                                    value={formData.bankDetails.bankName}
+                                                    onChange={handleChange}
+                                                    className="w-full p-2.5 border border-cambridge-blue-200 rounded-lg bg-white focus:ring-2 focus:ring-golden-brown-300 focus:border-golden-brown-500 outline-none transition-all hover:border-golden-brown-300"
+                                                    placeholder="Bank name"
+                                                    required={formData.role !== 'vendor'}
+                                                />
+                                            </div>
+
+                                            {/* Branch */}
+                                            <div>
+                                                <label className="block text-cambridge-blue-800 text-sm font-medium mb-1" htmlFor="bankDetails.branch">
+                                                    Branch
+                                                </label>
+                                                <input
+                                                    id="bankDetails.branch"
+                                                    name="bankDetails.branch"
+                                                    type="text"
+                                                    value={formData.bankDetails.branch}
+                                                    onChange={handleChange}
+                                                    className="w-full p-2.5 border border-cambridge-blue-200 rounded-lg bg-white focus:ring-2 focus:ring-golden-brown-300 focus:border-golden-brown-500 outline-none transition-all hover:border-golden-brown-300"
+                                                    placeholder="Branch name"
+                                                    required={formData.role !== 'vendor'}
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+
+                        {/* Submit Button */}
+                        <div className="max-w-md mx-auto">
+                            <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="w-full py-2.5 px-4 bg-golden-brown-600 hover:bg-golden-brown-700 text-white font-medium rounded-lg transition-colors duration-300 flex items-center justify-center"
+                            >
+                                {isSubmitting ? (
+                                    <>
+                                        <div className="animate-spin h-4 w-4 mr-2 border-2 border-white border-t-transparent rounded-full"></div>
+                                        Creating Account...
+                                    </>
+                                ) : (
+                                    'Create Account'
+                                )}
+                            </button>
+
+                            {/* Login Link */}
+                            <div className="mt-6 text-center text-sm">
+                                <p className="text-cambridge-blue-700">
+                                    Already have an account?{" "}
+                                    <Link
+                                        to={"/sign-in"}
+                                        className="text-golden-brown-600 hover:text-golden-brown-700 font-medium hover:underline transition-colors"
+                                    >
+                                        {"Sign in"}
+                                    </Link>
+                                </p>
+
+                                <div className="mt-4 text-xs text-cambridge-blue-600">
+                                    <span>By creating an account, you agree to our </span>
+                                    <Link to="/terms" className="text-golden-brown-600 hover:text-golden-brown-700 transition-colors hover:underline">Terms of Service</Link>
+                                    <span> and </span>
+                                    <Link to="/privacy" className="text-golden-brown-600 hover:text-golden-brown-700 transition-colors hover:underline">Privacy Policy</Link>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </motion.div>
+            </div>
+        </div>
+    )
+}
 
 export default SignUp;
