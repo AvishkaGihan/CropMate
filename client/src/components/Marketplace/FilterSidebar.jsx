@@ -1,7 +1,6 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
-import { Filter } from 'lucide-react';
-import { FormSelect, FormButton } from '../Shared/Form';
+import { FormSelect } from '../Shared/FormSelect';
 
 const FilterSidebar = ({
     categories,
@@ -38,7 +37,7 @@ const FilterSidebar = ({
                     <h2 className="font-semibold text-cambridge-blue-800 text-lg">Filters</h2>
                     <button
                         onClick={resetFilters}
-                        className="text-sm text-golden-brown-500 hover:text-golden-brown-600 transition-colors"
+                        className="text-sm text-golden-brown-500 hover:text-golden-brown-600 transition-colors cursor-pointer"
                     >
                         Reset All
                     </button>
@@ -127,16 +126,6 @@ const FilterSidebar = ({
                         ))}
                     </div>
                 </div>
-
-                {/* Apply Filters Button */}
-                <FormButton
-                    fullWidth
-                    variant="primary"
-                    icon={<Filter size={16} />}
-                    iconPosition="left"
-                >
-                    Apply Filters
-                </FormButton>
             </div>
         </motion.aside>
     );

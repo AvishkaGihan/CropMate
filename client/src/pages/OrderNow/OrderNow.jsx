@@ -14,7 +14,8 @@ import {
     Loader,
     X
 } from 'lucide-react';
-import { FormInput, FormSelect, FormTextarea } from '../../components/Shared/Form';
+import { FormInput } from '../../components/Shared/FormInput';
+import { FormSelect } from '../../components/Shared/FormSelect';
 
 const OrderNow = () => {
     const location = useLocation();
@@ -242,19 +243,24 @@ const OrderNow = () => {
                                     value={orderDetails.deliveryAddress}
                                     onChange={handleChange}
                                     placeholder="Enter your full delivery address"
-                                    error={errors.deliveryAddress}
-                                    required
+                                    required={true}
                                 />
+                                {errors.deliveryAddress && (
+                                    <p className="mt-1 text-xs text-red-500">{errors.deliveryAddress}</p>
+                                )}
                             </div>
 
                             <div className="mb-4">
-                                <FormTextarea
-                                    label="Order Notes (Optional)"
+                                <label className="block text-cambridge-blue-800 text-sm font-medium mb-1">
+                                    Order Notes (Optional)
+                                </label>
+                                <textarea
                                     name="note"
                                     value={orderDetails.note}
                                     onChange={handleChange}
                                     placeholder="Any special instructions for your order"
                                     rows={3}
+                                    className="w-full p-2.5 border border-cambridge-blue-200 rounded-lg bg-white focus:ring-2 focus:ring-golden-brown-300 focus:border-golden-brown-500 outline-none transition-all hover:border-golden-brown-300"
                                 />
                             </div>
                         </div>
@@ -269,6 +275,7 @@ const OrderNow = () => {
                             <div className="mb-4">
                                 <FormSelect
                                     label="Payment Method"
+                                    id="paymentMethod"
                                     name="paymentMethod"
                                     value={orderDetails.paymentMethod}
                                     onChange={handleChange}
@@ -276,6 +283,7 @@ const OrderNow = () => {
                                         { value: 'bank_transfer', label: 'Bank Transfer' },
                                         { value: 'cod', label: 'Cash on Delivery' }
                                     ]}
+                                    required={true}
                                 />
                             </div>
 
@@ -300,7 +308,7 @@ const OrderNow = () => {
                                     <label className="block text-sm font-medium text-gray-700 mb-1">
                                         Upload Payment Slip
                                     </label>
-                                    <div className="border-2 border-dashed border-gray-300 rounded-md p-4 text-center">
+                                    <div className="border-2 border-dashed border-gray-300 rounded-md p-4 text-center relative">
                                         {!previewUrl ? (
                                             <div>
                                                 <Upload size={24} className="mx-auto text-gray-400" />

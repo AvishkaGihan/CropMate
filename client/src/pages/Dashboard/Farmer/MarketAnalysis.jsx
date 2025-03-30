@@ -9,7 +9,7 @@ import {
     RefreshCw,
     Info
 } from 'lucide-react';
-import { FormSelect } from '../../../components/Shared/Form';
+import { FormSelect } from '../../../components/Shared/FormSelect';
 import PriceChart from './Charts/PriceChart';
 
 

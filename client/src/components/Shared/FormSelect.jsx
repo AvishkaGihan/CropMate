@@ -1,6 +1,6 @@
 import React from 'react';
 
-const FormSelect = ({
+export const FormSelect = ({
     label,
     id,
     name,
@@ -16,7 +16,7 @@ const FormSelect = ({
     showEmptyOption = false,
 }) => {
     const baseSelectClasses =
-        "w-full px-4 py-2 border border-cambridge-blue-200 rounded-lg focus:ring-2 focus:ring-cambridge-blue-500/30 focus:border-cambridge-blue-500 outline-none transition-colors";
+        "w-full px-4 py-2 border border-cambridge-blue-200 rounded-lg focus:ring-2 focus:ring-cambridge-blue-500/30 focus:border-cambridge-blue-500 outline-none transition-colors cursor-pointer";
 
     const selectClasses = `
     ${baseSelectClasses}
@@ -82,5 +82,3 @@ const FormSelect = ({
         </div>
     );
 };
-
-export default FormSelect;
