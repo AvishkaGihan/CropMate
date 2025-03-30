@@ -1,31 +1,54 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { Leaf } from "lucide-react";
+import { useLoginMutation } from "../../slices/authApi";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../slices/authSlice";
+
 import { AuthLayout } from "./AuthLayout";
 import { FormInput } from "../../components/Shared/FormInput";
 import FarmImage from "../../assets/images/farm-landscape.jpg";
 
 const SignIn = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    rememberMe: false,
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  const { email, password, rememberMe } = formData;
+
+  const onChange = (e) => {
+    console.log("Input Name:", e.target.name);
+    setFormData({
+      ...formData,
+      [e.target.name]:
+        e.target.type === "checkbox" ? e.target.checked : e.target.value,
+    });
   };
-
-  const handleSubmit = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
+    console.log(formData);
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      navigate("/dashboard");
-    } finally {
-      setIsSubmitting(false);
+      const response = await login({ email, password, rememberMe }).unwrap();
+      dispatch(
+        setCredentials({
+          user: response,
+          token: response.token,
+          rememberMe: true,
+        })
+      );
+      navigate("/");
+    } catch (err) {
+      const message =
+        err.data?.message || "Registration failed. Please try again.";
+      setErrorMessage(message);
+      console.error(err);
     }
   };
 
@@ -52,14 +75,15 @@ const SignIn = () => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={onSubmit} className="space-y-5">
         <FormInput
           type="email"
           label="Email Address"
           name="email"
           value={formData.email}
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="Enter your email"
+          required={true}
         />
 
         <FormInput
@@ -67,17 +91,19 @@ const SignIn = () => {
           label="Password"
           name="password"
           value={formData.password}
-          onChange={handleChange}
+          onChange={onChange}
           placeholder="Enter your password"
+          required={true}
         />
 
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <input
               id="rememberMe"
+              name="rememberMe"
               type="checkbox"
-              checked={rememberMe}
-              onChange={() => setRememberMe((prev) => !prev)}
+              checked={formData.rememberMe}
+              onChange={onChange}
               className="w-4 h-4 text-golden-brown-600 bg-white border-cambridge-blue-300 rounded focus:ring-golden-brown-300"
             />
             <label
@@ -94,13 +120,17 @@ const SignIn = () => {
             Forgot Password?
           </Link>
         </div>
-
+        {errorMessage && (
+          <div className="p-3 m-4 text-sm text-red-800 bg-red-100 rounded-lg">
+            {errorMessage}
+          </div>
+        )}
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isLoading}
           className="w-full py-2.5 px-4 bg-golden-brown-600 hover:bg-golden-brown-700 text-white font-medium rounded-lg transition-colors duration-300 flex items-center justify-center"
         >
-          {isSubmitting ? (
+          {isLoading ? (
             <>
               <div className="animate-spin h-4 w-4 mr-2 border-2 border-white border-t-transparent rounded-full" />
               Signing in...

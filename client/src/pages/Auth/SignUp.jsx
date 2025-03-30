@@ -2,6 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { Leaf } from "lucide-react";
+import { useRegisterMutation } from "../../slices/authApi";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../slices/authSlice";
+
 import { AuthLayout } from "./AuthLayout";
 import { FormInput } from "../../components/Shared/FormInput";
 import { roles, roleCardClasses } from "../../constants";
@@ -9,7 +13,6 @@ import { expandCollapse } from "../../util/animations";
 import FarmImage from "../../assets/images/farm-landscape.jpg";
 
 const SignUp = () => {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,31 +28,49 @@ const SignUp = () => {
       branch: "",
     },
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [register, { isLoading }] = useRegisterMutation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name.includes(".")) {
-      const [parent, child] = name.split(".");
-      setFormData((prev) => ({
-        ...prev,
-        [parent]: { ...prev[parent], [child]: value },
-      }));
+  const onChange = (e) => {
+    const name = e.target.name;
+
+    if (name.startsWith("bankDetails.")) {
+      const field = name.split(".")[1];
+      setFormData({
+        ...formData,
+        bankDetails: {
+          ...formData.bankDetails,
+          [field]: e.target.value,
+        },
+      });
     } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
+      setFormData({
+        ...formData,
+        [name]: e.target.value,
+      });
     }
   };
 
-  const handleSubmit = async (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      navigate("/sign-in");
-    } finally {
-      setIsSubmitting(false);
+      setErrorMessage("");
+      const response = await register(formData).unwrap();
+      dispatch(
+        setCredentials({
+          user: response,
+          token: response.token,
+          rememberMe: true,
+        })
+      );
+      navigate("/");
+    } catch (err) {
+      const message =
+        err.data?.message || "Registration failed. Please try again.";
+      setErrorMessage(message);
+      console.error(err);
     }
   };
 
@@ -114,13 +135,13 @@ const SignUp = () => {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={onSubmit} className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <FormInput
             label="Full Name"
             name="name"
             value={formData.name}
-            onChange={handleChange}
+            onChange={onChange}
             placeholder="Enter your name"
           />
           <FormInput
@@ -128,7 +149,7 @@ const SignUp = () => {
             label="Email Address"
             name="email"
             value={formData.email}
-            onChange={handleChange}
+            onChange={onChange}
             placeholder="Enter your email"
           />
         </div>
@@ -139,14 +160,14 @@ const SignUp = () => {
             label="Phone Number"
             name="phone"
             value={formData.phone}
-            onChange={handleChange}
+            onChange={onChange}
             placeholder="Enter phone"
           />
           <FormInput
             label="Address"
             name="address"
             value={formData.address}
-            onChange={handleChange}
+            onChange={onChange}
             placeholder="Enter address"
           />
         </div>
@@ -157,7 +178,7 @@ const SignUp = () => {
             label="Password"
             name="password"
             value={formData.password}
-            onChange={handleChange}
+            onChange={onChange}
             placeholder="Create password"
           />
           <FormInput
@@ -165,7 +186,7 @@ const SignUp = () => {
             label="Confirm Password"
             name="confirmPassword"
             value={formData.confirmPassword}
-            onChange={handleChange}
+            onChange={onChange}
             placeholder="Confirm password"
           />
         </div>
@@ -189,7 +210,7 @@ const SignUp = () => {
                     label="Account Holder Name"
                     name="bankDetails.accountName"
                     value={formData.bankDetails.accountName}
-                    onChange={handleChange}
+                    onChange={onChange}
                     placeholder="Account holder name"
                     required={formData.role !== "vendor"}
                   />
@@ -197,7 +218,7 @@ const SignUp = () => {
                     label="Account Number"
                     name="bankDetails.accountNumber"
                     value={formData.bankDetails.accountNumber}
-                    onChange={handleChange}
+                    onChange={onChange}
                     placeholder="Account number"
                     required={formData.role !== "vendor"}
                   />
@@ -208,7 +229,7 @@ const SignUp = () => {
                     label="Bank Name"
                     name="bankDetails.bankName"
                     value={formData.bankDetails.bankName}
-                    onChange={handleChange}
+                    onChange={onChange}
                     placeholder="Bank name"
                     required={formData.role !== "vendor"}
                   />
@@ -216,7 +237,7 @@ const SignUp = () => {
                     label="Branch"
                     name="bankDetails.branch"
                     value={formData.bankDetails.branch}
-                    onChange={handleChange}
+                    onChange={onChange}
                     placeholder="Branch name"
                     required={formData.role !== "vendor"}
                   />
@@ -226,12 +247,18 @@ const SignUp = () => {
           )}
         </AnimatePresence>
 
+        {errorMessage && (
+          <div className="p-3 m-4 text-sm text-red-800 bg-red-100 rounded-lg">
+            {errorMessage}
+          </div>
+        )}
+
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isLoading}
           className="w-full py-2.5 px-4 bg-golden-brown-600 hover:bg-golden-brown-700 text-white font-medium rounded-lg transition-colors duration-300 flex items-center justify-center"
         >
-          {isSubmitting ? (
+          {isLoading ? (
             <>
               <div className="animate-spin h-4 w-4 mr-2 border-2 border-white border-t-transparent rounded-full" />
               Creating Account...
