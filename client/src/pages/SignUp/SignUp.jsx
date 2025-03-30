@@ -1,17 +1,10 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, Eye, EyeOff, Leaf, Store, Truck } from 'lucide-react';
-import RoleCard from '../../components/Auth/RoleCard';
 import { formAnimation, bankDetailsAnimation } from '../../util/animations';
-import { BENEFITS } from '../../constants';
+import { BENEFITS, roleCardClasses, ROLES } from '../../constants';
 import FarmImage from '../../assets/images/farm-landscape.jpg'
-
-const roles = [
-    { id: 'farmer', title: 'Farmer', icon: <Leaf size={20} className="text-white" /> },
-    { id: 'driver', title: 'Driver', icon: <Truck size={20} className="text-white" /> },
-    { id: 'vendor', title: 'Vendor', icon: <Store size={20} className="text-white" /> }
-];
 
 const SignUp = () => {
     const navigate = useNavigate();
@@ -149,19 +142,22 @@ const SignUp = () => {
 
                     {/* Role Select */}
                     <div className="mb-5">
-                        <label className="block text-cambridge-blue-700 text-sm font-medium mb-2">
+                        <label className="block text-cambridge-blue-700 text-sm text-center font-medium mb-2">
                             I am a
                         </label>
                         <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto">
-                            {roles.map(role => (
-                                <RoleCard
-                                    key={role.id}
-                                    role={role.id}
-                                    title={role.title}
-                                    icon={role.icon}
+                            {ROLES.map(role => (
+                                <div
                                     onClick={() => setFormData(prev => ({ ...prev, role: role.id }))}
-                                    isSelected={formData.role === role.id}
-                                />
+                                    className={`cursor-pointer p-4 rounded-lg border transition-all duration-300 flex flex-col items-center ${role.id === formData.role ? roleCardClasses[role.id].selected : roleCardClasses[role.id].default
+                                        }`}
+                                >
+                                    <div className={`w-10 h-10 rounded-full ${role.id === formData.role ? roleCardClasses[role.id].iconBg.selected : roleCardClasses[role.id].iconBg.default
+                                        } flex items-center justify-center mb-2`}>
+                                        {roleCardClasses[role.id].icon}
+                                    </div>
+                                    <span className={`${roleCardClasses[role.id].text} font-medium text-sm`}>{role.id}</span>
+                                </div>
                             ))}
                         </div>
                     </div>

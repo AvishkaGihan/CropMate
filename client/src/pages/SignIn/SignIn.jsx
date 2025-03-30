@@ -201,19 +201,6 @@ const SignIn = () => {
                                     'Sign In'
                                 )}
                             </button>
-
-                            {/* Register Link */}
-                            <div className="mt-6 text-center text-sm">
-                                <p className="text-cambridge-blue-700">
-                                    Don't have an account?{" "}
-                                    <Link
-                                        to="/sign-up"
-                                        className="text-golden-brown-600 hover:text-golden-brown-700 font-medium hover:underline transition-colors"
-                                    >
-                                        Create account
-                                    </Link>
-                                </p>
-                            </div>
                         </div>
                     </form>
                     {/* Sign Up Link */}
