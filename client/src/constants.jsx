@@ -1,15 +1,27 @@
-import { Leaf, Truck, Store } from 'lucide-react';
+import { Leaf, Truck, Store } from "lucide-react";
 
-export const BENEFITS = [
+export const benefits = [
   "Access to market insights and pricing trends",
   "Direct connections with buyers, sellers, and transporters",
   "Secure payment processing and transaction history",
 ];
 
-export const ROLES = [
-  { id: 'farmer', title: 'Farmer', icon: <Leaf size={20} className="text-white" /> },
-  { id: 'driver', title: 'Driver', icon: <Truck size={20} className="text-white" /> },
-  { id: 'vendor', title: 'Vendor', icon: <Store size={20} className="text-white" /> }
+export const roles = [
+  {
+    id: "farmer",
+    title: "Farmer",
+    icon: <Leaf size={20} className="text-white" />,
+  },
+  {
+    id: "driver",
+    title: "Driver",
+    icon: <Truck size={20} className="text-white" />,
+  },
+  {
+    id: "vendor",
+    title: "Vendor",
+    icon: <Store size={20} className="text-white" />,
+  },
 ];
 
 export const roleCardClasses = {

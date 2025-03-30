@@ -1,13 +1,14 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router"; // Fixed import
+import { BrowserRouter as Router, Routes, Route } from "react-router";
+
 import HomePage from "./pages/Home/HomePage";
 import DefaultLayout from "./layouts/Layout";
 import AboutUs from "./pages/About/AboutUs";
 import ContactUs from "./pages/Contact/ContactUs";
 import Marketplace from "./pages/Marketplace/Marketplace";
 import ProductDetails from "./pages/ProductDetail/ProductDetails";
-import SignIn from "./pages/SignIn/SignIn";
-import SignUp from "./pages/SignUp/SignUp";
+import SignIn from "./pages/Auth/SignIn";
+import SignUp from "./pages/Auth/SignUp";
 import DashboardLayout from "./layouts/DashboardLayout";
 import CropManagement from "./pages/Dashboard/Farmer/CropManagement";
 import MarketAnalysis from "./pages/Dashboard/Farmer/MarketAnalysis";
