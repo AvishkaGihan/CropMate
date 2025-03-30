@@ -12,7 +12,7 @@ import SectionWrapper from '../../components/Shared/SectionWrapper';
 import SectionHeader from '../../components/Shared/SectionHeader';
 import SuccessMessage from '../../components/Contact/SuccessMessage';
 import SocialSidebar from '../../components/Contact/SocialSidebar';
-import { containerVariants, itemVariants } from '../animationVariants';
+import { containerVariants, itemVariants } from '../../util/animations';
 
 const ContactForm = () => {
     const [formData, setFormData] = useState({

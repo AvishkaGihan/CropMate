@@ -2,7 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import SectionWrapper from '../../components/Shared/SectionWrapper'
 import SectionHeader from '../../components/Shared/SectionHeader'
-import { containerVariants, itemVariants } from '../animationVariants'
+import { containerVariants, itemVariants } from '../../util/animations'
 import { teamMembers } from '../../data/aboutUs/aboutUsOurTeam'
 
 const OurTeam = () => {

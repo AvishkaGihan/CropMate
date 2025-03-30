@@ -15,7 +15,7 @@ import MarketAnalysis from "./pages/Dashboard/Farmer/MarketAnalysis";
 import Orders from "./pages/Dashboard/Farmer/Orders";
 import FarmerOverview from "./pages/Dashboard/Farmer/FarmerOverview";
 import DriverOverview from "./pages/Dashboard/Driver/DriverOverview";
-import AvailiableOrders from "./pages/Dashboard/Driver/AvailiableOrders";
+import AvailableOrders from "./pages/Dashboard/Driver/AvailableOrders";
 import ActiveDeliveries from "./pages/Dashboard/Driver/ActiveDeliveries";
 import VendorOverview from "./pages/Dashboard/Vendor/VendorOverview";
 import MyOrders from "./pages/Dashboard/Vendor/MyOrders";
@@ -86,7 +86,7 @@ const App = () => {
           element={<DashboardLayout role="driver" />}
         >
           <Route index element={<DriverOverview />} />
-          <Route path="availiable-orders" element={<AvailiableOrders />} />
+          <Route path="available-orders" element={<AvailableOrders />} />
           <Route path="active" element={<ActiveDeliveries />} />
           {/* Add more driver routes as needed */}
         </Route>

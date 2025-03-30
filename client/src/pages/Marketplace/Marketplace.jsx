@@ -1,9 +1,6 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { FormSelect } from '../../components/Shared/Form';
 import SectionWrapper from '../../components/Shared/SectionWrapper';
-import { FEATURED_CROPS } from '../../constants/featuredProducts';
-
-
 import FilterSidebar from '../../components/Marketplace/FilterSidebar';
 import MobileFilters from '../../components/Marketplace/MobileFilters';
 import FilterBadges from '../../components/Marketplace/FilterBadges';
@@ -13,7 +10,8 @@ import EmptyState from '../../components/Marketplace/EmptyState';
 import MarketplaceHero from './MarketplaceHero';
 
 import { categories, locations, sortOptions, certifications } from '../../constants/Marketplace/MarketplaceConstants';
-import LeafDecorations from '../../components/Shared/LeafDecorations';
+
+import { generateMoreProducts } from '../../util/Crops/generateMoreProducts';
 
 
 // Create lookup maps for faster access
@@ -23,54 +21,7 @@ const locationMap = Object.fromEntries(locations.map(loc => [loc.value, loc.labe
 // Create certification lookup map
 const certificationMap = Object.fromEntries(certifications.map(cert => [cert.id, cert.label]));
 
-// Pre-process products with price values to avoid regex in sorting
-const generateMoreProducts = () => {
-    const baseProducts = FEATURED_CROPS;
-    const expandedProducts = [];
 
-    // Pre-extract numerical prices for faster sorting
-    baseProducts.forEach(product => {
-        const baseProduct = {
-            ...product,
-            numericPrice: parseInt(product.price.replace(/[^0-9]/g, ''))
-        };
-        expandedProducts.push(baseProduct);
-
-        const variations = [
-            {
-                ...product,
-                id: product.id + 100,
-                title: `Premium ${product.title}`,
-                price: `Rs ${baseProduct.numericPrice + 50}/kg`,
-                numericPrice: baseProduct.numericPrice + 50, // Pre-computed price
-                rating: Math.min(5, product.rating + 0.1),
-                badge: 'Premium',
-            },
-            {
-                ...product,
-                id: product.id + 200,
-                title: `Bulk ${product.title}`,
-                price: `Rs ${baseProduct.numericPrice - 20}/kg`,
-                numericPrice: baseProduct.numericPrice - 20, // Pre-computed price
-                badge: 'Bulk',
-                farmType: `${product.farmType} Collective`,
-            },
-            {
-                ...product,
-                id: product.id + 300,
-                title: `${product.title} Direct`,
-                price: product.price,
-                numericPrice: baseProduct.numericPrice, // Pre-computed price
-                location: locations[Math.floor(Math.random() * locations.length)].value || 'Colombo',
-                badge: 'Direct',
-            }
-        ];
-
-        expandedProducts.push(...variations);
-    });
-
-    return expandedProducts;
-};
 
 const Marketplace = () => {
     // Cache expensive product generation

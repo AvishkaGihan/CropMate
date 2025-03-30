@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { itemVariants } from "../../pages/animationVariants";
+import { itemVariants } from "../../util/animations";
 
 const ContactCard = ({ icon, title, details, link, linkText }) => {
     return (
