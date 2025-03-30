@@ -1,25 +1,19 @@
 import React, { memo } from 'react';
 import { Link } from 'react-router'; // Fix the import
 
-
-import { legalLinks } from '../../constants/legalLinks';
-
 import FooterBrand from './FooterBrand';
 import FooterLinks from './FooterLinks';
 import FooterJoinUs from './FooterJoinUs';
 import FooterContact from './FooterContact';
 import FooterNewsletter from './FooterNewsletter';
 
-import LeafDecorations from '../Shared/LeafDecorations';
+import { legalLinks } from '../../constants';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
 
     return (
         <footer className="bg-cambridge-blue-900 relative overflow-hidden">
-            {/* Decorative Leaf Patterns */}
-            <LeafDecorations />
-
             {/* Newsletter Section */}
             <FooterNewsletter />
 

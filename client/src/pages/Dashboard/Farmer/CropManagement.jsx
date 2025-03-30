@@ -3,19 +3,13 @@ import {
     Package,
     Plus,
     Search,
-    Eye,
     Edit,
     Trash,
     Calendar,
-    Tag,
     RefreshCw,
-    CircleHelp,
-    Star
 } from 'lucide-react';
 import { DataTable, StatusBadge } from '../../../components/Dashboard/DataTable';
-import DetailModal from '../../../components/Shared/DetailModal';
-import { cropTypes } from '../../../data/Crops/Crops';
-import ViewCropModal from './Modals/ViewCropModal';
+import { cropTypes } from '../../../constants';
 import CropFormModal from './Modals/CropFormModal';
 import DeleteConfirmationModal from './Modals/DeleteConfirmationModal';
 

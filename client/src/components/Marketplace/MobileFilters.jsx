@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { SlidersHorizontal, ChevronDown } from 'lucide-react';
-import { FormSelect, FormButton } from '../Shared/Form';
+import { FormButton } from '../Shared/FormButton';
+import { FormSelect } from '../Shared/FormSelect';
 
 const MobileFilters = ({
     showMobileFilters,
@@ -92,14 +93,6 @@ const MobileFilters = ({
                             className="flex-1"
                         >
                             Reset
-                        </FormButton>
-                        <FormButton
-                            variant="primary"
-                            size="sm"
-                            onClick={() => setShowMobileFilters(false)}
-                            className="flex-1"
-                        >
-                            Apply
                         </FormButton>
                     </div>
                 </div>

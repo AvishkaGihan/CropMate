@@ -1,51 +1,13 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 
-import { steps } from '../../constants/steps';
+import { steps } from '../../constants';
 import SectionWrapper from '../../components/Shared/SectionWrapper';
 import SectionHeader from '../../components/Shared/SectionHeader';
-import BackgroundElements from '../../components/Shared/BackgroundElements';
 import StepCard from '../../components/HowCropMateWorks/StepCard';
 import CTA from '../../components/Shared/CTA'
 
-
-
-// Animation variants
-const sectionVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            duration: 0.3,
-            ease: "easeOut"
-        }
-    }
-};
-
-// Simplified container variants with reduced staggering
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.15, // Increased time between items
-            delayChildren: 0.05
-        }
-    }
-};
-
-const ctaVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            duration: 0.3,
-            ease: "easeOut",
-            delay: 0.2
-        }
-    }
-};
-
+import { containerVariants, ctaVariants, sectionVariants } from '../../util/animations';
 const HowCropMateWorks = () => {
 
     // Memoize step cards to prevent unnecessary re-renders
@@ -58,10 +20,7 @@ const HowCropMateWorks = () => {
     return (
         <SectionWrapper
             className="py-24 relative overflow-hidden bg-cambridge-blue-50/70"
-            withGlow
         >
-            <BackgroundElements />
-
             <motion.div
                 className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6"
                 initial="hidden"

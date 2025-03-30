@@ -1,11 +1,10 @@
-import { FEATURED_CROPS } from '../../constants/featuredProducts';
-
+import { featuredCrops } from "../../constants";
 /**
  * Generates an expanded product list with variations for demo purposes
  * @returns {Array} Array of products with additional properties
  */
 export const generateMoreProducts = () => {
-    const baseProducts = FEATURED_CROPS;
+    const baseProducts = featuredCrops;
     const expandedProducts = [];
 
     baseProducts.forEach(product => {

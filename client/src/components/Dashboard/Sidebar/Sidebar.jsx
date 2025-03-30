@@ -83,7 +83,7 @@ const usePages = (role) => {
         { path: `/dashboard/${role}/orders`, title: 'Orders', icon: <Package size={20} /> },
       ],
       driver: [
-        { path: `/dashboard/${role}/availiable-orders`, title: 'Available Orders', icon: <Truck size={20} /> },
+        { path: `/dashboard/${role}/available-orders`, title: 'Available Orders', icon: <Truck size={20} /> },
         { path: `/dashboard/${role}/active`, title: 'Active Deliveries', icon: <MapPin size={20} /> },
       ],
       vendor: [

@@ -1,50 +1,12 @@
 import { motion } from 'framer-motion';
 
 import BackgroundOrbs from '../../components/Hero/BackgroundOrbs';
-import TextureOverlay from '../../components/Hero/TextureOverlay';
 import HeroButton from '../../components/Hero/HeroButton';
 import HeroCard from '../../components/Hero/HeroCard';
 
 import HeroImage from '../../assets/images/hero-image.webp';
 
-// Animation variants
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.15,
-            delayChildren: 0.1,
-            duration: 0.6,
-            ease: [0.25, 0.1, 0.25, 1.0],
-        }
-    }
-};
-
-const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.6,
-            ease: [0.25, 0.1, 0.25, 1.0],
-        }
-    }
-};
-
-const heroCardVariants = {
-    hidden: { opacity: 0, scale: 0.95 },
-    visible: {
-        opacity: 1,
-        scale: 1,
-        transition: {
-            duration: 0.7,
-            ease: [0.25, 0.1, 0.25, 1.0],
-            delay: 0.3
-        }
-    }
-};
+import { containerVariants, itemVariants, heroCardVariants } from '../../util/animations';
 
 const HeroSection = () => {
     return (
@@ -54,7 +16,6 @@ const HeroSection = () => {
 
             {/* Background Elements */}
             <BackgroundOrbs />
-            <TextureOverlay />
 
             <div className="container mx-auto px-6 relative z-10">
                 <div className="flex flex-col lg:flex-row items-center gap-16">

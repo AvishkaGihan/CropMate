@@ -1,73 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FEATURES } from "../../constants/features"
 
-import BackgroundElements from "../../components/Shared/BackgroundElements";
 import SectionHeader from "../../components/Shared/SectionHeader";
 import FeatureCard from "../../components/WhyChooseCropMate/FeatureCard";
 import CTA from "../../components/Shared/CTA";
 import SectionWrapper from "../../components/Shared/SectionWrapper";
 
-
-// Performance-optimized animations
-const sectionVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.5,
-            ease: "easeOut"  // Simple easing function for better performance
-        }
-    }
-};
-
-// Minimal staggering for better performance
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.1,  // Reduced stagger time for better performance
-            delayChildren: 0.1
-        }
-    }
-};
-
-const ctaVariants = {
-    hidden: { opacity: 0, y: 15 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.4,
-            ease: "easeOut",
-            delay: 0.3
-        }
-    }
-};
-
-// Simplified card animation - using a custom function that generates variants
-// We use a function to avoid recreating objects for each item in the array
-const getCardVariants = (index) => ({
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.4,
-            ease: "easeOut",
-            delay: index * 0.08  // Light delay between cards
-        }
-    }
-});
+import { containerVariants, ctaVariants, sectionVariants, getCardVariants } from "../../util/animations";
+import { features } from '../../constants';
 
 const WhyChooseCropMate = () => {
     return (
         <SectionWrapper className="py-24 relative overflow-hidden">
-            {/* Background elements */}
-            <BackgroundElements />
-
             <motion.div
                 className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6"
                 initial="hidden"
@@ -95,7 +39,7 @@ const WhyChooseCropMate = () => {
                     whileInView="visible"
                     viewport={{ once: true, amount: 0.05 }}  // Trigger earlier
                 >
-                    {FEATURES.map((feature, index) => (
+                    {features.map((feature, index) => (
                         <motion.div
                             key={feature.id}
                             className="will-change-transform"  // Performance hint for the browser

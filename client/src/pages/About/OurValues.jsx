@@ -2,8 +2,8 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import SectionWrapper from '../../components/Shared/SectionWrapper'
 import SectionHeader from '../../components/Shared/SectionHeader'
-import { values } from '../../data/aboutUs/aboutUsCoreValues'
-import { containerVariants, itemVariants } from '../animationVariants'
+import { values } from '../../constants'
+import { containerVariants, itemVariants } from '../../util/animations'
 
 const OurValues = () => {
     return (

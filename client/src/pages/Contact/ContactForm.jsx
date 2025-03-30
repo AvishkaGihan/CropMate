@@ -1,18 +1,12 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import {
-    Form,
-    FormInput,
-    FormSelect,
-    FormTextarea,
-    FormButton,
-    FormGroup
-} from '../../components/Shared/Form';
+import { FormInput } from '../../components/Shared/FormInput';
+import { FormSelect } from '../../components/Shared/FormSelect';
 import SectionWrapper from '../../components/Shared/SectionWrapper';
 import SectionHeader from '../../components/Shared/SectionHeader';
 import SuccessMessage from '../../components/Contact/SuccessMessage';
 import SocialSidebar from '../../components/Contact/SocialSidebar';
-import { containerVariants, itemVariants } from '../animationVariants';
+import { containerVariants, itemVariants } from '../../util/animations';
 
 const ContactForm = () => {
     const [formData, setFormData] = useState({
@@ -77,6 +71,7 @@ const ContactForm = () => {
     };
 
     const handleSubmit = async (e) => {
+        e.preventDefault();
         if (!validateForm()) {
             return;
         }
@@ -142,77 +137,106 @@ const ContactForm = () => {
                                         </div>
                                     )}
 
-                                    <Form onSubmit={handleSubmit}>
-                                        <FormGroup direction="column" spacing="default">
-                                            <FormGroup direction="row" spacing="default">
+                                    <form onSubmit={handleSubmit} className="w-full" noValidate>
+                                        <div className="space-y-6">
+                                            <div className="flex flex-col md:flex-row gap-4">
                                                 <div className="w-full md:w-1/2">
                                                     <FormInput
                                                         label="Your Name"
-                                                        id="name"
+                                                        name="name"
                                                         value={formData.name}
                                                         onChange={handleChange}
                                                         placeholder="John Doe"
-                                                        required
-                                                        error={errors.name}
+                                                        required={true}
+                                                        className=""
                                                     />
+                                                    {errors.name && (
+                                                        <p className="mt-1 text-xs text-red-500">{errors.name}</p>
+                                                    )}
                                                 </div>
 
                                                 <div className="w-full md:w-1/2">
                                                     <FormInput
-                                                        label="Email Address"
-                                                        id="email"
                                                         type="email"
+                                                        label="Email Address"
+                                                        name="email"
                                                         value={formData.email}
                                                         onChange={handleChange}
                                                         placeholder="john@example.com"
-                                                        required
-                                                        error={errors.email}
+                                                        required={true}
+                                                        className=""
                                                     />
+                                                    {errors.email && (
+                                                        <p className="mt-1 text-xs text-red-500">{errors.email}</p>
+                                                    )}
                                                 </div>
-                                            </FormGroup>
+                                            </div>
 
-                                            <FormSelect
-                                                label="I am a"
-                                                id="userType"
-                                                value={formData.userType}
-                                                onChange={handleChange}
-                                                options={userTypeOptions}
-                                                required
-                                            />
+                                            <div>
+                                                <FormSelect
+                                                    label="I am a"
+                                                    id="userType"
+                                                    name="userType"
+                                                    value={formData.userType}
+                                                    onChange={handleChange}
+                                                    options={userTypeOptions}
+                                                    required={true}
+                                                />
+                                            </div>
 
-                                            <FormInput
-                                                label="Subject"
-                                                id="subject"
-                                                value={formData.subject}
-                                                onChange={handleChange}
-                                                placeholder="How can we help you?"
-                                                required
-                                                error={errors.subject}
-                                            />
+                                            <div>
+                                                <FormInput
+                                                    label="Subject"
+                                                    name="subject"
+                                                    value={formData.subject}
+                                                    onChange={handleChange}
+                                                    placeholder="How can we help you?"
+                                                    required={true}
+                                                    className=""
+                                                />
+                                                {errors.subject && (
+                                                    <p className="mt-1 text-xs text-red-500">{errors.subject}</p>
+                                                )}
+                                            </div>
 
-                                            <FormTextarea
-                                                label="Your Message"
-                                                id="message"
-                                                value={formData.message}
-                                                onChange={handleChange}
-                                                placeholder="Tell us how we can assist you..."
-                                                required
-                                                rows={4}
-                                                error={errors.message}
-                                                maxLength={500}
-                                            />
+                                            <div>
+                                                <label className="block text-cambridge-blue-800 text-sm font-medium mb-1">
+                                                    Your Message
+                                                </label>
+                                                <textarea
+                                                    name="message"
+                                                    value={formData.message}
+                                                    onChange={handleChange}
+                                                    placeholder="Tell us how we can assist you..."
+                                                    required
+                                                    rows={4}
+                                                    maxLength={500}
+                                                    className="w-full p-2.5 border border-cambridge-blue-200 rounded-lg bg-white focus:ring-2 focus:ring-golden-brown-300 focus:border-golden-brown-500 outline-none transition-all hover:border-golden-brown-300"
+                                                />
+                                                <div className="mt-1 text-xs text-right text-cambridge-blue-500/70">
+                                                    {formData.message.length}/500 characters
+                                                </div>
+                                                {errors.message && (
+                                                    <p className="mt-1 text-xs text-red-500">{errors.message}</p>
+                                                )}
+                                            </div>
 
-                                            <FormButton
+                                            <button
                                                 type="submit"
-                                                variant="primary"
-                                                size="lg"
-                                                isLoading={isSubmitting}
-                                                fullWidth
+                                                disabled={isSubmitting}
+                                                className="w-full py-2.5 px-4 bg-golden-brown-600 hover:bg-golden-brown-700 text-white font-medium rounded-lg transition-colors duration-300 flex items-center justify-center"
                                             >
-                                                Send Message
-                                            </FormButton>
-                                        </FormGroup>
-                                    </Form>
+                                                {isSubmitting ? (
+                                                    <>
+                                                        <div className="animate-spin h-4 w-4 mr-2 border-2 border-white border-t-transparent rounded-full"></div>
+                                                        Sending message...
+                                                    </>
+                                                ) : (
+                                                    'Send Message'
+                                                )}
+                                            </button>
+                                        </div>
+                                    </form>
                                 </motion.div>
                             )}
                         </div>

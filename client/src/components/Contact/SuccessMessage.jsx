@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
-import FormButton from '../Shared/Form/FormButton';
+import { FormButton } from '../Shared/FormButton';
 
 const SuccessMessage = ({ onReset }) => (
     <motion.div

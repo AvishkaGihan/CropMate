@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Link } from 'react-router';
 import { ChevronRight } from 'lucide-react';
-import { navItems } from '../../constants/navItems';
+import { navItems } from '../../constants';
 
 const FooterLinks = () => {
     // Filter navItems to only include main navigation links (excluding dropdown items)
