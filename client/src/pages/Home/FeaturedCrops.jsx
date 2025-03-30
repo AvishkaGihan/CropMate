@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
 
-import { featuredCrops } from '../../constants/home.js'
+import { featuredCrops } from '../../constants';
 import SectionHeader from '../../components/Shared/SectionHeader';
 import CropCard from '../../components/Crops/CropCard';
 import SectionWrapper from '../../components/Shared/SectionWrapper';

@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { motion } from 'framer-motion';
 
-import { steps } from '../../constants/steps';
+import { steps } from '../../constants';
 import SectionWrapper from '../../components/Shared/SectionWrapper';
 import SectionHeader from '../../components/Shared/SectionHeader';
 import StepCard from '../../components/HowCropMateWorks/StepCard';

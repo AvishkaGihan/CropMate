@@ -4,12 +4,12 @@ import SectionWrapper from '../../components/Shared/SectionWrapper';
 import FilterSidebar from '../../components/Marketplace/FilterSidebar';
 import MobileFilters from '../../components/Marketplace/MobileFilters';
 import FilterBadges from '../../components/Marketplace/FilterBadges';
-import ProductGrid from '../../components/Marketplace/ProductfGrid';
+import ProductGrid from '../../components/Marketplace/ProductGrid';
 import Pagination from '../../components/Marketplace/Pagination';
 import EmptyState from '../../components/Marketplace/EmptyState';
 import MarketplaceHero from './MarketplaceHero';
 
-import { categories, locations, sortOptions, certifications } from '../../constants/Marketplace/MarketplaceConstants';
+import { categories, locations, sortOptions, certifications } from '../../constants';
 
 import { generateMoreProducts } from '../../util/Crops/generateMoreProducts';
 
