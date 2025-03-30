@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import ContactCard from "../../components/Contact/ContactCard"
 import SectionWrapper from "../../components/Shared/SectionWrapper"
-import { containerVariants } from "../animationVariants"
+import { containerVariants } from "../../util/animations"
 import { MapPin, Mail, Phone } from "lucide-react"
 
 const ContactCards = () => {

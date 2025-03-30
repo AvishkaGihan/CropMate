@@ -148,6 +148,7 @@ const SignUp = () => {
                         <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto">
                             {ROLES.map(role => (
                                 <div
+                                    key={role.id}
                                     onClick={() => setFormData(prev => ({ ...prev, role: role.id }))}
                                     className={`cursor-pointer p-4 rounded-lg border transition-all duration-300 flex flex-col items-center ${role.id === formData.role ? roleCardClasses[role.id].selected : roleCardClasses[role.id].default
                                         }`}

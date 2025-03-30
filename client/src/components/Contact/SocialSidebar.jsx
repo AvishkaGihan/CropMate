@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { itemVariants } from '../../pages/animationVariants';
+import { itemVariants } from '../../util/animations';
 import SocialLink from './SocialLink';
 
 import {
