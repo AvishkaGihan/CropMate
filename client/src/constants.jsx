@@ -7,6 +7,7 @@ import Cinnamon from "./assets/images/cinnamon.webp";
 import Coconut from "./assets/images/coconut.webp";
 import BlackPepper from "./assets/images/black-pepper.webp";
 
+//Home
 export const featuredCrops = [
   {
     id: 1,
@@ -185,6 +186,68 @@ export const steps = [
   },
 ];
 
+//About Us
+export const milestones = [
+  {
+    date: "January 2023",
+    title: "Idea Conception",
+    description:
+      "CropMate began as a concept during an agricultural hackathon in Colombo.",
+  },
+  {
+    date: "March 2023",
+    title: "Seed Funding",
+    description:
+      "Secured initial funding from local angel investors who believe in our vision.",
+  },
+  {
+    date: "June 2023",
+    title: "Beta Launch",
+    description:
+      "Released our first prototype to 50 farmers and 10 vendors in Kandy district.",
+  },
+  {
+    date: "October 2023",
+    title: "Team Expansion",
+    description:
+      "Grew our team to include agricultural experts and additional developers.",
+  },
+  {
+    date: "January 2024",
+    title: "Official Launch",
+    description:
+      "Publicly launched CropMate platform with improved features based on beta feedback.",
+  },
+];
+
+export const values = [
+  {
+    icon: "🌱",
+    title: "Sustainability",
+    description:
+      "Building technology that promotes environmentally responsible farming from day one.",
+  },
+  {
+    icon: "🤝",
+    title: "Community",
+    description:
+      "Creating connections between farmers, vendors, and transporters for a stronger agricultural ecosystem.",
+  },
+  {
+    icon: "💡",
+    title: "Innovation",
+    description:
+      "Applying cutting-edge technology to solve age-old problems in agriculture.",
+  },
+  {
+    icon: "⚖️",
+    title: "Fairness",
+    description:
+      "Developing transparent processes that ensure equitable outcomes for all platform participants.",
+  },
+];
+
+//Navigation/Footer
 export const legalLinks = [
   {
     id: 1,
@@ -242,6 +305,7 @@ export const socialPlatforms = [
   },
 ];
 
+//Marketplace
 export const categories = [
   { value: "all", label: "All Categories" },
   { value: "vegetables", label: "Vegetables" },
@@ -275,6 +339,37 @@ export const certifications = [
   { id: "export-quality", label: "Export Quality" },
 ];
 
+export const cropTypes = [
+  { id: "corn", label: "Corn" },
+  { id: "wheat", label: "Wheat" },
+  { id: "rice", label: "Rice" },
+  { id: "soybeans", label: "Soybeans" },
+  { id: "potatoes", label: "Potatoes" },
+  { id: "tomatoes", label: "Tomatoes" },
+  { id: "cotton", label: "Cotton" },
+  { id: "sugarcane", label: "Sugarcane" },
+];
+
+//Driver
+export const vehicleTypes = [
+  { value: "pickup", label: "Pickup Truck" },
+  { value: "small_truck", label: "Small Truck" },
+  { value: "medium_truck", label: "Medium Truck" },
+  { value: "large_truck", label: "Large Truck / Semi" },
+  { value: "refrigerated", label: "Refrigerated Truck" },
+  { value: "van", label: "Van" },
+];
+
+//Vendor
+export const businessTypes = [
+  { value: "retailer", label: "Retailer" },
+  { value: "wholesaler", label: "Wholesaler" },
+  { value: "processor", label: "Processor" },
+  { value: "distributor", label: "Distributor" },
+  { value: "exporter", label: "Exporter" },
+];
+
+//Login
 export const benefits = [
   "Access to market insights and pricing trends",
   "Direct connections with buyers, sellers, and transporters",
