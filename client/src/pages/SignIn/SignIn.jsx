@@ -1,230 +1,255 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Eye, EyeOff, LogIn } from 'lucide-react';
-
-import { Form, FormInput, FormButton, FormCheckbox } from '../../components/Shared/Form';
-import AuthLayout from '../../layouts/AuthLayout';
-import {
-    BenefitsSection,
-    LogoSection,
-    RoleSelector,
-    SuccessMessage,
-    ErrorMessage,
-    AuthFooter
-} from '../../components/Auth';
-import { getButtonClasses } from '../../util/Auth/getButtonClasses';
-import { itemVariants } from '../../util/Auth/animations';
-import { validateSigninForm } from '../../util/Auth/FormValidation';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router'; // Fixed import path
+import { motion } from 'framer-motion';
+import { CheckCircle2, Eye, EyeOff, Leaf } from 'lucide-react';
+import { BENEFITS } from '../../constants';
+import FarmImage from '../../assets/images/farm-landscape.jpg';
 
 const SignIn = () => {
     const navigate = useNavigate();
-    const location = useLocation();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
-        rememberMe: false,
-        role: 'farmer'
     });
+
     const [showPassword, setShowPassword] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [errors, setErrors] = useState({});
-    const [successMessage, setSuccessMessage] = useState('');
+    const [rememberMe, setRememberMe] = useState(false);
 
-    // Check for success message from registration
-    useEffect(() => {
-        const params = new URLSearchParams(location.search);
-        const success = params.get('registered');
-        if (success === 'true') {
-            setSuccessMessage('Your account was created successfully! Please sign in.');
-        }
-
-        // Check for role from URL params
-        const role = params.get('role');
-        if (role && ['farmer', 'driver', 'vendor'].includes(role)) {
-            setFormData(prev => ({ ...prev, role }));
-        }
-    }, [location]);
-
-    // Auto-dismiss success message after 5 seconds
-    useEffect(() => {
-        if (successMessage) {
-            const timer = setTimeout(() => {
-                setSuccessMessage('');
-            }, 5000);
-            return () => clearTimeout(timer);
-        }
-    }, [successMessage]);
-
-    const handleChange = useCallback((e) => {
-        const { name, value, type, checked } = e.target;
+    // Handle input changes
+    const handleChange = (e) => {
+        const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: type === 'checkbox' ? checked : value
+            [name]: value
         }));
+    };
 
-        // Clear error for this field when user starts typing
-        if (errors[name]) {
-            setErrors(prev => {
-                const newErrors = { ...prev };
-                delete newErrors[name];
-                return newErrors;
-            });
-        }
-    }, [errors]);
-
-    const validateForm = useCallback(() => {
-        const newErrors = {};
-
-        if (!formData.email.trim()) {
-            newErrors.email = 'Email is required';
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-            newErrors.email = 'Please enter a valid email address';
-        }
-
-        if (!formData.password) {
-            newErrors.password = 'Password is required';
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    }, [formData]);
-
-    const handleSubmit = useCallback(async (e) => {
+    // Handle form submission
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const newErrors = validateSigninForm(formData);
-        setErrors(newErrors);
-
-        if (Object.keys(newErrors).length > 0) {
-            return;
-        }
-
         setIsSubmitting(true);
 
         try {
-            // In a real app, you would call your authentication API here
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            // Here you would make an API call to your backend for authentication
+            console.log("Login submitted:", formData);
 
-            // Show success animation before redirect
-            setSuccessMessage(`Login successful as ${formData.role}! Redirecting to dashboard...`);
-
-            // Delay redirect to show the success message
+            // Simulate API call delay
             setTimeout(() => {
-                navigate(`/dashboard/${formData.role}`);
+                // After successful login, navigate to dashboard
+                navigate('/dashboard');
             }, 1500);
+
         } catch (error) {
-            setErrors({ form: 'Invalid email or password. Please try again.' });
+            console.error("Login error:", error);
         } finally {
             setIsSubmitting(false);
         }
-    }, [formData, validateForm, navigate]);
+    };
 
-    const selectRole = useCallback((role) => {
-        setFormData(prev => ({ ...prev, role }));
-        if (errors.role) {
-            setErrors(prev => {
-                const newErrors = { ...prev };
-                delete newErrors.role;
-                return newErrors;
-            });
+    // Form animation variant
+    const formAnimation = {
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.6, ease: "easeOut" }
         }
-    }, [errors]);
-
-    const toggleShowPassword = useCallback(() => {
-        setShowPassword(prev => !prev);
-    }, []);
-
-    // Left content - benefits section
-    const leftContent = <BenefitsSection />;
-
-    // Right content - form
-    const rightContent = (
-        <div className="rounded-xl shadow-md border border-cambridge-blue-100/50 p-8 bg-white">
-            <AnimatePresence>
-                {successMessage && <SuccessMessage message={successMessage} />}
-            </AnimatePresence>
-
-            <LogoSection />
-
-            <RoleSelector
-                selectedRole={formData.role}
-                onSelectRole={selectRole}
-            />
-
-            <motion.div variants={itemVariants}>
-                {errors.form && <ErrorMessage message={errors.form} />}
-
-                <Form onSubmit={handleSubmit}>
-                    <FormInput
-                        label="Email Address"
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="name@example.com"
-                        required
-                        error={errors.email}
-                    />
-
-                    <div className="relative">
-                        <FormInput
-                            label="Password"
-                            id="password"
-                            name="password"
-                            type={showPassword ? "text" : "password"}
-                            value={formData.password}
-                            onChange={handleChange}
-                            placeholder="Enter your password"
-                            required
-                            iconRight={showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                            iconRightClassName='text-cambridge-blue-500 cursor-pointer'
-                            onIconRightClick={toggleShowPassword}
-                            error={errors.password}
-                        />
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
-                        <FormCheckbox
-                            id="rememberMe"
-                            name="rememberMe"
-                            label="Remember me"
-                            checked={formData.rememberMe}
-                            onChange={handleChange}
-                        />
-                        <Link
-                            to="/forgot-password"
-                            className="text-sm text-golden-brown-600 hover:text-golden-brown-700 transition-colors hover:underline"
-                        >
-                            Forgot password?
-                        </Link>
-                    </div>
-
-                    <FormButton
-                        type="submit"
-                        variant="primary"
-                        size="lg"
-                        fullWidth
-                        icon={<LogIn size={18} />}
-                        isLoading={isSubmitting}
-                        className={getButtonClasses(formData.role)}
-                    >
-                        Sign In {formData.role ? `as ${formData.role}` : ''}
-                    </FormButton>
-                </Form>
-
-                <AuthFooter isSignIn={true} />
-            </motion.div>
-        </div>
-    );
+    };
 
     return (
-        <AuthLayout
-            leftContent={leftContent}
-            rightContent={rightContent}
-        />
-    );
-};
+        <div className="min-h-screen flex">
+            {/* Left Column - Image - Fixed position */}
+            <div className="hidden md:block md:w-1/2 bg-cambridge-blue-700 fixed left-0 top-0 bottom-0">
+                <img
+                    src={FarmImage}
+                    alt="Farm landscape"
+                    className="absolute inset-0 w-full h-full object-cover opacity-80"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-cambridge-blue-900/90 to-cambridge-blue-700/50"></div>
+
+                <div className="absolute inset-0 flex flex-col justify-center items-center text-white p-12">
+                    <div className="max-w-md text-center">
+                        <div className="mb-6">
+                            <div className="w-20 h-20 mx-auto bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center mb-6 border border-white/20">
+                                <Leaf size={40} className="text-mindaro-400" />
+                            </div>
+                            <h2 className="text-3xl font-bold mb-3">Welcome Back!</h2>
+                            <p className="text-white/80 text-lg">Sign in to access your CropMate account</p>
+                        </div>
+
+                        <div className="mt-8">
+                            <div className="flex items-center justify-center mb-4">
+                                <div className="h-px bg-white/20 flex-1"></div>
+                                <span className="px-4 text-white/60 text-sm">BENEFITS</span>
+                                <div className="h-px bg-white/20 flex-1"></div>
+                            </div>
+
+                            <ul className="space-y-4 text-left">
+                                {BENEFITS.map((benefit, index) => (
+                                    <li
+                                        key={index}
+                                        className="flex items-start"
+                                    >
+                                        <div className="bg-cal-poly-green-500/20 p-2 rounded-full mr-3 mt-0.5">
+                                            <CheckCircle2 size={16} className="text-mindaro-400" />
+                                        </div>
+                                        <span className="text-white/90">{benefit}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Right Column - Form - Wider layout */}
+            <div className="w-full md:ml-[50%] md:w-1/2 bg-cambridge-blue-50 min-h-screen flex items-center justify-center p-6 overflow-y-auto">
+                {/* Form - Increased max width */}
+                <motion.div
+                    initial="hidden"
+                    animate="visible"
+                    variants={formAnimation}
+                    className="max-w-md w-full rounded-xl shadow-md border border-cambridge-blue-100/50 p-8 bg-white my-6 transition-all duration-300 ease-out"
+                >
+                    {/* Logo & Title */}
+                    <div className="text-center mb-8">
+                        <Link to="/" className="inline-block mb-4">
+                            <div className="w-14 h-14 mx-auto rounded-full bg-gradient-to-br from-cal-poly-green-600 to-cambridge-blue-800 flex items-center justify-center shadow-lg group hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                                <div className="text-mindaro-400 transition-transform duration-500 group-hover:rotate-12">
+                                    <Leaf size={28} className="text-mindaro-400" />
+                                </div>
+                            </div>
+                        </Link>
+                        <h1 className="text-2xl font-bold text-cambridge-blue-800 mb-1">Welcome Back</h1>
+                        <p className="text-sm text-cambridge-blue-600">Sign in to your CropMate account</p>
+                    </div>
+
+                    <form
+                        onSubmit={handleSubmit}
+                        className="space-y-5"
+                    >
+                        {/* Email */}
+                        <div>
+                            <label className="block text-cambridge-blue-800 text-sm font-medium mb-1" htmlFor="email">
+                                Email Address
+                            </label>
+                            <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                className="w-full p-2.5 border border-cambridge-blue-200 rounded-lg bg-white focus:ring-2 focus:ring-golden-brown-300 focus:border-golden-brown-500 outline-none transition-all hover:border-golden-brown-300"
+                                placeholder="Enter your email"
+                                required
+                            />
+                        </div>
+
+                        {/* Password */}
+                        <div>
+                            <div className="flex justify-between items-center mb-1">
+                                <label className="block text-cambridge-blue-800 text-sm font-medium" htmlFor="password">
+                                    Password
+                                </label>
+                                <Link to="/forgot-password" className="text-xs text-golden-brown-600 hover:text-golden-brown-700 font-medium hover:underline transition-colors">
+                                    Forgot Password?
+                                </Link>
+                            </div>
+                            <div className="relative">
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    className="w-full p-2.5 border border-cambridge-blue-200 rounded-lg bg-white focus:ring-2 focus:ring-golden-brown-300 focus:border-golden-brown-500 outline-none transition-all hover:border-golden-brown-300"
+                                    placeholder="Enter your password"
+                                    required
+                                />
+                                <button
+                                    type="button"
+                                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-cambridge-blue-500 hover:text-golden-brown-500"
+                                    onClick={() => setShowPassword(prev => !prev)}
+                                >
+                                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Remember me */}
+                        <div className="flex items-center">
+                            <input
+                                id="rememberMe"
+                                name="rememberMe"
+                                type="checkbox"
+                                checked={rememberMe}
+                                onChange={() => setRememberMe(prev => !prev)}
+                                className="w-4 h-4 text-golden-brown-600 bg-white border-cambridge-blue-300 rounded focus:ring-golden-brown-300"
+                            />
+                            <label htmlFor="rememberMe" className="ml-2 text-sm text-cambridge-blue-700">
+                                Remember me
+                            </label>
+                        </div>
+
+                        {/* Submit Button */}
+                        <div>
+                            <button
+                                type="submit"
+                                disabled={isSubmitting}
+                                className="w-full py-2.5 px-4 bg-golden-brown-600 hover:bg-golden-brown-700 text-white font-medium rounded-lg transition-colors duration-300 flex items-center justify-center"
+                            >
+                                {isSubmitting ? (
+                                    <>
+                                        <div className="animate-spin h-4 w-4 mr-2 border-2 border-white border-t-transparent rounded-full"></div>
+                                        Signing in...
+                                    </>
+                                ) : (
+                                    'Sign In'
+                                )}
+                            </button>
+
+                            {/* Register Link */}
+                            <div className="mt-6 text-center text-sm">
+                                <p className="text-cambridge-blue-700">
+                                    Don't have an account?{" "}
+                                    <Link
+                                        to="/sign-up"
+                                        className="text-golden-brown-600 hover:text-golden-brown-700 font-medium hover:underline transition-colors"
+                                    >
+                                        Create account
+                                    </Link>
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                    {/* Sign Up Link */}
+                    <div className="mt-6 text-center text-sm">
+                        <p className="text-cambridge-blue-700">
+                            Don't have an account?{" "}
+                            <Link
+                                to={"/signup"}
+                                className="text-golden-brown-600 hover:text-golden-brown-700 font-medium hover:underline transition-colors"
+                            >
+                                {"Sign Up"}
+                            </Link>
+                        </p>
+
+                        <div className="mt-4 text-xs text-cambridge-blue-600 text-center">
+                            <span>By signing in, you acknowledge our </span>
+                            <Link to="/terms" className="text-golden-brown-600 hover:text-golden-brown-700 transition-colors hover:underline">
+                                Terms of Service
+                            </Link>
+                            <span> and </span>
+                            <Link to="/privacy" className="text-golden-brown-600 hover:text-golden-brown-700 transition-colors hover:underline">
+                                Privacy Policy
+                            </Link>
+                        </div>
+                    </div>
+                </motion.div>
+            </div>
+        </div>
+    )
+}
 
 export default SignIn;
