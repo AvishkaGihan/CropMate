@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router'; // Fixed import path
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
 import { CheckCircle2, Eye, EyeOff, Leaf } from 'lucide-react';
 import { BENEFITS } from '../../constants';
+import { formAnimation } from '../../util/animations';
 import FarmImage from '../../assets/images/farm-landscape.jpg';
 
 const SignIn = () => {
@@ -44,16 +45,6 @@ const SignIn = () => {
             console.error("Login error:", error);
         } finally {
             setIsSubmitting(false);
-        }
-    };
-
-    // Form animation variant
-    const formAnimation = {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.6, ease: "easeOut" }
         }
     };
 
@@ -152,9 +143,6 @@ const SignIn = () => {
                                 <label className="block text-cambridge-blue-800 text-sm font-medium" htmlFor="password">
                                     Password
                                 </label>
-                                <Link to="/forgot-password" className="text-xs text-golden-brown-600 hover:text-golden-brown-700 font-medium hover:underline transition-colors">
-                                    Forgot Password?
-                                </Link>
                             </div>
                             <div className="relative">
                                 <input
@@ -178,18 +166,23 @@ const SignIn = () => {
                         </div>
 
                         {/* Remember me */}
-                        <div className="flex items-center">
-                            <input
-                                id="rememberMe"
-                                name="rememberMe"
-                                type="checkbox"
-                                checked={rememberMe}
-                                onChange={() => setRememberMe(prev => !prev)}
-                                className="w-4 h-4 text-golden-brown-600 bg-white border-cambridge-blue-300 rounded focus:ring-golden-brown-300"
-                            />
-                            <label htmlFor="rememberMe" className="ml-2 text-sm text-cambridge-blue-700">
-                                Remember me
-                            </label>
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center">
+                                <input
+                                    id="rememberMe"
+                                    name="rememberMe"
+                                    type="checkbox"
+                                    checked={rememberMe}
+                                    onChange={() => setRememberMe(prev => !prev)}
+                                    className="w-4 h-4 text-golden-brown-600 bg-white border-cambridge-blue-300 rounded focus:ring-golden-brown-300"
+                                />
+                                <label htmlFor="rememberMe" className="ml-2 text-sm text-cambridge-blue-700">
+                                    Remember me
+                                </label>
+                            </div>
+                            <Link to="/forgot-password" className="text-xs text-golden-brown-600 hover:text-golden-brown-700 font-medium hover:underline transition-colors">
+                                Forgot Password?
+                            </Link>
                         </div>
 
                         {/* Submit Button */}

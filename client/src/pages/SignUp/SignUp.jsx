@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router'; // FIXED: Changed from 'react-router' to 'react-router-dom'
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, Eye, EyeOff, Leaf, Store, Truck } from 'lucide-react';
 import RoleCard from '../../components/Auth/RoleCard';
