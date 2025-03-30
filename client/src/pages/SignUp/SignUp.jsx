@@ -1,7 +1,7 @@
-import { useState, memo } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, Eye, EyeOff, Leaf, Store, Truck } from 'lucide-react';
+import { CheckCircle2, Eye, EyeOff, Leaf } from 'lucide-react';
 import { formAnimation, bankDetailsAnimation } from '../../util/animations';
 import { BENEFITS, roleCardClasses, ROLES } from '../../constants';
 import FarmImage from '../../assets/images/farm-landscape.jpg'
