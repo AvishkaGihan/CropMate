@@ -12,17 +12,16 @@ import {
   getMyOrders,
 } from "../controllers/orderController.js";
 import { protect, farmer, vendor, driver } from "../middleware/auth.js";
-import { uploadImage } from "../middleware/upload.js";
 
 const router = express.Router();
 
 router
   .route("/")
-  .post(protect, vendor, uploadImage, addOrderItems)
+  .post(protect, vendor, addOrderItems)
   .get(protect, getMyOrders);
 router.route("/available").get(protect, driver, getAvailableOrders);
 router.route("/:id").get(protect, getOrderById);
-router.route("/:id/pay").put(protect, vendor, uploadImage, updateOrderToPaid);
+router.route("/:id/pay").put(protect, vendor, updateOrderToPaid);
 router.route("/:id/payment-status").put(protect, farmer, updatePaymentStatus);
 router.route("/:id/process").put(protect, farmer, updateOrderToProcessing);
 router.route("/:id/ready").put(protect, farmer, updateOrderToReady);
