@@ -4,7 +4,6 @@ import {
   ClipboardList,
   Leaf,
   LogOut,
-  Menu,
   Package,
   ShoppingCart,
   Truck,
@@ -70,8 +69,7 @@ const menuItems = [
   },
 ];
 
-const Sidebar = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -87,34 +85,29 @@ const Sidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
 
+  const handleNavigation = () => {
+    if (window.innerWidth < 1024) {
+      setMobileMenuOpen(false);
+    }
+  };
+
   return (
     <>
-      {/* Mobile menu button */}
-      <div className="lg:hidden fixed top-4 right-4 z-50">
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="p-2 rounded-full bg-cambridge-blue-600 text-white shadow-lg"
-          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-        >
-          {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
-      </div>
-
-      {/* Mobile overlay backdrop */}
       <div
         onClick={() => setMobileMenuOpen(false)}
         className={`fixed inset-0 bg-black/30 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300 ${mobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
       ></div>
 
-      {/* Sidebar container */}
       <div
-        className={`fixed lg:sticky top-0 left-0 bottom-0 z-40 ${isCollapsed ? 'w-[70px]' : 'w-[280px]'} lg:w-auto ${isCollapsed ? 'lg:w-[70px]' : 'lg:min-w-[260px]'} max-w-full flex-shrink-0 
+        className={`fixed lg:sticky top-0 left-0 bottom-0 z-40 
+          ${isCollapsed ? 'w-[70px]' : 'w-[280px]'} lg:w-auto 
+          ${isCollapsed ? 'lg:w-[70px]' : 'lg:min-w-[260px]'} max-w-full flex-shrink-0 
           bg-gradient-to-b from-cal-poly-green-900 via-cal-poly-green-800 to-cal-poly-green-900 
           shadow-2xl lg:shadow-xl text-sm flex flex-col h-screen
-          transition-all duration-300 ease-in-out ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}`}
+          transition-all duration-300 ease-in-out ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+          }`}
       >
-        {/* Toggle collapse button (desktop only) */}
         <button
           onClick={toggleCollapse}
           className="absolute -right-5 top-1/2 hidden lg:flex h-12 w-12 items-center justify-center rounded-full bg-cambridge-blue-500 text-white shadow-md hover:bg-cambridge-blue-600 transition-colors cursor-pointer"
@@ -122,7 +115,6 @@ const Sidebar = () => {
           {isCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
         </button>
 
-        {/* Logo and App Name */}
         <div
           onClick={() => navigate("/")}
           className="flex items-center gap-3 p-5 border-b border-cambridge-blue-700/20 cursor-pointer"
@@ -135,22 +127,6 @@ const Sidebar = () => {
           </span>
         </div>
 
-        {/* User info card */}
-        <div className={`mt-5 mx-4 p-3 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 ${isCollapsed ? 'px-2' : ''}`}>
-          <div className={`flex items-center ${isCollapsed ? 'justify-center' : ''} mb-2`}>
-            <div className="w-8 h-8 rounded-full bg-cambridge-blue-600/50 flex items-center justify-center text-white font-medium">
-              {userInfo?.name?.charAt(0) || 'U'}
-            </div>
-            {!isCollapsed && (
-              <div className="ml-2 truncate">
-                <p className="text-white font-medium truncate">{userInfo?.name || 'User'}</p>
-                <p className="text-cambridge-blue-300 text-xs capitalize">{role || 'User'}</p>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Menu sections */}
         <div className="mt-6 overflow-y-auto flex-grow scrollbar-thin scrollbar-thumb-cambridge-blue-700/20 scrollbar-track-transparent">
           {menuItems.map((section) => {
             const visibleItems = section.items.filter(item => item.visible.includes(role));
@@ -167,12 +143,12 @@ const Sidebar = () => {
                   <div className="space-y-1 px-2">
                     {visibleItems.map((item) => (
                       <Link
-                        href={item.href}
+                        to={item.href}
                         key={item.label}
                         className={`flex items-center ${isCollapsed ? 'justify-center' : ''} gap-3 text-gray-300 py-2.5 
                           ${isCollapsed ? 'px-2' : 'px-4'} rounded-lg mx-1 relative
                           hover:bg-white/10 active:bg-white/20 transition-all duration-200 group`}
-                        onClick={() => setMobileMenuOpen(false)}
+                        onClick={handleNavigation}
                       >
                         <div className="text-cambridge-blue-300 group-hover:text-mindaro-400">
                           {item.icon}
@@ -182,7 +158,6 @@ const Sidebar = () => {
                           <span className="font-medium">{item.label}</span>
                         )}
 
-                        {/* Tooltip when collapsed */}
                         {isCollapsed && (
                           <div className="absolute left-14 bg-cal-poly-green-800 text-white text-sm py-1 px-2 rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity whitespace-nowrap z-10">
                             {item.label}
@@ -198,7 +173,6 @@ const Sidebar = () => {
           })}
         </div>
 
-        {/* Logout button */}
         <div className="mt-auto border-t border-white/10 p-4">
           <button
             onClick={handleLogout}
@@ -208,7 +182,6 @@ const Sidebar = () => {
             <LogOut size={18} />
             {!isCollapsed && <span className="font-medium">Logout</span>}
 
-            {/* Tooltip when collapsed */}
             {isCollapsed && (
               <div className="absolute left-14 bottom-3 bg-cal-poly-green-800 text-white text-sm py-1 px-2 rounded opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-opacity whitespace-nowrap z-10">
                 Logout
