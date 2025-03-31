@@ -36,10 +36,15 @@ export const cropApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Crop"],
     }),
+    getMyCrops: builder.query({
+      query: () => "/api/crops/my-crops",
+      providesTags: ["Crop"],
+    }),
   }),
 });
 
 export const {
+  useGetMyCropsQuery,
   useGetCropsQuery,
   useGetCropByIdQuery,
   useCreateCropMutation,

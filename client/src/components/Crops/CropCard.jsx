@@ -1,65 +1,48 @@
-import { memo } from "react";
-import { Link } from 'react-router'
-import Badge from "../Shared/Badge";
-import CropCardButton from "./CropCardButton";
+import { Link } from "react-router";
 
-const CropCard = ({ crop }) => {
-    return (
-        <Link to={`/product/${crop.id}`} className="block h-full">
-            <div
-                className="bg-white rounded-2xl shadow-sm overflow-hidden
-                    group relative border border-cambridge-blue-100/50 h-full flex flex-col
-                    hover:-translate-y-2 transition-transform duration-200 ease-out"
-            >
-                {/* Top accent border */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-cambridge-blue-400 to-mindaro-400"></div>
-                {/* Badge */}
-                {crop.badge && <Badge variant="standard" text={crop.badge} position="top-left" />}
-                {/* Image container */}
-                <div className="relative h-52 overflow-hidden">
-                    <img
-                        src={crop.image}
-                        alt={crop.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 ease-out"
-                        loading="lazy"
-                        decoding="async"
-                        fetchPriority="low"
-                    />
-                    {/* Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-cambridge-blue-900/80 via-cambridge-blue-800/40
-                        to-transparent"></div>
-                    {/* Info badges */}
-                    <div className="absolute bottom-0 left-0 w-full p-4 text-white flex justify-between items-center">
-                        <Badge variant="location" text={crop.location} />
-                        <Badge variant="rating" value={crop.rating} />
-                    </div>
-                </div>
-                {/* Content */}
-                <div className="p-6 flex-grow flex flex-col">
-                    <div className="flex justify-between items-start mb-2">
-                        <h3 className="text-lg font-semibold text-cambridge-blue-800 group-hover:text-golden-brown-600
-                            transition-colors duration-300">
-                            {crop.title}
-                        </h3>
-                        <Badge variant="price" text={crop.price} />
-                    </div>
-                    <Badge variant="farm" text={crop.farmType} />
-                    {/* Description */}
-                    {crop.description && (
-                        <p className="text-sm text-cambridge-blue-700/80 mb-4 line-clamp-2">
-                            {crop.description}
-                        </p>
-                    )}
-                    {/* Action button */}
-                    <div className="mt-auto pt-4 border-t border-cambridge-blue-100">
-                        <CropCardButton
-                            text="View Details"
-                        />
-                    </div>
-                </div>
-            </div>
-        </Link>
-    );
+const CropCard = ({ crop, onDelete, showEdit }) => {
+  return (
+    <div className="bg-white rounded-lg shadow overflow-hidden">
+      <img
+        src={crop.images[0]}
+        alt={crop.name}
+        className="w-full h-48 object-cover"
+      />
+
+      <div className="p-4">
+        <h3 className="font-bold text-lg mb-1">{crop.name}</h3>
+        <p className="text-gray-600 text-sm mb-2">{crop.category}</p>
+        <p className="font-semibold text-blue-600 mb-3">₹{crop.price} per kg</p>
+        <p className="text-sm mb-4">{crop.description.substring(0, 100)}...</p>
+
+        <div className="flex justify-between items-center">
+          <span className="text-sm">
+            Quantity: <span className="font-medium">{crop.quantity} kg</span>
+          </span>
+
+          <div className="space-x-2">
+            {showEdit && (
+              <Link
+                to={`/dashboard/crops/edit/${crop._id}`}
+                className="text-blue-600 hover:text-blue-800 text-sm"
+              >
+                Edit
+              </Link>
+            )}
+
+            {onDelete && (
+              <button
+                onClick={() => onDelete(crop._id)}
+                className="text-red-600 hover:text-red-800 text-sm"
+              >
+                Delete
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default memo(CropCard);
+export default CropCard;
