@@ -74,88 +74,12 @@
   --color-cal-poly-green-900: #040804;
 }
 
-:-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
+/* Add to your global CSS */
+input[type="file"]::file-selector-button {
+  @apply bg-gray-200 text-gray-800 py-1.5 px-3 rounded-l border-r border-gray-300;
+  @apply hover:bg-gray-300;
 }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-html,
-body,
-div {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
-/* Enhanced smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Add class for elements that should have momentum-based scrolling */
-.smooth-scroll {
-  -webkit-overflow-scrolling: touch; /* For iOS smooth momentum scrolling */
-  overflow-y: auto;
-  overscroll-behavior-y: contain; /* Prevents scroll chaining */
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  /* Use lighter grid pattern for better performance */
-  .bg-grid-pattern {
-    background-image: linear-gradient(
-        to right,
-        rgb(115 158 130 / 3%) 1px,
-        transparent 1px
-      ),
-      linear-gradient(to bottom, rgb(115 158 130 / 3%) 1px, transparent 1px);
-    background-size: 40px 40px;
-  }
-}
-
-/* Add grain texture pattern for organic feel */
-.bg-grain-pattern {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-}
-
-/* Add this at-rule to enable optimized content rendering */
-@layer utilities {
-  .will-change-transform {
-    will-change: transform;
-    backface-visibility: hidden;
-    transform: translateZ(0);
-  }
-}
-
-@keyframes float-slow {
-  0% {
-    transform: translateY(0) rotate(0);
-  }
-  50% {
-    transform: translateY(-10px) rotate(5deg);
-  }
-  100% {
-    transform: translateY(0) rotate(0);
-  }
-}
-
-.animate-float-slow {
-  animation: float-slow 8s ease-in-out infinite;
-}
-
-.bg-pattern-light {
-  background-color: #f8faf8;
-  background-image: radial-gradient(#e2e8e2 0.5px, transparent 0.5px),
-    radial-gradient(#e2e8e2 0.5px, #f8faf8 0.5px);
-  background-size: 20px 20px;
-  background-position: 0 0, 10px 10px;
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+input[type="file"] {
+  @apply text-gray-600;
 }

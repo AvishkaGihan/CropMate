@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Crop from "../models/Crop.js";
+import upload from "../config/upload.js";
 
 // @desc    Get all crops
 // @route   GET /api/crops
@@ -47,32 +48,46 @@ const getCropById = asyncHandler(async (req, res) => {
 // @route   POST /api/crops
 // @access  Private/Farmer
 const createCrop = asyncHandler(async (req, res) => {
-  const {
-    name,
-    description,
-    price,
-    quantity,
-    category,
-    harvestDate,
-    isOrganic,
-  } = req.body;
+  // Handle file upload
+  upload.array("images", 5)(req, res, async (err) => {
+    if (err) {
+      res.status(400);
+      throw new Error(err);
+    }
 
-  const images = req.files.map((file) => file.path);
+    const {
+      name,
+      description,
+      price,
+      quantity,
+      category,
+      harvestDate,
+      isOrganic,
+    } = req.body;
 
-  const crop = new Crop({
-    name,
-    description,
-    price,
-    quantity,
-    category,
-    images,
-    farmer: req.user._id,
-    harvestDate,
-    isOrganic,
+    // Get uploaded images paths
+    const images = req.files.map((file) => file.path);
+
+    if (!images || images.length === 0) {
+      res.status(400);
+      throw new Error("Please upload at least one image");
+    }
+
+    const crop = new Crop({
+      name,
+      description,
+      price,
+      quantity,
+      category,
+      images,
+      farmer: req.user._id,
+      harvestDate,
+      isOrganic: isOrganic === "true",
+    });
+
+    const createdCrop = await crop.save();
+    res.status(201).json(createdCrop);
   });
-
-  const createdCrop = await crop.save();
-  res.status(201).json(createdCrop);
 });
 
 // @desc    Update a crop
