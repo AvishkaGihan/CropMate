@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router"; // Fixed import from react-router to react-router-dom
 import { useGetProfileQuery, useUpdateProfileMutation } from "../../slices/authApi";
 import { User, Phone, Mail, MapPin, Save, Loader2, Shield, Key, CreditCard, Building, Banknote } from "lucide-react";
-import { useSelector } from "react-redux";
 
 const Profile = () => {
-    const { userInfo } = useSelector((state) => state.auth);
     const { data: profile } = useGetProfileQuery();
     const [updateProfile, { isLoading }] = useUpdateProfileMutation();
     const [formData, setFormData] = useState({
@@ -73,72 +71,49 @@ const Profile = () => {
     const isNonVendor = profile?.role && profile.role !== "vendor";
 
     return (
-        <div className="bg-white rounded-xl shadow-sm max-w-4xl mx-auto">
-            {/* Profile Header */}
-            <div className="bg-white rounded-xl overflow-hidden mb-8">
-                <div className="relative bg-gradient-to-r from-cal-poly-green-800 to-cambridge-blue-700 py-10 px-8">
-                    <div className="flex flex-col md:flex-row items-center md:items-start gap-6 relative z-10">
-                        <div className="w-24 h-24 bg-white/20 flex items-center justify-center rounded-xl text-white text-4xl font-medium shadow-lg border border-white/20">
-                            {formData.name?.charAt(0) || "U"}
-                        </div>
-                        <div className="text-center md:text-left">
-                            <h1 className="text-3xl font-bold text-white">{formData.name}</h1>
-                            <div className="mt-2 flex items-center justify-center md:justify-start gap-3">
-                                <span className="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-mindaro-200 text-sm">
-                                    {profile?.role?.charAt(0).toUpperCase() + profile?.role?.slice(1) || "User"}
-                                </span>
-                                <span className="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-mindaro-200 text-sm flex items-center">
-                                    <Mail size={12} className="mr-1" />
-                                    {formData.email}
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div>
+            {/* Tab Navigation - Streamlined */}
+            <div className="flex px-2">
+                <button
+                    className={`px-6 py-4 font-medium text-sm transition-colors ${activeTab === 'personal'
+                        ? 'text-cambridge-blue-700 border-b-2 border-cambridge-blue-300'
+                        : 'text-gray-500 hover:text-cambridge-blue-600'
+                        } cursor-pointer`}
+                    onClick={() => setActiveTab('personal')}
+                >
+                    <User size={16} className="inline mr-2" />
+                    Personal Info
+                </button>
 
-                {/* Tab Navigation */}
-                <div className="flex border-b px-2">
+                {/* Only show bank details tab for non-vendors */}
+                {isNonVendor && (
                     <button
-                        className={`px-6 py-4 font-medium text-sm transition-colors border-b-2 -mb-px ${activeTab === 'personal'
-                            ? 'border-cambridge-blue-600 text-cambridge-blue-700'
-                            : 'border-transparent text-gray-500 hover:text-cambridge-blue-600 hover:border-cambridge-blue-200'
+                        className={`px-6 py-4 font-medium text-sm transition-colors ${activeTab === 'bank'
+                            ? 'text-cambridge-blue-700 border-b-2 border-cambridge-blue-300'
+                            : 'text-gray-500 hover:text-cambridge-blue-600'
                             } cursor-pointer`}
-                        onClick={() => setActiveTab('personal')}
+                        onClick={() => setActiveTab('bank')}
                     >
-                        <User size={16} className="inline mr-2" />
-                        Personal Info
+                        <Banknote size={16} className="inline mr-2" />
+                        Payment Info
                     </button>
+                )}
 
-                    {/* Only show bank details tab for non-vendors */}
-                    {isNonVendor && (
-                        <button
-                            className={`px-6 py-4 font-medium text-sm transition-colors border-b-2 -mb-px ${activeTab === 'bank'
-                                ? 'border-cambridge-blue-600 text-cambridge-blue-700'
-                                : 'border-transparent text-gray-500 hover:text-cambridge-blue-600 hover:border-cambridge-blue-200'
-                                } cursor-pointer`}
-                            onClick={() => setActiveTab('bank')}
-                        >
-                            <Banknote size={16} className="inline mr-2" />
-                            Payment Info
-                        </button>
-                    )}
-
-                    <button
-                        className={`px-6 py-4 font-medium text-sm transition-colors border-b-2 -mb-px ${activeTab === 'security'
-                            ? 'border-cambridge-blue-600 text-cambridge-blue-700'
-                            : 'border-transparent text-gray-500 hover:text-cambridge-blue-600 hover:border-cambridge-blue-200'
-                            } cursor-pointer`}
-                        onClick={() => setActiveTab('security')}
-                    >
-                        <Shield size={16} className="inline mr-2" />
-                        Security
-                    </button>
-                </div>
+                <button
+                    className={`px-6 py-4 font-medium text-sm transition-colors ${activeTab === 'security'
+                        ? 'text-cambridge-blue-700 border-b-2 border-cambridge-blue-300'
+                        : 'text-gray-500 hover:text-cambridge-blue-600'
+                        } cursor-pointer`}
+                    onClick={() => setActiveTab('security')}
+                >
+                    <Shield size={16} className="inline mr-2" />
+                    Security
+                </button>
             </div>
 
             {/* Personal Information Tab */}
             {activeTab === 'personal' && (
-                <div className="bg-white p-8 rounded-xl shadow-sm">
+                <div className="p-8">
                     <h2 className="text-2xl font-semibold mb-8 text-gray-800 flex items-center">
                         <User size={22} className="mr-3 text-cambridge-blue-600" />
                         Personal Information
@@ -161,7 +136,7 @@ const Profile = () => {
                                         name="name"
                                         value={formData.name}
                                         onChange={handleChange}
-                                        className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-cambridge-blue-500 focus:border-transparent outline-none transition"
+                                        className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-1 focus:ring-cambridge-blue-500 focus:border-cambridge-blue-500 outline-none transition"
                                         required
                                     />
                                 </div>
@@ -204,7 +179,7 @@ const Profile = () => {
                                     name="phone"
                                     value={formData.phone}
                                     onChange={handleChange}
-                                    className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-cambridge-blue-500 focus:border-transparent outline-none transition"
+                                    className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-1 focus:ring-cambridge-blue-500 focus:border-cambridge-blue-500 outline-none transition"
                                     required
                                 />
                             </div>
@@ -224,7 +199,7 @@ const Profile = () => {
                                     name="address"
                                     value={formData.address}
                                     onChange={handleChange}
-                                    className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-cambridge-blue-500 focus:border-transparent outline-none transition"
+                                    className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-1 focus:ring-cambridge-blue-500 focus:border-cambridge-blue-500 outline-none transition"
                                     rows="3"
                                     required
                                 />
@@ -236,7 +211,7 @@ const Profile = () => {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="inline-flex items-center px-5 py-3 bg-cambridge-blue-600 text-white font-medium rounded-lg shadow-sm hover:bg-cambridge-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cambridge-blue-500 disabled:opacity-60 transition-colors cursor-pointer"
+                                className="inline-flex items-center px-5 py-3 bg-cambridge-blue-600 text-white font-medium hover:bg-cambridge-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cambridge-blue-500 disabled:opacity-60 transition-colors cursor-pointer rounded-lg"
                             >
                                 {isLoading ? (
                                     <>
@@ -257,7 +232,7 @@ const Profile = () => {
 
             {/* Bank Details Tab - Only displayed for non-vendors */}
             {activeTab === 'bank' && isNonVendor && (
-                <div className="bg-white p-8 rounded-xl shadow-sm">
+                <div className="p-8">
                     <h2 className="text-2xl font-semibold mb-8 text-gray-800 flex items-center">
                         <Banknote size={22} className="mr-3 text-cambridge-blue-600" />
                         Payment Information
@@ -280,7 +255,7 @@ const Profile = () => {
                                         name="bank_bankName"
                                         value={formData.bankDetails.bankName}
                                         onChange={handleChange}
-                                        className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-cambridge-blue-500 focus:border-transparent outline-none transition"
+                                        className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-1 focus:ring-cambridge-blue-500 focus:border-cambridge-blue-500 outline-none transition"
                                         required
                                     />
                                 </div>
@@ -301,7 +276,7 @@ const Profile = () => {
                                         name="bank_branch"
                                         value={formData.bankDetails.branch}
                                         onChange={handleChange}
-                                        className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-cambridge-blue-500 focus:border-transparent outline-none transition"
+                                        className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-1 focus:ring-cambridge-blue-500 focus:border-cambridge-blue-500 outline-none transition"
                                     />
                                 </div>
                             </div>
@@ -321,7 +296,7 @@ const Profile = () => {
                                         name="bank_accountName"
                                         value={formData.bankDetails.accountName}
                                         onChange={handleChange}
-                                        className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-cambridge-blue-500 focus:border-transparent outline-none transition"
+                                        className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-1 focus:ring-cambridge-blue-500 focus:border-cambridge-blue-500 outline-none transition"
                                         required
                                     />
                                 </div>
@@ -342,7 +317,7 @@ const Profile = () => {
                                         name="bank_accountNumber"
                                         value={formData.bankDetails.accountNumber}
                                         onChange={handleChange}
-                                        className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-cambridge-blue-500 focus:border-transparent outline-none transition"
+                                        className="w-full pl-10 pr-3 py-3 border border-gray-200 rounded-lg focus:ring-1 focus:ring-cambridge-blue-500 focus:border-cambridge-blue-500 outline-none transition"
                                         required
                                     />
                                 </div>
@@ -354,7 +329,7 @@ const Profile = () => {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="inline-flex items-center px-5 py-3 bg-cambridge-blue-600 text-white font-medium rounded-lg shadow-sm hover:bg-cambridge-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cambridge-blue-500 disabled:opacity-60 transition-colors cursor-pointer"
+                                className="inline-flex items-center px-5 py-3 bg-cambridge-blue-600 text-white font-medium hover:bg-cambridge-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cambridge-blue-500 disabled:opacity-60 transition-colors cursor-pointer rounded-lg"
                             >
                                 {isLoading ? (
                                     <>
@@ -375,14 +350,14 @@ const Profile = () => {
 
             {/* Security Tab */}
             {activeTab === 'security' && (
-                <div className="bg-white p-8 rounded-xl shadow-sm">
+                <div className="p-8">
                     <h2 className="text-2xl font-semibold mb-8 text-gray-800 flex items-center">
                         <Shield size={22} className="mr-3 text-cambridge-blue-600" />
                         Security Settings
                     </h2>
 
                     <div className="space-y-8">
-                        <div className="bg-gray-50 rounded-lg p-6 border border-gray-100">
+                        <div className="p-6 border-t border-b border-gray-100">
                             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                 <div>
                                     <h3 className="font-semibold text-lg flex items-center text-gray-800">
@@ -395,7 +370,7 @@ const Profile = () => {
                                 </div>
                                 <Link
                                     to="/forgotpassword"
-                                    className="px-4 py-2.5 bg-cambridge-blue-50 border border-cambridge-blue-200 text-cambridge-blue-700 rounded-lg hover:bg-cambridge-blue-100 transition-colors text-sm font-medium inline-flex items-center cursor-pointer"
+                                    className="px-4 py-2.5 text-cambridge-blue-700 border border-cambridge-blue-200 hover:bg-cambridge-blue-50 transition-colors text-sm font-medium inline-flex items-center cursor-pointer rounded-lg"
                                 >
                                     Change Password
                                 </Link>

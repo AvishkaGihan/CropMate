@@ -2,7 +2,7 @@ import { Outlet } from "react-router";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import Sidebar from "../components/Dashboard/Sidebar";
-import { Calendar, Menu } from "lucide-react";
+import { Calendar, Mail, Menu, User } from "lucide-react";
 
 const DashboardLayout = () => {
   const { userInfo } = useSelector((state) => state.auth);
@@ -31,42 +31,50 @@ const DashboardLayout = () => {
 
       {/* Main Content */}
       <div className="flex-1 overflow-auto">
-        {/* Header with Welcome, Date and Mobile Menu */}
-        <header>
-          {/* Welcome and date section */}
-          <div className="bg-cambridge-blue-700 text-white p-4">
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
-              <div className="flex items-center justify-between w-full">
-                {/* Welcome message and date */}
-                <div className="flex items-center justify-between md:w-full">
-                  <h1 className="text-lg font-semibold">
+        {/* Enhanced Header with Profile Style */}
+        <header className="bg-white shadow-sm">
+          <div className="relative bg-gradient-to-r from-cal-poly-green-800 to-cambridge-blue-700 py-6 px-6">
+            <div className="flex sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
+              <div className="flex items-center gap-4">
+                <div>
+                  <h1 className="text-xl font-bold text-white">
                     Welcome, {userInfo?.name?.split(' ')[0] || 'User'}!
                   </h1>
-                  <div className="hidden md:flex items-center text-white/80 text-sm">
-                    <Calendar size={14} className="mr-1" />
-                    <span>{getCurrentDate()}</span>
+                  <div className="flex items-center mt-1">
+                    <span className="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-mindaro-200 text-xs flex items-center">
+                      {userInfo?.role?.charAt(0).toUpperCase() + userInfo?.role?.slice(1) || "User"}
+                    </span>
+                    {userInfo?.email && (
+                      <span className="px-3 py-1 bg-white/10 backdrop-blur-sm rounded-full text-mindaro-200 text-xs flex items-center ml-2">
+                        <Mail size={10} className="mr-1" />
+                        {userInfo.email}
+                      </span>
+                    )}
                   </div>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-center gap-4">
+                <div className="hidden md:flex items-center text-white/80 text-sm bg-white/10 backdrop-blur-sm py-1.5 px-3 rounded-lg">
+                  <Calendar size={14} className="mr-1.5" />
+                  <span>{getCurrentDate()}</span>
                 </div>
 
                 {/* Mobile menu hamburger icon */}
-                <div className="flex items-center">
-                  <button
-                    onClick={toggleMobileMenu}
-                    className="lg:hidden mr-3 p-2 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors"
-                    aria-label="Toggle mobile menu"
-                  >
-                    <Menu size={20} />
-                  </button>
-                </div>
+                <button
+                  onClick={toggleMobileMenu}
+                  className="lg:hidden p-2.5 rounded-lg bg-white/10 text-white hover:bg-white/20 transition-colors self-center h-full"
+                  aria-label="Toggle mobile menu"
+                >
+                  <Menu size={20} />
+                </button>
               </div>
             </div>
           </div>
         </header>
 
-        <main className="p-4 md:p-6 bg-cal-poly-green-50 min-h-screen">
-          <div className="max-w-7xl mx-auto">
-            <Outlet />
-          </div>
+        <main className="p-4 md:p-6 min-h-screen">
+          <Outlet />
         </main>
       </div>
     </div>
