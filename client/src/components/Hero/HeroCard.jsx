@@ -2,9 +2,9 @@ import { motion } from 'framer-motion';
 
 const HeroCard = ({
     image,
-    tag = "Featured",
-    title = "Sustainable Farming Practices",
-    description = "Discover how modern techniques are transforming agriculture"
+    tag = "Farm Smarter",
+    title = "Grow Your Business",
+    description = "Join thousands of farmers who increased their income by 40% through direct sales, transparent pricing, and streamlined logistics on CropMate."
 }) => {
     return (
         <div className="relative">
