@@ -6,7 +6,6 @@ import {
 
 const Profile = () => {
   const { data: profile } = useGetProfileQuery();
-  console.log(profile);
   const [updateProfile, { isLoading }] = useUpdateProfileMutation();
   const [formData, setFormData] = useState({
     name: "",
