@@ -10,7 +10,7 @@ import { AuthLayout } from "./AuthLayout";
 import { FormInput } from "../../components/Shared/FormInput";
 import { roles, roleCardClasses } from "../../constants";
 import { expandCollapse } from "../../util/animations";
-import FarmImage from "../../assets/images/farm-landscape.jpg";
+import FarmImage from "../../assets/farm-landscape.jpg";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({

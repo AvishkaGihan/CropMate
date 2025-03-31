@@ -4,7 +4,7 @@ import BackgroundOrbs from "../../components/Hero/BackgroundOrbs";
 import HeroButton from "../../components/Hero/HeroButton";
 import HeroCard from "../../components/Hero/HeroCard";
 
-import HeroImage from "../../assets/images/hero-image.webp";
+import HeroImage from '../../assets/hero-image.jpg';
 
 import {
   containerVariants,
@@ -90,9 +90,9 @@ const HeroSection = () => {
           >
             <HeroCard
               image={HeroImage}
-              tag="Featured"
-              title="Sustainable Farming Practices"
-              description="Discover how modern techniques are transforming agriculture"
+              tag="Farm Smarter"
+              title="Grow Your Business"
+              description="Join Cropmate and unlock the power of direct sales, fair pricing, and hassle-free logistics—because your harvest deserves the best!"
             />
           </motion.div>
         </div>

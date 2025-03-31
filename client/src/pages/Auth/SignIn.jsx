@@ -7,7 +7,7 @@ import { setCredentials } from "../../slices/authSlice";
 
 import { AuthLayout } from "./AuthLayout";
 import { FormInput } from "../../components/Shared/FormInput";
-import FarmImage from "../../assets/images/farm-landscape.jpg";
+import FarmImage from "../../assets/farm-landscape.jpg";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({

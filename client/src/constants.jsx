@@ -1,11 +1,11 @@
 import { Leaf, Truck, Store } from "lucide-react";
 
-import Rice from "./assets/images/rice.webp";
-import Vegetables from "./assets/images/vegetables.webp";
-import Tea from "./assets/images/tea.webp";
-import Cinnamon from "./assets/images/cinnamon.webp";
-import Coconut from "./assets/images/coconut.webp";
-import BlackPepper from "./assets/images/black-pepper.webp";
+import Rice from "./assets/rice.jpg";
+import Vegetables from "./assets/vegetables.jpg";
+import Tea from "./assets/tea.jpg";
+import Cinnamon from "./assets/cinnemon.jpg";
+import Coconut from "./assets/coconut.jpg";
+import BlackPepper from "./assets/black-pepper.jpg";
 
 //Home
 export const featuredCrops = [
