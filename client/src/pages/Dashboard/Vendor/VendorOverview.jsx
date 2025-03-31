@@ -16,7 +16,7 @@ import {
 import { DataTable, StatusBadge } from '../../../components/Dashboard/DataTable';
 import DetailModal from '../../../components/Shared/DetailModal';
 import WelcomeHeader from '../../../components/Dashboard/WelcomeHeader';
-import { FormSelect } from '../../../components/Shared/Form';
+import { FormSelect } from '../../../components/Shared/FormSelect';
 import DeliveryTrackingPanel from './DeliveryTrackingPanel';
 
 const MetricCard = ({ title, value, icon, trend, change, color = 'blue' }) => {

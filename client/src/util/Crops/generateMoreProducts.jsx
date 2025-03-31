@@ -1,5 +1,4 @@
-import { featuredCrops } from '../../constants/home';
-
+import { featuredCrops } from "../../constants";
 /**
  * Generates an expanded product list with variations for demo purposes
  * @returns {Array} Array of products with additional properties

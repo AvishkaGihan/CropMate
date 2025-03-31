@@ -1,7 +1,7 @@
 import React from 'react';
 import { Loader2 } from 'lucide-react';
 
-const FormButton = ({
+export const FormButton = ({
     type = 'button',
     variant = 'primary',
     size = 'md',
@@ -72,5 +72,3 @@ const FormButton = ({
         </button>
     );
 };
-
-export default FormButton;

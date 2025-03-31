@@ -7,8 +7,7 @@ import CTA from "../../components/Shared/CTA";
 import SectionWrapper from "../../components/Shared/SectionWrapper";
 
 import { containerVariants, ctaVariants, sectionVariants, getCardVariants } from "../../util/animations";
-
-import { features } from '../../constants/home';
+import { features } from '../../constants';
 
 const WhyChooseCropMate = () => {
     return (

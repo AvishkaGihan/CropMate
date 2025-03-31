@@ -1,10 +1,7 @@
-import React from 'react';
-import { motion } from 'framer-motion';
 import HeroSection from './HeroSection';
 import OurStory from './OurStory';
 import Milestones from './Milestones';
 import OurValues from './OurValues';
-import OurTeam from './OurTeam';
 import CallToAction from './CallToAction';
 
 
@@ -23,9 +20,6 @@ const AboutUs = () => {
 
             {/* Our Values Section */}
             <OurValues />
-
-            {/* Team Section */}
-            <OurTeam />
 
             {/* Call to Action */}
             <CallToAction />

@@ -1,8 +1,7 @@
-import React from 'react'
 import { motion } from 'framer-motion'
 import SectionWrapper from '../../components/Shared/SectionWrapper'
 import SectionHeader from '../../components/Shared/SectionHeader'
-import { milestones } from '../../data/aboutUs/aboutUsMilestones'
+import { milestones } from '../../constants'
 import { containerVariants, itemVariants } from '../../util/animations'
 
 const Milestones = () => {
