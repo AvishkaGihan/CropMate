@@ -2,7 +2,7 @@ import {
   useGetMyCropsQuery,
   useDeleteCropMutation,
 } from "../../slices/cropApi";
-import CropCard from "../../components/Dashboard/CropCard";
+import CropCard from "../../components/Crops/CropCard";
 import { Link } from "react-router";
 
 const FarmerCrops = () => {
