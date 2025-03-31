@@ -126,7 +126,7 @@ const SignIn = () => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-2.5 px-4 bg-golden-brown-600 hover:bg-golden-brown-700 text-white font-medium rounded-lg transition-colors duration-300 flex items-center justify-center"
+          className="w-full py-2.5 px-4 bg-golden-brown-600 hover:bg-golden-brown-700 text-white font-medium rounded-lg transition-colors duration-300 flex items-center justify-center cursor-pointer"
         >
           {isLoading ? (
             <>

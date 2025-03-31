@@ -108,25 +108,22 @@ const SignUp = () => {
               onClick={() =>
                 setFormData((prev) => ({ ...prev, role: role.id }))
               }
-              className={`cursor-pointer p-4 rounded-lg border transition-all duration-300 flex flex-col items-center ${
-                role.id === formData.role
+              className={`cursor-pointer p-4 rounded-lg border transition-all duration-300 flex flex-col items-center ${role.id === formData.role
                   ? roleCardClasses[role.id].selected
                   : roleCardClasses[role.id].default
-              }`}
+                }`}
             >
               <div
-                className={`w-10 h-10 rounded-full ${
-                  role.id === formData.role
+                className={`w-10 h-10 rounded-full ${role.id === formData.role
                     ? roleCardClasses[role.id].iconBg.selected
                     : roleCardClasses[role.id].iconBg.default
-                } flex items-center justify-center mb-2`}
+                  } flex items-center justify-center mb-2`}
               >
                 {roleCardClasses[role.id].icon}
               </div>
               <span
-                className={`${
-                  roleCardClasses[role.id].text
-                } font-medium text-sm`}
+                className={`${roleCardClasses[role.id].text
+                  } font-medium text-sm`}
               >
                 {role.id}
               </span>
@@ -256,7 +253,7 @@ const SignUp = () => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full py-2.5 px-4 bg-golden-brown-600 hover:bg-golden-brown-700 text-white font-medium rounded-lg transition-colors duration-300 flex items-center justify-center"
+          className="w-full py-2.5 px-4 bg-golden-brown-600 hover:bg-golden-brown-700 text-white font-medium rounded-lg transition-colors duration-300 flex items-center justify-center cursor-pointer"
         >
           {isLoading ? (
             <>
