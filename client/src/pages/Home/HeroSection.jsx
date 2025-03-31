@@ -4,7 +4,7 @@ import BackgroundOrbs from '../../components/Hero/BackgroundOrbs';
 import HeroButton from '../../components/Hero/HeroButton';
 import HeroCard from '../../components/Hero/HeroCard';
 
-import HeroImage from '../../assets/images/hero-image.webp';
+import HeroImage from '../../assets/hero-image.webp';
 
 import { containerVariants, itemVariants, heroCardVariants } from '../../util/animations';
 
