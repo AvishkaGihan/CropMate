@@ -138,4 +138,19 @@ const deleteCrop = asyncHandler(async (req, res) => {
   }
 });
 
-export { getCrops, getCropById, createCrop, updateCrop, deleteCrop };
+// @desc    Get logged in farmer's crops
+// @route   GET /api/crops/my-crops
+// @access  Private/Farmer
+const getMyCrops = asyncHandler(async (req, res) => {
+  const crops = await Crop.find({ farmer: req.user._id });
+  res.json(crops);
+});
+
+export {
+  getCrops,
+  getCropById,
+  createCrop,
+  updateCrop,
+  deleteCrop,
+  getMyCrops,
+};

@@ -57,6 +57,7 @@ const SignUp = () => {
     e.preventDefault();
     try {
       setErrorMessage("");
+      console.log(formData);
       const response = await register(formData).unwrap();
       dispatch(
         setCredentials({

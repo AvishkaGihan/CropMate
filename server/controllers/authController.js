@@ -59,6 +59,7 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("User already exists");
   }
 
+  // Create the user
   const user = await User.create({
     name,
     email,
@@ -66,8 +67,7 @@ const registerUser = asyncHandler(async (req, res) => {
     phone,
     address,
     role,
-    bankDetails:
-      role === "vendor" || role === "driver" ? bankDetails : undefined,
+    bankDetails: bankDetails || undefined,
   });
 
   if (user) {

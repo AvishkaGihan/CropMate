@@ -13,6 +13,8 @@ import ResetPassword from "./pages/Auth/ResetPassword";
 import Profile from "./pages/Dashboard/Profile";
 import DashboardLayout from "./layouts/DashboardLayout";
 import ProtectedLayout from "./layouts/ProtectedRoute";
+import FarmerCrops from "./pages/Dashboard/FarmerCrops";
+import AddCropForm from "./pages/Dashboard/AddCropForm";
 
 const App = () => {
   return (
@@ -32,9 +34,16 @@ const App = () => {
           <Route path="/order-now" element={<OrderNow />} />
         </Route>
 
-        <Route path="" element={<ProtectedLayout />}>
-          <Route path="/" element={<DashboardLayout />}>
+        <Route path="/" element={<DashboardLayout />}>
+          <Route
+            path=""
+            element={<ProtectedLayout roles={["farmer", "vendor", "driver"]} />}
+          >
             <Route path="/profile" element={<Profile />} />
+          </Route>
+          <Route path="" element={<ProtectedLayout roles={["farmer"]} />}>
+            <Route path="/farmer/crops" element={<FarmerCrops />} />
+            <Route path="/farmer/crops/add" element={<AddCropForm />} />
           </Route>
         </Route>
       </Routes>
