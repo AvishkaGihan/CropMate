@@ -7,7 +7,7 @@ import { Leaf } from "lucide-react";
 import { Link } from "react-router";
 import { motion } from "framer-motion";
 import { formAnimation } from "../../util/animations";
-import FarmImage from "../../assets/images/farm-landscape.jpg";
+import FarmImage from "../../assets/farm-landscape.jpg";
 
 const ResetPassword = () => {
   const [formData, setFormData] = useState({

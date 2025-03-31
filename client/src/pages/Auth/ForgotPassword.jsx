@@ -6,7 +6,7 @@ import { Leaf } from "lucide-react";
 import { motion } from "framer-motion";
 import { formAnimation } from "../../util/animations";
 import { AuthLayout } from "./AuthLayout";
-import FarmImage from "../../assets/images/farm-landscape.jpg";
+import FarmImage from "../../assets/farm-landscape.jpg";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
